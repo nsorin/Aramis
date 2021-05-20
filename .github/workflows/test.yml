@@ -14,5 +14,5 @@ jobs:
       with:
         java-version: '16'
         distribution: 'adopt'
-    - name: Build with Maven
+    - name: Run all Tests
       run: ./mvnw test
