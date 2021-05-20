@@ -6,10 +6,18 @@ import java.lang.reflect.InvocationTargetException;
 
 public class ControllerFactory implements Callback<Class<?>, Object> {
 
+    private final DependencyInjector dependencyInjector;
+
+    ControllerFactory(DependencyInjector dependencyInjector) {
+        this.dependencyInjector = dependencyInjector;
+    }
+
     @Override
     public Object call(Class<?> aClass) {
         try {
-            return aClass.getDeclaredConstructor().newInstance();
+            Object controller = aClass.getDeclaredConstructor().newInstance();
+            dependencyInjector.injectDependencies(controller);
+            return controller;
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
             System.err.println("Could not resolve controller " + aClass);
             e.printStackTrace();

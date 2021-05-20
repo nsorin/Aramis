@@ -23,7 +23,7 @@ class DependencyInjector {
         return new DependencyInjector(new ClassStore());
     }
 
-    private DependencyInjector(ClassStore store) {
+    DependencyInjector(ClassStore store) {
         this.store = store;
         this.fieldInjector = new FieldInjector(store);
         this.setterInjector = new SetterInjector(store);
