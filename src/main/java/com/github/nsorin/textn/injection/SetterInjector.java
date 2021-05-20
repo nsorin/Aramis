@@ -1,12 +1,26 @@
 package com.github.nsorin.textn.injection;
 
-public class SetterInjector {
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
+class SetterInjector {
+
     private final ClassStore store;
 
-    public SetterInjector(ClassStore store) {
+    SetterInjector(ClassStore store) {
         this.store = store;
     }
 
-    public void inject(Object client) {
+    void inject(Object client) throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+        Class<?> clientClass = client.getClass();
+        for (Method method : clientClass.getMethods()) {
+            if (method.isAnnotationPresent(Injected.class)) {
+                Class<?>[] parameterTypes = method.getParameterTypes();
+                if (parameterTypes.length == 1) {
+                    Class<?> type = parameterTypes[0];
+                    method.invoke(client, type.cast(store.resolve(type)));
+                }
+            }
+        }
     }
 }
