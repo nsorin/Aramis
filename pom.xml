@@ -73,17 +73,8 @@
                 <configuration>
                     <mainClass>com.github.nsorin.textn.Textn</mainClass>
                     <jlinkImageName>Textn</jlinkImageName>
-                    <jlinkZipName>Textn-${project.version}</jlinkZipName>
+                    <jlinkZipName>Textn</jlinkZipName>
                     <launcher>Textn</launcher>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>me.ccampo</groupId>
-                <artifactId>git-version-maven-plugin</artifactId>
-                <version>0.1.0</version>
-                <extensions>true</extensions>
-                <configuration>
-                    <strategy hint="git"/>
                 </configuration>
             </plugin>
         </plugins>
