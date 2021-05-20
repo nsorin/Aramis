@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.github.nsorin</groupId>
     <artifactId>textn</artifactId>
-    <version>0.0.1</version>
+    <version>0.0.0</version>
     <name>textn</name>
     <description>Simple desktop text editor</description>
     <properties>
@@ -75,6 +75,15 @@
                     <jlinkImageName>Textn</jlinkImageName>
                     <jlinkZipName>Textn-${project.version}</jlinkZipName>
                     <launcher>Textn</launcher>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>me.ccampo</groupId>
+                <artifactId>git-version-maven-plugin</artifactId>
+                <version>0.1.0</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <strategy hint="git"/>
                 </configuration>
             </plugin>
         </plugins>
