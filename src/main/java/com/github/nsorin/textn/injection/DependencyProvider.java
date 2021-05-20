@@ -2,11 +2,16 @@ package com.github.nsorin.textn.injection;
 
 public class DependencyProvider {
 
+    private static DependencyProvider provider;
+
     private final DependencyInjector dependencyInjector;
     private final ControllerFactory controllerFactory;
 
     public static DependencyProvider getProvider() {
-        return new DependencyProvider(new DependencyInjector(new ClassStore()));
+        if (provider == null) {
+            provider = new DependencyProvider(new DependencyInjector(new ClassStore()));
+        }
+        return provider;
     }
 
     private DependencyProvider(DependencyInjector dependencyInjector) {

@@ -17,10 +17,9 @@ class DependencyProviderTest {
 
     @Test
     void provideAndInjectServiceImplementation() {
-        DependencyProvider provider = DependencyProvider.getProvider();
-        provider.provide(TestService.class, TestServiceImpl.class);
+        DependencyProvider.getProvider().provide(TestService.class, TestServiceImpl.class);
 
-        ControllerFactory controllerFactory = provider.getControllerFactory();
+        ControllerFactory controllerFactory = DependencyProvider.getProvider().getControllerFactory();
         AllInjectionClient client = (AllInjectionClient) controllerFactory.call(AllInjectionClient.class);
 
         assertNotNull(client.getTestService());
