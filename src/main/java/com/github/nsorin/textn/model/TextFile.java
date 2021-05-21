@@ -5,6 +5,10 @@ public class TextFile {
     private final String name;
     private String content;
 
+    public static TextFile makeNew() {
+        return new TextFile(null, null, "");
+    }
+
     public TextFile(String location, String name, String content) {
 
         this.location = location;
@@ -26,5 +30,9 @@ public class TextFile {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public boolean isNew() {
+        return location == null;
     }
 }

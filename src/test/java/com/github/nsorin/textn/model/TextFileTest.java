@@ -2,7 +2,7 @@ package com.github.nsorin.textn.model;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TextFileTest {
 
@@ -17,5 +17,15 @@ public class TextFileTest {
         assertEquals(fileLocation, textFile.getLocation());
         assertEquals(fileName, textFile.getName());
         assertEquals(fileContent, textFile.getContent());
+    }
+
+    @Test
+    void isNewReturnsTrueIfNoLocation() {
+        assertTrue(TextFile.makeNew().isNew());
+    }
+
+    @Test
+    void isNewReturnsFalseIfHasLocation() {
+        assertFalse(new TextFile("somepath", "somename", "content").isNew());
     }
 }

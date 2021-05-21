@@ -1,6 +1,7 @@
 package com.github.nsorin.textn.ui;
 
 import com.github.nsorin.textn.Textn;
+import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,11 +14,11 @@ import org.testfx.util.WaitForAsyncUtils;
 
 import java.util.concurrent.TimeoutException;
 
-import static org.testfx.matcher.control.TextInputControlMatchers.hasText;
 import static org.testfx.matcher.base.NodeMatchers.isVisible;
+import static org.testfx.matcher.control.TextInputControlMatchers.hasText;
 
 @Tag("UITest")
-class TextnApplicationTest  extends ApplicationTest {
+class TextnApplicationTest extends ApplicationTest {
 
     @BeforeEach
     public void runAppToTests() throws Exception {
@@ -34,7 +35,7 @@ class TextnApplicationTest  extends ApplicationTest {
     }
 
     @Override
-    public void start(Stage primaryStage){
+    public void start(Stage primaryStage) {
         primaryStage.toFront();
     }
 
@@ -46,6 +47,23 @@ class TextnApplicationTest  extends ApplicationTest {
 
     @Test
     void startsWithEmptyText() {
+        FxAssert.verifyThat("#textArea", hasText(""));
+    }
+
+    @Test
+    void canTypeInTextArea() {
+        clickOn("#textArea");
+        type(KeyCode.H, KeyCode.E, KeyCode.L, KeyCode.L, KeyCode.O);
+
+        FxAssert.verifyThat("#textArea", hasText("hello"));
+    }
+
+    @Test
+    void newButtonResetsText() {
+        clickOn("#textArea");
+        type(KeyCode.H, KeyCode.E, KeyCode.L, KeyCode.L, KeyCode.O);
+
+        clickOn("#newButton");
         FxAssert.verifyThat("#textArea", hasText(""));
     }
 }

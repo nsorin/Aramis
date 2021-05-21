@@ -27,7 +27,13 @@ public class LayoutController {
         this.fileManager = fileManager;
     }
 
-    private TextFile textFile;
+    private TextFile textFile = TextFile.makeNew();
+
+    @FXML
+    void onNewButtonClick(Event e) {
+        textFile = TextFile.makeNew();
+        setTextToFileContent();
+    }
 
     @FXML
     void onOpenButtonClick(Event e) {
@@ -39,14 +45,14 @@ public class LayoutController {
 
     @FXML
     void onSaveButtonClick(Event e) {
-        textFile.setContent(textArea.getText());
+        setFileContentToText();
         saveFile();
     }
 
     private void openFile(File file) {
         try {
             textFile = fileManager.loadFile(file);
-            textArea.setText(textFile.getContent());
+            setTextToFileContent();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -58,5 +64,13 @@ public class LayoutController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private void setFileContentToText() {
+        textFile.setContent(textArea.getText());
+    }
+
+    private void setTextToFileContent() {
+        textArea.setText(textFile.getContent());
     }
 }

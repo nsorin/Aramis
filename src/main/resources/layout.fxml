@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+
+<!--suppress JavaFxUnresolvedFxIdReference -->
 <?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-
-
- <VBox xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.nsorin.textn.ui.controller.LayoutController" fx:id="rootNode">
+<?import javafx.scene.layout.VBox?>
+<VBox xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.github.nsorin.textn.ui.controller.LayoutController" fx:id="rootNode">
     <ToolBar>
-         <Button mnemonicParsing="false" text="New" />
-         <Button mnemonicParsing="false" text="Open" onAction="#onOpenButtonClick" />
-         <Button mnemonicParsing="false" text="Save" onAction="#onSaveButtonClick" />
-     </ToolBar>
-     <TextArea stylesheets="@style/textarea.css" wrapText="true" VBox.vgrow="ALWAYS" fx:id="textArea"/>
- </VBox>
+        <Button mnemonicParsing="false" text="New" onAction="#onNewButtonClick" fx:id="newButton"/>
+        <Button mnemonicParsing="false" text="Open" onAction="#onOpenButtonClick"/>
+        <Button mnemonicParsing="false" text="Save" onAction="#onSaveButtonClick"/>
+    </ToolBar>
+    <TextArea stylesheets="@style/textarea.css" wrapText="true" VBox.vgrow="ALWAYS" fx:id="textArea"/>
+</VBox>

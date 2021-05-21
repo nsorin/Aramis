@@ -4,6 +4,7 @@ import com.github.nsorin.textn.injection.utils.SetterInjectionClient;
 import com.github.nsorin.textn.injection.utils.TestService;
 import com.github.nsorin.textn.injection.utils.TestServiceImpl;
 import org.junit.jupiter.api.Test;
+
 import java.lang.reflect.InvocationTargetException;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
