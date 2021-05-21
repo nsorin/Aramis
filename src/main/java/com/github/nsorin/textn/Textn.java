@@ -12,7 +12,7 @@ public class Textn {
         Application.launch(TextnApplication.class, args);
     }
 
-    private static void provideDependencies() {
+    public static void provideDependencies() {
         DependencyProvider.getProvider().provide(FileLoader.class, FileLoaderFilesystem.class);
     }
 }

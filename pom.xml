@@ -65,6 +65,11 @@
                         <version>5.7.1</version>
                     </dependency>
                 </dependencies>
+                <configuration>
+                    <argLine>
+                        --add-exports javafx.graphics/com.sun.javafx.application=ALL-UNNAMED
+                    </argLine>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.openjfx</groupId>
