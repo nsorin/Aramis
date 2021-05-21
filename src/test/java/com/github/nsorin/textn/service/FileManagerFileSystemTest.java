@@ -14,7 +14,7 @@ class FileManagerFileSystemTest {
 
     @Test
     void loadFile() throws IOException {
-        File fileToLoad = createTempFile("test", ".txt", "Hello World!");
+        File fileToLoad = createTempFile("Hello World!");
 
         FileManagerFilesystem fileManager = new FileManagerFilesystem();
         Text text = fileManager.loadFile(fileToLoad);
@@ -26,7 +26,7 @@ class FileManagerFileSystemTest {
 
     @Test
     void saveFile() throws IOException {
-        File fileToLoad = createTempFile("test", ".txt", "Hello World!");
+        File fileToLoad = createTempFile("Hello World!");
         FileManagerFilesystem fileManager = new FileManagerFilesystem();
         Text textToSave = fileManager.loadFile(fileToLoad);
 
@@ -39,7 +39,7 @@ class FileManagerFileSystemTest {
 
     @Test
     void saveToFileOverwrite() throws IOException {
-        File targetFile = createTempFile("test", ".txt", "Hello Universe!");
+        File targetFile = createTempFile("Hello Universe!");
         FileManagerFilesystem fileManager = new FileManagerFilesystem();
         Text textToSave = new Text(null, null, "Hello World!");
 
@@ -52,8 +52,24 @@ class FileManagerFileSystemTest {
         assertEquals(targetFile.getName(), savedText.getFileName());
     }
 
-    private File createTempFile(String prefix, String suffix, String content) throws IOException {
-        Path path = Files.createTempFile(prefix, suffix);
+    @Test
+    void saveToFileNew() throws IOException {
+        File targetFile = new File("/tmp/test.txt");
+        targetFile.deleteOnExit();
+        FileManagerFilesystem fileManager = new FileManagerFilesystem();
+        Text textToSave = new Text(null, null, "Hello World!");
+
+        Text savedText = fileManager.saveToFile(textToSave, targetFile);
+        Text reloadedFile = fileManager.loadFile(targetFile);
+
+        assertEquals(textToSave.getContent(), reloadedFile.getContent());
+        assertEquals(textToSave.getContent(), savedText.getContent());
+        assertEquals(targetFile.getAbsolutePath(), savedText.getFileLocation());
+        assertEquals(targetFile.getName(), savedText.getFileName());
+    }
+
+    private File createTempFile(String content) throws IOException {
+        Path path = Files.createTempFile("test", ".txt");
         Files.writeString(path, content);
         File file = path.toFile();
         file.deleteOnExit();
