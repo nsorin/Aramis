@@ -9,4 +9,6 @@ public interface FileManager {
     TextFile loadFile(File file) throws IOException;
 
     void saveFile(TextFile fileToSave) throws IOException;
+
+    TextFile saveToFile(TextFile fileToSave, File file) throws IOException;
 }

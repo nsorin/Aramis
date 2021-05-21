@@ -10,6 +10,7 @@
         <Button mnemonicParsing="false" text="New" onAction="#onNewButtonClick" fx:id="newButton"/>
         <Button mnemonicParsing="false" text="Open" onAction="#onOpenButtonClick"/>
         <Button mnemonicParsing="false" text="Save" onAction="#onSaveButtonClick"/>
+        <Button mnemonicParsing="false" text="Save as..." onAction="#onSaveAsButtonClick"/>
     </ToolBar>
     <TextArea stylesheets="@style/textarea.css" wrapText="true" VBox.vgrow="ALWAYS" fx:id="textArea"/>
 </VBox>

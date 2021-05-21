@@ -44,6 +44,25 @@ class FileManagerFileSystemTest {
         assertEquals(fileToSave.getContent(), resultingFile.getContent());
     }
 
+    @Test
+    void saveToFileOverwrite() throws IOException {
+        String prefix = "test";
+        String suffix = ".txt";
+        String content = "Hello World!";
+        String newContent = "Hello Universe!";
+        File targetFile = createTempFile(prefix, suffix, content);
+        FileManagerFilesystem fileManager = new FileManagerFilesystem();
+        TextFile fileToSave = new TextFile(null, null, newContent);
+
+        TextFile savedFile = fileManager.saveToFile(fileToSave, targetFile);
+        TextFile reloadedFile = fileManager.loadFile(targetFile);
+
+        assertEquals(fileToSave.getContent(), reloadedFile.getContent());
+        assertEquals(fileToSave.getContent(), savedFile.getContent());
+        assertEquals(targetFile.getAbsolutePath(), savedFile.getLocation());
+        assertEquals(targetFile.getName(), savedFile.getName());
+    }
+
     private File createTempFile(String prefix, String suffix, String content) throws IOException {
         Path path = Files.createTempFile(prefix, suffix);
         Files.writeString(path, content);

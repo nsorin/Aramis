@@ -50,6 +50,14 @@ public class LayoutController {
         saveFile();
     }
 
+    @FXML
+    void onSaveAsButtonClick(Event e) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Open text file");
+        File file = fileChooser.showSaveDialog(rootNode.getScene().getWindow());
+        saveFileAs(file);
+    }
+
     private void openFile(File file) {
         try {
             textFile = fileManager.loadFile(file);
@@ -64,6 +72,16 @@ public class LayoutController {
         setFileContentToText();
         try {
             fileManager.saveFile(textFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        textArea.requestFocus();
+    }
+
+    private void saveFileAs(File file) {
+        setFileContentToText();
+        try {
+            textFile = fileManager.saveToFile(textFile, file);
         } catch (IOException e) {
             e.printStackTrace();
         }
