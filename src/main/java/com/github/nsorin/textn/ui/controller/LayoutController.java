@@ -1,7 +1,8 @@
 package com.github.nsorin.textn.ui.controller;
 
 import com.github.nsorin.textn.injection.Injected;
-import com.github.nsorin.textn.service.FileLoader;
+import com.github.nsorin.textn.model.TextFile;
+import com.github.nsorin.textn.service.FileManager;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -19,12 +20,14 @@ public class LayoutController {
     @FXML
     private TextArea textArea;
 
-    private FileLoader fileLoader;
+    private FileManager fileManager;
 
     @Injected
-    public void setFileLoader(FileLoader fileLoader) {
-        this.fileLoader = fileLoader;
+    public void setFileLoader(FileManager fileManager) {
+        this.fileManager = fileManager;
     }
+
+    private TextFile textFile;
 
     @FXML
     void onOpenButtonClick(Event e) {
@@ -34,9 +37,24 @@ public class LayoutController {
         openFile(file);
     }
 
-    public void openFile(File file) {
+    @FXML
+    void onSaveButtonClick(Event e) {
+        textFile.setContent(textArea.getText());
+        saveFile();
+    }
+
+    private void openFile(File file) {
         try {
-            textArea.setText(fileLoader.loadFile(file).getContent());
+            textFile = fileManager.loadFile(file);
+            textArea.setText(textFile.getContent());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void saveFile() {
+        try {
+            fileManager.saveFile(textFile);
         } catch (IOException e) {
             e.printStackTrace();
         }

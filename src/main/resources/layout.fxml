@@ -8,7 +8,7 @@
     <ToolBar>
          <Button mnemonicParsing="false" text="New" />
          <Button mnemonicParsing="false" text="Open" onAction="#onOpenButtonClick" />
-         <Button mnemonicParsing="false" text="Save" />
+         <Button mnemonicParsing="false" text="Save" onAction="#onSaveButtonClick" />
      </ToolBar>
      <TextArea stylesheets="@style/textarea.css" wrapText="true" VBox.vgrow="ALWAYS" fx:id="textArea"/>
  </VBox>

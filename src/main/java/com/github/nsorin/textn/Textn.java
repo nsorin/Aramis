@@ -1,8 +1,8 @@
 package com.github.nsorin.textn;
 
 import com.github.nsorin.textn.injection.DependencyProvider;
-import com.github.nsorin.textn.service.FileLoader;
-import com.github.nsorin.textn.service.FileLoaderFilesystem;
+import com.github.nsorin.textn.service.FileManager;
+import com.github.nsorin.textn.service.FileManagerFilesystem;
 import com.github.nsorin.textn.ui.TextnApplication;
 import javafx.application.Application;
 
@@ -13,6 +13,6 @@ public class Textn {
     }
 
     public static void provideDependencies() {
-        DependencyProvider.getProvider().provide(FileLoader.class, FileLoaderFilesystem.class);
+        DependencyProvider.getProvider().provide(FileManager.class, FileManagerFilesystem.class);
     }
 }
