@@ -5,16 +5,16 @@ import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 
+import static com.github.nsorin.textn.utils.TestFileUtils.createExistingTempFile;
+import static com.github.nsorin.textn.utils.TestFileUtils.createNonExistingTempFile;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class FileManagerFileSystemTest {
 
     @Test
     void loadFile() throws IOException {
-        File fileToLoad = createTempFile("Hello World!");
+        File fileToLoad = createExistingTempFile("Hello World!");
 
         FileManagerFilesystem fileManager = new FileManagerFilesystem();
         Text text = fileManager.loadFile(fileToLoad);
@@ -26,7 +26,7 @@ class FileManagerFileSystemTest {
 
     @Test
     void saveFile() throws IOException {
-        File fileToLoad = createTempFile("Hello World!");
+        File fileToLoad = createExistingTempFile("Hello World!");
         FileManagerFilesystem fileManager = new FileManagerFilesystem();
         Text textToSave = fileManager.loadFile(fileToLoad);
 
@@ -39,7 +39,7 @@ class FileManagerFileSystemTest {
 
     @Test
     void saveToFileOverwrite() throws IOException {
-        File targetFile = createTempFile("Hello Universe!");
+        File targetFile = createExistingTempFile("Hello Universe!");
         FileManagerFilesystem fileManager = new FileManagerFilesystem();
         Text textToSave = new Text(null, null, "Hello World!");
 
@@ -54,8 +54,7 @@ class FileManagerFileSystemTest {
 
     @Test
     void saveToFileNew() throws IOException {
-        File targetFile = new File("/tmp/test.txt");
-        targetFile.deleteOnExit();
+        File targetFile = createNonExistingTempFile();
         FileManagerFilesystem fileManager = new FileManagerFilesystem();
         Text textToSave = new Text(null, null, "Hello World!");
 
@@ -68,11 +67,4 @@ class FileManagerFileSystemTest {
         assertEquals(targetFile.getName(), savedText.getFileName());
     }
 
-    private File createTempFile(String content) throws IOException {
-        Path path = Files.createTempFile("test", ".txt");
-        Files.writeString(path, content);
-        File file = path.toFile();
-        file.deleteOnExit();
-        return file;
-    }
 }

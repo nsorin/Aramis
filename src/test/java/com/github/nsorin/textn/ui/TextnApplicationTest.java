@@ -1,6 +1,10 @@
 package com.github.nsorin.textn.ui;
 
 import com.github.nsorin.textn.Textn;
+import com.github.nsorin.textn.injection.DependencyProvider;
+import com.github.nsorin.textn.ui.service.FileSelector;
+import com.github.nsorin.textn.ui.utils.SkipChooserFileSelector;
+import com.github.nsorin.textn.utils.TestFileUtils;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 import org.junit.jupiter.api.AfterEach;
@@ -11,8 +15,12 @@ import org.testfx.api.FxToolkit;
 import org.testfx.framework.junit5.ApplicationTest;
 import org.testfx.util.WaitForAsyncUtils;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.concurrent.TimeoutException;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.testfx.api.FxAssert.verifyThat;
 import static org.testfx.matcher.base.NodeMatchers.isFocused;
 import static org.testfx.matcher.base.NodeMatchers.isVisible;
@@ -24,6 +32,7 @@ class TextnApplicationTest extends ApplicationTest {
     @BeforeEach
     public void runAppToTests() throws Exception {
         Textn.provideDependencies();
+        provideDependencyStubs();
         FxToolkit.registerPrimaryStage();
         FxToolkit.setupApplication(TextnApplication::new);
         FxToolkit.showStage();
@@ -66,7 +75,6 @@ class TextnApplicationTest extends ApplicationTest {
 
     @Test
     void newButtonResetsText() {
-        clickOn("#inputArea");
         type(KeyCode.H, KeyCode.E, KeyCode.L, KeyCode.L, KeyCode.O);
 
         clickOn("#newButton");
@@ -77,5 +85,51 @@ class TextnApplicationTest extends ApplicationTest {
     void focusesTextAreaOnNew() {
         clickOn("#newButton");
         verifyThat("#inputArea", isFocused());
+    }
+
+    @Test
+    void canOpenAndSaveFile() throws IOException {
+        String expectedText = "oh " + SkipChooserFileSelector.TEMP_FILE_CONTENT;
+
+        clickOn("#openButton");
+        verifyThat("#inputArea", hasText(SkipChooserFileSelector.TEMP_FILE_CONTENT));
+
+        type(KeyCode.O, KeyCode.H, KeyCode.SPACE);
+        verifyThat("#inputArea", hasText(expectedText));
+
+        clickOn("#saveButton");
+        assertEquals(expectedText, Files.readString(Path.of(TestFileUtils.EXISTING_FILE_PATH)));
+    }
+
+    @Test
+    void canOpenAndSaveFileAsWithoutChangingOriginalFile() throws IOException {
+        String expectedText = "oh " + SkipChooserFileSelector.TEMP_FILE_CONTENT;
+
+        clickOn("#openButton");
+        verifyThat("#inputArea", hasText(SkipChooserFileSelector.TEMP_FILE_CONTENT));
+
+        type(KeyCode.O, KeyCode.H, KeyCode.SPACE);
+        verifyThat("#inputArea", hasText(expectedText));
+
+        clickOn("#saveAsButton");
+        assertEquals(SkipChooserFileSelector.TEMP_FILE_CONTENT, Files.readString(Path.of(TestFileUtils.EXISTING_FILE_PATH)));
+        assertEquals(expectedText, Files.readString(Path.of(TestFileUtils.NON_EXISTING_FILE_PATH)));
+    }
+
+    @Test
+    void canSaveNewFile() throws IOException {
+        clickOn("#openButton");
+        verifyThat("#inputArea", hasText(SkipChooserFileSelector.TEMP_FILE_CONTENT));
+
+        clickOn("#newButton");
+        type(KeyCode.H, KeyCode.E, KeyCode.L, KeyCode.L, KeyCode.O);
+
+        clickOn("#saveButton");
+        assertEquals(SkipChooserFileSelector.TEMP_FILE_CONTENT, Files.readString(Path.of(TestFileUtils.EXISTING_FILE_PATH)));
+        assertEquals("hello", Files.readString(Path.of(TestFileUtils.NON_EXISTING_FILE_PATH)));
+    }
+
+    private void provideDependencyStubs() {
+        DependencyProvider.getProvider().provide(FileSelector.class, SkipChooserFileSelector.class);
     }
 }

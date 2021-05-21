@@ -8,9 +8,9 @@
       fx:controller="com.github.nsorin.textn.ui.controller.LayoutController" fx:id="rootNode">
     <ToolBar>
         <Button mnemonicParsing="false" text="New" onAction="#onNewButtonClick" fx:id="newButton"/>
-        <Button mnemonicParsing="false" text="Open" onAction="#onOpenButtonClick"/>
-        <Button mnemonicParsing="false" text="Save" onAction="#onSaveButtonClick"/>
-        <Button mnemonicParsing="false" text="Save as..." onAction="#onSaveAsButtonClick"/>
+        <Button mnemonicParsing="false" text="Open" onAction="#onOpenButtonClick" fx:id="openButton"/>
+        <Button mnemonicParsing="false" text="Save" onAction="#onSaveButtonClick" fx:id="saveButton"/>
+        <Button mnemonicParsing="false" text="Save as..." onAction="#onSaveAsButtonClick" fx:id="saveAsButton"/>
     </ToolBar>
     <TextArea stylesheets="@style/textarea.css" wrapText="true" VBox.vgrow="ALWAYS" fx:id="inputArea"/>
 </VBox>
