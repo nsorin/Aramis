@@ -1,6 +1,6 @@
 package com.github.nsorin.textn.service;
 
-import com.github.nsorin.textn.model.TextFile;
+import com.github.nsorin.textn.model.Text;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
@@ -14,53 +14,42 @@ class FileManagerFileSystemTest {
 
     @Test
     void loadFile() throws IOException {
-        String prefix = "test";
-        String suffix = ".txt";
-        String content = "Hello World!";
-        File fileToLoad = createTempFile(prefix, suffix, content);
+        File fileToLoad = createTempFile("test", ".txt", "Hello World!");
 
         FileManagerFilesystem fileManager = new FileManagerFilesystem();
-        TextFile textFile = fileManager.loadFile(fileToLoad);
+        Text text = fileManager.loadFile(fileToLoad);
 
-        assertEquals(content, textFile.getContent());
-        assertEquals(fileToLoad.getName(), textFile.getName());
-        assertEquals(fileToLoad.getAbsolutePath(), textFile.getLocation());
+        assertEquals("Hello World!", text.getContent());
+        assertEquals(fileToLoad.getName(), text.getFileName());
+        assertEquals(fileToLoad.getAbsolutePath(), text.getFileLocation());
     }
 
     @Test
     void saveFile() throws IOException {
-        String prefix = "test";
-        String suffix = ".txt";
-        String content = "Hello World!";
-        String newContent = "Hello Universe!";
-        File fileToLoad = createTempFile(prefix, suffix, content);
+        File fileToLoad = createTempFile("test", ".txt", "Hello World!");
         FileManagerFilesystem fileManager = new FileManagerFilesystem();
-        TextFile fileToSave = fileManager.loadFile(fileToLoad);
+        Text textToSave = fileManager.loadFile(fileToLoad);
 
-        fileToSave.setContent(newContent);
-        fileManager.saveFile(fileToSave);
+        textToSave.setContent("Hello Universe!");
+        fileManager.saveFile(textToSave);
 
-        TextFile resultingFile = fileManager.loadFile(fileToLoad);
-        assertEquals(fileToSave.getContent(), resultingFile.getContent());
+        Text resultingFile = fileManager.loadFile(fileToLoad);
+        assertEquals(textToSave.getContent(), resultingFile.getContent());
     }
 
     @Test
     void saveToFileOverwrite() throws IOException {
-        String prefix = "test";
-        String suffix = ".txt";
-        String content = "Hello Universe!";
-        String newContent = "Hello World!";
-        File targetFile = createTempFile(prefix, suffix, content);
+        File targetFile = createTempFile("test", ".txt", "Hello Universe!");
         FileManagerFilesystem fileManager = new FileManagerFilesystem();
-        TextFile fileToSave = new TextFile(null, null, newContent);
+        Text textToSave = new Text(null, null, "Hello World!");
 
-        TextFile savedFile = fileManager.saveToFile(fileToSave, targetFile);
-        TextFile reloadedFile = fileManager.loadFile(targetFile);
+        Text savedText = fileManager.saveToFile(textToSave, targetFile);
+        Text reloadedFile = fileManager.loadFile(targetFile);
 
-        assertEquals(fileToSave.getContent(), reloadedFile.getContent());
-        assertEquals(fileToSave.getContent(), savedFile.getContent());
-        assertEquals(targetFile.getAbsolutePath(), savedFile.getLocation());
-        assertEquals(targetFile.getName(), savedFile.getName());
+        assertEquals(textToSave.getContent(), reloadedFile.getContent());
+        assertEquals(textToSave.getContent(), savedText.getContent());
+        assertEquals(targetFile.getAbsolutePath(), savedText.getFileLocation());
+        assertEquals(targetFile.getName(), savedText.getFileName());
     }
 
     private File createTempFile(String prefix, String suffix, String content) throws IOException {

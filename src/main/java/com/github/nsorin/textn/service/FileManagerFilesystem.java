@@ -1,6 +1,6 @@
 package com.github.nsorin.textn.service;
 
-import com.github.nsorin.textn.model.TextFile;
+import com.github.nsorin.textn.model.Text;
 
 import java.io.File;
 import java.io.IOException;
@@ -9,22 +9,22 @@ import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 
 public class FileManagerFilesystem implements FileManager {
-    public TextFile loadFile(File file) throws IOException {
+    public Text loadFile(File file) throws IOException {
         String content = String.join("\n", Files.readAllLines(file.toPath()));
         String name = file.getName();
         String location = file.getAbsolutePath();
 
-        return new TextFile(location, name, content);
+        return new Text(location, name, content);
     }
 
     @Override
-    public void saveFile(TextFile textFile) throws IOException {
-        Files.writeString(Paths.get(textFile.getLocation()), textFile.getContent(), StandardOpenOption.WRITE);
+    public void saveFile(Text text) throws IOException {
+        Files.writeString(Paths.get(text.getFileLocation()), text.getContent(), StandardOpenOption.WRITE);
     }
 
     @Override
-    public TextFile saveToFile(TextFile fileToSave, File target) throws IOException {
-        Files.writeString(target.toPath(), fileToSave.getContent(), StandardOpenOption.TRUNCATE_EXISTING);
-        return new TextFile(target.getAbsolutePath(), target.getName(), fileToSave.getContent());
+    public Text saveToFile(Text text, File file) throws IOException {
+        Files.writeString(file.toPath(), text.getContent(), StandardOpenOption.TRUNCATE_EXISTING);
+        return new Text(file.getAbsolutePath(), file.getName(), text.getContent());
     }
 }

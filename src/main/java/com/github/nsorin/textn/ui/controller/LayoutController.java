@@ -1,7 +1,7 @@
 package com.github.nsorin.textn.ui.controller;
 
 import com.github.nsorin.textn.injection.Injected;
-import com.github.nsorin.textn.model.TextFile;
+import com.github.nsorin.textn.model.Text;
 import com.github.nsorin.textn.service.FileManager;
 import javafx.event.Event;
 import javafx.fxml.FXML;
@@ -18,7 +18,9 @@ public class LayoutController {
     private Node rootNode;
 
     @FXML
-    private TextArea textArea;
+    private TextArea inputArea;
+
+    private Text text = Text.makeNew();
 
     private FileManager fileManager;
 
@@ -27,13 +29,11 @@ public class LayoutController {
         this.fileManager = fileManager;
     }
 
-    private TextFile textFile = TextFile.makeNew();
-
     @FXML
     void onNewButtonClick(Event e) {
-        textFile = TextFile.makeNew();
-        setTextToFileContent();
-        textArea.requestFocus();
+        text = Text.makeNew();
+        setInputAreaToTextContent();
+        inputArea.requestFocus();
     }
 
     @FXML
@@ -42,12 +42,11 @@ public class LayoutController {
         fileChooser.setTitle("Open text file");
         File file = fileChooser.showOpenDialog(rootNode.getScene().getWindow());
         openFile(file);
-        textArea.requestFocus();
     }
 
     @FXML
     void onSaveButtonClick(Event e) {
-        if (textFile.isNew()) {
+        if (text.isNew()) {
             saveFileAs();
         } else {
             saveFile();
@@ -61,22 +60,22 @@ public class LayoutController {
 
     private void openFile(File file) {
         try {
-            textFile = fileManager.loadFile(file);
-            setTextToFileContent();
-            textArea.requestFocus();
+            text = fileManager.loadFile(file);
+            setInputAreaToTextContent();
+            inputArea.requestFocus();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     private void saveFile() {
-        setFileContentToText();
+        setTextContentToInputArea();
         try {
-            fileManager.saveFile(textFile);
+            fileManager.saveFile(text);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        textArea.requestFocus();
+        inputArea.requestFocus();
     }
 
     private void saveFileAs() {
@@ -84,21 +83,21 @@ public class LayoutController {
         fileChooser.setTitle("Open text file");
         File file = fileChooser.showSaveDialog(rootNode.getScene().getWindow());
         if (file != null) {
-            setFileContentToText();
+            setTextContentToInputArea();
             try {
-                textFile = fileManager.saveToFile(textFile, file);
+                text = fileManager.saveToFile(text, file);
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            textArea.requestFocus();
+            inputArea.requestFocus();
         }
     }
 
-    private void setFileContentToText() {
-        textFile.setContent(textArea.getText());
+    private void setTextContentToInputArea() {
+        text.setContent(inputArea.getText());
     }
 
-    private void setTextToFileContent() {
-        textArea.setText(textFile.getContent());
+    private void setInputAreaToTextContent() {
+        inputArea.setText(text.getContent());
     }
 }

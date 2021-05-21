@@ -43,39 +43,39 @@ class TextnApplicationTest extends ApplicationTest {
     @Test
     void hasToolBarAndTextArea() {
         verifyThat(".tool-bar", isVisible());
-        verifyThat("#textArea", isVisible());
+        verifyThat("#inputArea", isVisible());
     }
 
     @Test
     void startsWithEmptyText() {
-        verifyThat("#textArea", hasText(""));
+        verifyThat("#inputArea", hasText(""));
     }
 
     @Test
     void focusesTextAreaOnStart() {
-        verifyThat("#textArea", isFocused());
+        verifyThat("#inputArea", isFocused());
     }
 
     @Test
     void canTypeInTextArea() {
-        clickOn("#textArea");
+        clickOn("#inputArea");
         type(KeyCode.H, KeyCode.E, KeyCode.L, KeyCode.L, KeyCode.O);
 
-        verifyThat("#textArea", hasText("hello"));
+        verifyThat("#inputArea", hasText("hello"));
     }
 
     @Test
     void newButtonResetsText() {
-        clickOn("#textArea");
+        clickOn("#inputArea");
         type(KeyCode.H, KeyCode.E, KeyCode.L, KeyCode.L, KeyCode.O);
 
         clickOn("#newButton");
-        verifyThat("#textArea", hasText(""));
+        verifyThat("#inputArea", hasText(""));
     }
 
     @Test
     void focusesTextAreaOnNew() {
         clickOn("#newButton");
-        verifyThat("#textArea", isFocused());
+        verifyThat("#inputArea", isFocused());
     }
 }

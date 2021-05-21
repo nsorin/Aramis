@@ -17,7 +17,7 @@ public class TextnApplication extends Application {
     public static final int SCENE_WIDTH = 300;
     public static final int SCENE_HEIGHT = 275;
 
-    public static final String FOCUSED_ELEMENT = "#textArea";
+    public static final String FOCUSED_ELEMENT = "#inputArea";
 
     @Override
     public void start(Stage stage) {
