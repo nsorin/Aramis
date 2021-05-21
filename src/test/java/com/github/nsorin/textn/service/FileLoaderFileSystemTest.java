@@ -10,7 +10,7 @@ import java.nio.file.Path;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class FileLoaderFileSystemTest {
+class FileLoaderFileSystemTest {
 
     @Test
     void loadFile() throws IOException {

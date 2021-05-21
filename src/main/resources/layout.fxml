@@ -4,11 +4,11 @@
 <?import javafx.scene.layout.*?>
 
 
- <VBox xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.nsorin.textn.ui.controller.LayoutController">
+ <VBox xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.nsorin.textn.ui.controller.LayoutController" fx:id="rootNode">
      <ToolBar>
-         <Button mnemonicParsing="false" text="New" onAction="#onNewButtonClick" />
+         <Button mnemonicParsing="false" text="New" />
          <Button mnemonicParsing="false" text="Open" onAction="#onOpenButtonClick" />
-         <Button mnemonicParsing="false" text="Save" onAction="#onSaveButtonClick" />
+         <Button mnemonicParsing="false" text="Save" />
      </ToolBar>
      <TextArea stylesheets="@style/textarea.css" wrapText="true" VBox.vgrow="ALWAYS" fx:id="textArea"/>
  </VBox>
