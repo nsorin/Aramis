@@ -33,6 +33,7 @@ public class LayoutController {
     void onNewButtonClick(Event e) {
         textFile = TextFile.makeNew();
         setTextToFileContent();
+        textArea.requestFocus();
     }
 
     @FXML
@@ -41,11 +42,11 @@ public class LayoutController {
         fileChooser.setTitle("Open text file");
         File file = fileChooser.showOpenDialog(rootNode.getScene().getWindow());
         openFile(file);
+        textArea.requestFocus();
     }
 
     @FXML
     void onSaveButtonClick(Event e) {
-        setFileContentToText();
         saveFile();
     }
 
@@ -53,17 +54,20 @@ public class LayoutController {
         try {
             textFile = fileManager.loadFile(file);
             setTextToFileContent();
+            textArea.requestFocus();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     private void saveFile() {
+        setFileContentToText();
         try {
             fileManager.saveFile(textFile);
         } catch (IOException e) {
             e.printStackTrace();
         }
+        textArea.requestFocus();
     }
 
     private void setFileContentToText() {

@@ -7,13 +7,14 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
-import org.testfx.api.FxAssert;
 import org.testfx.api.FxToolkit;
 import org.testfx.framework.junit5.ApplicationTest;
 import org.testfx.util.WaitForAsyncUtils;
 
 import java.util.concurrent.TimeoutException;
 
+import static org.testfx.api.FxAssert.verifyThat;
+import static org.testfx.matcher.base.NodeMatchers.isFocused;
 import static org.testfx.matcher.base.NodeMatchers.isVisible;
 import static org.testfx.matcher.control.TextInputControlMatchers.hasText;
 
@@ -41,13 +42,18 @@ class TextnApplicationTest extends ApplicationTest {
 
     @Test
     void hasToolBarAndTextArea() {
-        FxAssert.verifyThat(".tool-bar", isVisible());
-        FxAssert.verifyThat("#textArea", isVisible());
+        verifyThat(".tool-bar", isVisible());
+        verifyThat("#textArea", isVisible());
     }
 
     @Test
     void startsWithEmptyText() {
-        FxAssert.verifyThat("#textArea", hasText(""));
+        verifyThat("#textArea", hasText(""));
+    }
+
+    @Test
+    void focusesTextAreaOnStart() {
+        verifyThat("#textArea", isFocused());
     }
 
     @Test
@@ -55,7 +61,7 @@ class TextnApplicationTest extends ApplicationTest {
         clickOn("#textArea");
         type(KeyCode.H, KeyCode.E, KeyCode.L, KeyCode.L, KeyCode.O);
 
-        FxAssert.verifyThat("#textArea", hasText("hello"));
+        verifyThat("#textArea", hasText("hello"));
     }
 
     @Test
@@ -64,6 +70,12 @@ class TextnApplicationTest extends ApplicationTest {
         type(KeyCode.H, KeyCode.E, KeyCode.L, KeyCode.L, KeyCode.O);
 
         clickOn("#newButton");
-        FxAssert.verifyThat("#textArea", hasText(""));
+        verifyThat("#textArea", hasText(""));
+    }
+
+    @Test
+    void focusesTextAreaOnNew() {
+        clickOn("#newButton");
+        verifyThat("#textArea", isFocused());
     }
 }

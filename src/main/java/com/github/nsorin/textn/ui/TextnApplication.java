@@ -13,8 +13,11 @@ public class TextnApplication extends Application {
 
     private static final String STAGE_TITLE = "Textn Text Editor";
     private static final String LAYOUT_FXML_PATH = "layout.fxml";
+
     public static final int SCENE_WIDTH = 300;
     public static final int SCENE_HEIGHT = 275;
+
+    public static final String FOCUSED_ELEMENT = "#textArea";
 
     @Override
     public void start(Stage stage) {
@@ -26,6 +29,7 @@ public class TextnApplication extends Application {
             e.printStackTrace();
         }
         stage.show();
+        stage.getScene().getRoot().lookup(FOCUSED_ELEMENT).requestFocus();
     }
 
     private Scene buildScene() throws IOException {
@@ -39,5 +43,4 @@ public class TextnApplication extends Application {
         fxmlLoader.setControllerFactory(DependencyProvider.getProvider().getControllerFactory());
         return fxmlLoader;
     }
-
 }
