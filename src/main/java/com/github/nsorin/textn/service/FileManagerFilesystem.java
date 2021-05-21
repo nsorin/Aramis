@@ -24,7 +24,7 @@ public class FileManagerFilesystem implements FileManager {
 
     @Override
     public Text saveToFile(Text text, File file) throws IOException {
-        Files.writeString(file.toPath(), text.getContent(), StandardOpenOption.TRUNCATE_EXISTING);
+        Files.writeString(file.toPath(), text.getContent(), StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
         return new Text(file.getAbsolutePath(), file.getName(), text.getContent());
     }
 }

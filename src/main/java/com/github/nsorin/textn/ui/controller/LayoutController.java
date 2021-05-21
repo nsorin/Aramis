@@ -3,11 +3,11 @@ package com.github.nsorin.textn.ui.controller;
 import com.github.nsorin.textn.injection.Injected;
 import com.github.nsorin.textn.model.Text;
 import com.github.nsorin.textn.service.FileManager;
+import com.github.nsorin.textn.ui.service.FileSelector;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.TextArea;
-import javafx.stage.FileChooser;
 
 import java.io.File;
 import java.io.IOException;
@@ -25,6 +25,9 @@ public class LayoutController {
     private FileManager fileManager;
 
     @Injected
+    public FileSelector fileSelector;
+
+    @Injected
     public void setFileLoader(FileManager fileManager) {
         this.fileManager = fileManager;
     }
@@ -38,9 +41,7 @@ public class LayoutController {
 
     @FXML
     void onOpenButtonClick(Event e) {
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Open text file");
-        File file = fileChooser.showOpenDialog(rootNode.getScene().getWindow());
+        File file = fileSelector.selectFileToOpen(rootNode.getScene().getWindow());
         openFile(file);
     }
 
@@ -79,9 +80,7 @@ public class LayoutController {
     }
 
     private void saveFileAs() {
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Open text file");
-        File file = fileChooser.showSaveDialog(rootNode.getScene().getWindow());
+        File file = fileSelector.selectFileToSave(rootNode.getScene().getWindow());
         if (file != null) {
             setTextContentToInputArea();
             try {
