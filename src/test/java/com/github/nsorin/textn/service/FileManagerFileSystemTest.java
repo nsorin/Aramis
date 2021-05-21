@@ -48,8 +48,8 @@ class FileManagerFileSystemTest {
     void saveToFileOverwrite() throws IOException {
         String prefix = "test";
         String suffix = ".txt";
-        String content = "Hello World!";
-        String newContent = "Hello Universe!";
+        String content = "Hello Universe!";
+        String newContent = "Hello World!";
         File targetFile = createTempFile(prefix, suffix, content);
         FileManagerFilesystem fileManager = new FileManagerFilesystem();
         TextFile fileToSave = new TextFile(null, null, newContent);
