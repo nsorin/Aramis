@@ -30,7 +30,7 @@ class DependencyInjector {
             return client;
         } catch (InvocationTargetException | NoSuchMethodException | InstantiationException | IllegalAccessException e) {
             e.printStackTrace();
-            throw new DependencyInjectionException();
+            throw new DependencyInjectionException(type);
         }
     }
 
@@ -40,7 +40,7 @@ class DependencyInjector {
             setterInjector.inject(client);
         } catch (InvocationTargetException | NoSuchMethodException | InstantiationException | IllegalAccessException e) {
             e.printStackTrace();
-            throw new DependencyInjectionException();
+            throw new DependencyInjectionException(client.getClass());
         }
     }
 }
