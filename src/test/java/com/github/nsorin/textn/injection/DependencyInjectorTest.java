@@ -12,14 +12,18 @@ class DependencyInjectorTest {
 
     @Test
     void injectAllDependencies() {
-        AllInjectionClient client = new AllInjectionClient();
+        DependencyInjector injector = new DependencyInjector(new ClassStore());
+        injector.getStore().register(TestService.class, TestServiceImpl.class);
 
-        DependencyInjector.getInstance().getStore().register(TestService.class, TestServiceImpl.class);
-        DependencyInjector.getInstance().injectDependencies(client);
+        AllInjectionClient client = injector.createWithDependencies(AllInjectionClient.class);
 
-        assertNotNull(client.getTestService());
-        assertTrue(client.getTestService() instanceof TestServiceImpl);
-        assertNotNull(client.testService2);
-        assertTrue(client.testService2 instanceof TestServiceImpl);
+        assertNotNull(client.getSetterService());
+        assertTrue(client.getSetterService() instanceof TestServiceImpl);
+        assertNotNull(client.getConstructorService());
+        assertTrue(client.getConstructorService() instanceof TestServiceImpl);
+        assertNotNull(client.getPrivateFieldService());
+        assertTrue(client.getPrivateFieldService() instanceof TestServiceImpl);
+        assertNotNull(client.publicFieldService);
+        assertTrue(client.publicFieldService instanceof TestServiceImpl);
     }
 }

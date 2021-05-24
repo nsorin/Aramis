@@ -4,40 +4,42 @@ import java.lang.reflect.InvocationTargetException;
 
 class DependencyInjector {
 
-    private static DependencyInjector injector;
-
     private final ClassStore store;
+
+    private final ConstuctorInjector constuctorInjector;
 
     private final FieldInjector fieldInjector;
 
     private final SetterInjector setterInjector;
 
-    static DependencyInjector getInstance() {
-        if (injector == null) {
-            injector = buildInjector();
-        }
-        return injector;
-    }
-
-    private static DependencyInjector buildInjector() {
-        return new DependencyInjector(new ClassStore());
-    }
-
     DependencyInjector(ClassStore store) {
         this.store = store;
-        this.fieldInjector = new FieldInjector(store);
-        this.setterInjector = new SetterInjector(store);
+        constuctorInjector = new ConstuctorInjector(store);
+        fieldInjector = new FieldInjector(store);
+        setterInjector = new SetterInjector(store);
     }
 
     ClassStore getStore() {
         return store;
     }
 
-    void injectDependencies(Object client) {
+    <T> T createWithDependencies(Class<T> type) {
         try {
-            this.fieldInjector.inject(client);
-            this.setterInjector.inject(client);
+            T client = constuctorInjector.createAndInject(type);
+            injectDependencies(client);
+            return client;
         } catch (InvocationTargetException | NoSuchMethodException | InstantiationException | IllegalAccessException e) {
+            e.printStackTrace();
+            throw new DependencyInjectionException();
+        }
+    }
+
+    private void injectDependencies(Object client) {
+        try {
+            fieldInjector.inject(client);
+            setterInjector.inject(client);
+        } catch (InvocationTargetException | NoSuchMethodException | InstantiationException | IllegalAccessException e) {
+            e.printStackTrace();
             throw new DependencyInjectionException();
         }
     }

@@ -4,19 +4,35 @@ import com.github.nsorin.textn.injection.Injected;
 
 public class AllInjectionClient {
 
-    private TestService testService;
+    private TestService setterService;
 
     @Injected
-    public TestService testService2;
+    public TestService publicFieldService;
 
-    public TestService getTestService() {
-        return testService;
+    @Injected
+    private TestService privateFieldService;
+
+    private final TestService constructorService;
+
+    @Injected
+    public AllInjectionClient(TestService constructorService) {
+        this.constructorService = constructorService;
+    }
+
+    public TestService getPrivateFieldService() {
+        return privateFieldService;
+    }
+
+    public TestService getSetterService() {
+        return setterService;
     }
 
     @Injected
-    public void setTestService(TestService testService) {
-        this.testService = testService;
+    public void setSetterService(TestService testService) {
+        this.setterService = testService;
     }
 
-
+    public TestService getConstructorService() {
+        return constructorService;
+    }
 }
