@@ -13,11 +13,16 @@ class FieldInjector {
 
     void inject(Object client) throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
         Class<?> clientClass = client.getClass();
-        for (Field field : clientClass.getFields()) {
+        for (Field field : clientClass.getDeclaredFields()) {
             if (field.isAnnotationPresent(Injected.class)) {
-                Class<?> type = field.getType();
-                field.set(client, type.cast(store.resolve(type)));
+                setField(client, field);
             }
         }
+    }
+
+    private void setField(Object client, Field field) throws IllegalAccessException, NoSuchMethodException, InvocationTargetException, InstantiationException {
+        field.setAccessible(true);
+        Class<?> type = field.getType();
+        field.set(client, type.cast(store.resolve(type)));
     }
 }

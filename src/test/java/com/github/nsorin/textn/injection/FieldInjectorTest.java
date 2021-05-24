@@ -24,4 +24,17 @@ class FieldInjectorTest {
         assertNotNull(client.testService);
         assertTrue(client.testService instanceof TestServiceImpl);
     }
+
+    @Test
+    void injectDependenciesPrivateField() throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+        FieldInjectionClient client = new FieldInjectionClient();
+        ClassStore store = new ClassStore();
+        store.register(TestService.class, TestServiceImpl.class);
+        FieldInjector injector = new FieldInjector(store);
+
+        injector.inject(client);
+
+        assertNotNull(client.getPrivateTestService());
+        assertTrue(client.getPrivateTestService() instanceof TestServiceImpl);
+    }
 }

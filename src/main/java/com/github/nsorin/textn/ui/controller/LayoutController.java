@@ -22,15 +22,11 @@ public class LayoutController {
 
     private Text text = Text.makeNew();
 
+    @Injected
     private FileManager fileManager;
 
     @Injected
-    public FileSelector fileSelector;
-
-    @Injected
-    public void setFileLoader(FileManager fileManager) {
-        this.fileManager = fileManager;
-    }
+    private FileSelector fileSelector;
 
     @FXML
     void onNewButtonClick(Event e) {
