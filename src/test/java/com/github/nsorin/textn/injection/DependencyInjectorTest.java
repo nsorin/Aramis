@@ -1,9 +1,6 @@
 package com.github.nsorin.textn.injection;
 
-import com.github.nsorin.textn.injection.utils.AllInjectionClient;
-import com.github.nsorin.textn.injection.utils.MissingConstructorAnnotationClient;
-import com.github.nsorin.textn.injection.utils.TestService;
-import com.github.nsorin.textn.injection.utils.TestServiceImpl;
+import com.github.nsorin.textn.injection.utils.*;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -28,10 +25,32 @@ class DependencyInjectorTest {
     }
 
     @Test
-    void injectAllDependenciesThrowsExceptionIfInvalid() {
+    void injectAllDependencies_throwExceptionIfConstructorNotAnnotated() {
         DependencyInjector injector = new DependencyInjector(new ClassStore());
         injector.getStore().register(TestService.class, TestServiceImpl.class);
 
-        assertThrows(DependencyInjectionException.class, () -> injector.createWithDependencies(MissingConstructorAnnotationClient.class));
+        DependencyInjectionException exception = assertThrows(
+                DependencyInjectionException.class,
+                () -> injector.createWithDependencies(MissingConstructorAnnotationClient.class)
+        );
+        assertEquals(
+                "Cannot resolve dependencies for " + MissingConstructorAnnotationClient.class,
+                exception.getMessage()
+        );
+    }
+
+    @Test
+    void injectAllDependencies_throwExceptionIfInvalidDependencyType() {
+        DependencyInjector injector = new DependencyInjector(new ClassStore());
+        injector.getStore().register(TestService.class, TestServiceImpl.class);
+
+        DependencyInjectionException exception = assertThrows(
+                DependencyInjectionException.class,
+                () -> injector.createWithDependencies(InvalidTypeClient.class)
+        );
+        assertEquals(
+                "Cannot resolve dependencies for " + InvalidTypeClient.class,
+                exception.getMessage()
+        );
     }
 }
