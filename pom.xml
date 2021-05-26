@@ -3,9 +3,9 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.github.nsorin</groupId>
-    <artifactId>textn</artifactId>
+    <artifactId>aramis</artifactId>
     <version>0.0.0</version>
-    <name>textn</name>
+    <name>aramis</name>
     <description>Simple desktop text editor</description>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -77,10 +77,10 @@
                 <artifactId>javafx-maven-plugin</artifactId>
                 <version>0.0.6</version>
                 <configuration>
-                    <mainClass>com.github.nsorin.textn.Textn</mainClass>
-                    <jlinkImageName>Textn</jlinkImageName>
-                    <jlinkZipName>Textn</jlinkZipName>
-                    <launcher>Textn</launcher>
+                    <mainClass>com.github.nsorin.aramis.TextEditor</mainClass>
+                    <jlinkImageName>Aramis</jlinkImageName>
+                    <jlinkZipName>Aramis</jlinkZipName>
+                    <launcher>Aramis</launcher>
                 </configuration>
             </plugin>
         </plugins>

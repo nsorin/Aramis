@@ -1,4 +1,4 @@
-open module textn {
+open module aramis {
     requires javafx.controls;
     requires javafx.fxml;
 }
