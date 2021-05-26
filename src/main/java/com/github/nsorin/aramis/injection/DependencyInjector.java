@@ -11,17 +11,10 @@ class DependencyInjector {
 
     private final ClassStore store;
 
-    private final ConstuctorFinder constuctorFinder;
-
-    private final FieldFinder fieldFinder;
-
-    private final SetterFinder setterFinder;
+    private final InjectableFinder injectableFinder = new InjectableFinder();
 
     DependencyInjector(ClassStore store) {
         this.store = store;
-        constuctorFinder = new ConstuctorFinder();
-        fieldFinder = new FieldFinder(store);
-        setterFinder = new SetterFinder();
     }
 
     ClassStore getStore() {
@@ -36,9 +29,9 @@ class DependencyInjector {
     private <T, U extends T> U resolve(Class<T> type, boolean isImplementation) {
         try {
             Class<U> implementation = isImplementation ? (Class<U>) type : store.getImplementationClass(type);
-            U result = callConstructor(constuctorFinder.findInjectableConstructor(implementation));
-            injectFields(fieldFinder.findInjectableFields(result), result);
-            injectSetters(setterFinder.findInjectableSetters(result), result);
+            U result = callConstructor(injectableFinder.findInjectableConstructor(implementation));
+            injectFields(injectableFinder.findInjectableFields(result), result);
+            injectSetters(injectableFinder.findInjectableSetters(result), result);
             return result;
         } catch (Exception e) {
             e.printStackTrace();
