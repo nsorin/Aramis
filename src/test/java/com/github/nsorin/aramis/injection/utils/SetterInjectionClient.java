@@ -1,6 +1,6 @@
 package com.github.nsorin.aramis.injection.utils;
 
-import com.github.nsorin.aramis.injection.Injected;
+import com.github.nsorin.aramis.injection.Injectable;
 
 public class SetterInjectionClient {
 
@@ -10,7 +10,7 @@ public class SetterInjectionClient {
         return testService;
     }
 
-    @Injected
+    @Injectable
     public void setTestService(TestService testService) {
         this.testService = testService;
     }

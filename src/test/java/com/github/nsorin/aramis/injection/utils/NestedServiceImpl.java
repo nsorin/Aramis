@@ -1,22 +1,22 @@
 package com.github.nsorin.aramis.injection.utils;
 
-import com.github.nsorin.aramis.injection.Injected;
+import com.github.nsorin.aramis.injection.Injectable;
 
 public class NestedServiceImpl implements NestedService {
 
     private final TestService testServiceConstructor;
 
-    @Injected
+    @Injectable
     private TestService testServicePrivateField;
 
     private TestService testServiceSetter;
 
-    @Injected
+    @Injectable
     public NestedServiceImpl(TestService testServiceConstructor) {
         this.testServiceConstructor = testServiceConstructor;
     }
 
-    @Injected
+    @Injectable
     public void setTestServiceSetter(TestService testServiceSetter) {
         this.testServiceSetter = testServiceSetter;
     }

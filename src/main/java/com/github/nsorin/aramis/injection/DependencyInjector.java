@@ -49,7 +49,7 @@ class DependencyInjector {
 
     private <T> void injectFields(List<Field> fields, T client) throws IllegalAccessException {
         for (Field field : fields) {
-            if (field.isAnnotationPresent(Injected.class)) {
+            if (field.isAnnotationPresent(Injectable.class)) {
                 Class<?> type = field.getType();
                 field.set(client, type.cast(resolve(type, false)));
             }

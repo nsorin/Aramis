@@ -1,12 +1,12 @@
 package com.github.nsorin.aramis.injection.utils;
 
-import com.github.nsorin.aramis.injection.Injected;
+import com.github.nsorin.aramis.injection.Injectable;
 
 public class FieldInjectionClient {
-    @Injected
+    @Injectable
     public TestService testService;
 
-    @Injected
+    @Injectable
     private TestService privateTestService;
 
     public TestService getPrivateTestService() {

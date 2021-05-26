@@ -1,20 +1,20 @@
 package com.github.nsorin.aramis.injection.utils;
 
-import com.github.nsorin.aramis.injection.Injected;
+import com.github.nsorin.aramis.injection.Injectable;
 
 public class AllInjectionClient {
 
     private TestService setterService;
 
-    @Injected
+    @Injectable
     public TestService publicFieldService;
 
-    @Injected
+    @Injectable
     private TestService privateFieldService;
 
     private final TestService constructorService;
 
-    @Injected
+    @Injectable
     public AllInjectionClient(TestService constructorService) {
         this.constructorService = constructorService;
     }
@@ -27,7 +27,7 @@ public class AllInjectionClient {
         return setterService;
     }
 
-    @Injected
+    @Injectable
     public void setSetterService(TestService testService) {
         this.setterService = testService;
     }

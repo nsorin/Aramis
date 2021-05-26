@@ -1,12 +1,12 @@
 package com.github.nsorin.aramis.injection.utils;
 
-import com.github.nsorin.aramis.injection.Injected;
+import com.github.nsorin.aramis.injection.Injectable;
 
 public class ConstructorInjectionClient {
 
     private final TestService testService;
 
-    @Injected
+    @Injectable
     public ConstructorInjectionClient(TestService testService) {
         this.testService = testService;
     }

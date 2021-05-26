@@ -1,6 +1,6 @@
 package com.github.nsorin.aramis.ui.controller;
 
-import com.github.nsorin.aramis.injection.Injected;
+import com.github.nsorin.aramis.injection.Injectable;
 import com.github.nsorin.aramis.model.Text;
 import com.github.nsorin.aramis.service.FileManager;
 import com.github.nsorin.aramis.ui.service.FileSelector;
@@ -22,10 +22,10 @@ public class LayoutController {
 
     private Text text = Text.makeNew();
 
-    @Injected
+    @Injectable
     private FileManager fileManager;
 
-    @Injected
+    @Injectable
     private FileSelector fileSelector;
 
     @FXML
