@@ -4,10 +4,7 @@ import com.github.nsorin.aramis.injection.utils.client.AllInjectionClient;
 import com.github.nsorin.aramis.injection.utils.client.InvalidTypeClient;
 import com.github.nsorin.aramis.injection.utils.client.MissingConstructorAnnotationClient;
 import com.github.nsorin.aramis.injection.utils.client.NestedServiceImpl;
-import com.github.nsorin.aramis.injection.utils.service.NestedService;
-import com.github.nsorin.aramis.injection.utils.service.NestedServiceClient;
-import com.github.nsorin.aramis.injection.utils.service.TestService;
-import com.github.nsorin.aramis.injection.utils.service.TestServiceImpl;
+import com.github.nsorin.aramis.injection.utils.service.*;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -15,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class DependencyInjectorTest {
 
     @Test
-    void injectAllDependencies() {
+    void resolve() {
         DependencyInjector injector = new DependencyInjector(new ClassStore());
         injector.getStore().register(TestService.class, TestServiceImpl.class);
 
@@ -32,7 +29,7 @@ class DependencyInjectorTest {
     }
 
     @Test
-    void injectAllDependencies_throwExceptionIfConstructorNotAnnotated() {
+    void resolve_throwExceptionIfConstructorNotAnnotated() {
         DependencyInjector injector = new DependencyInjector(new ClassStore());
         injector.getStore().register(TestService.class, TestServiceImpl.class);
 
@@ -47,22 +44,22 @@ class DependencyInjectorTest {
     }
 
     @Test
-    void injectAllDependencies_throwExceptionIfInvalidDependencyType() {
+    void resolve_throwExceptionIfInvalidDependencyType() {
         DependencyInjector injector = new DependencyInjector(new ClassStore());
         injector.getStore().register(TestService.class, TestServiceImpl.class);
 
-        DependencyInjectionException exception = assertThrows(
-                DependencyInjectionException.class,
+        TypeNotRegisteredException exception = assertThrows(
+                TypeNotRegisteredException.class,
                 () -> injector.resolve(InvalidTypeClient.class)
         );
         assertEquals(
-                "Cannot resolve dependencies for " + InvalidTypeClient.class,
+                "int has not been registered in the Dependency Provider.",
                 exception.getMessage()
         );
     }
 
     @Test
-    void injectAllDependenciesTwoLevels() {
+    void resolveTwoLevels() {
         DependencyInjector injector = new DependencyInjector(new ClassStore());
         injector.getStore().register(TestService.class, TestServiceImpl.class);
         injector.getStore().register(NestedService.class, NestedServiceImpl.class);
@@ -73,5 +70,23 @@ class DependencyInjectorTest {
         assertNotNull(client.getNestedService().getTestServiceConstructor());
         assertNotNull(client.getNestedService().getTestServicePrivateField());
         assertNotNull(client.getNestedService().getTestServiceSetter());
+    }
+
+    @Test
+    void resolve_throwsExceptionForCircularDependency() {
+        DependencyInjector injector = new DependencyInjector(new ClassStore());
+        injector.getStore().register(CircularDependencyService.class, CircularDependencyService.class);
+
+        MaxDependencyDepthReachedException exception = assertThrows(
+                MaxDependencyDepthReachedException.class,
+                () -> injector.resolve(CircularDependencyService.class)
+        );
+
+        assertEquals(
+                "Maximum dependency depth of 10 reached while resolving "
+                        + CircularDependencyService.class
+                        + ". Please check for possible dependency cycles.",
+                exception.getMessage()
+        );
     }
 }

@@ -9,6 +9,8 @@ import java.util.List;
 
 class DependencyInjector {
 
+    private final static int MAX_DEPENDENCY_DEPTH = 10;
+
     private final ClassStore store;
 
     private final InjectableFinder injectableFinder = new InjectableFinder();
@@ -22,45 +24,48 @@ class DependencyInjector {
     }
 
     <T> T resolve(Class<T> type) {
-        return resolve(type, true);
+        return resolve(type, 0);
     }
 
     @SuppressWarnings("unchecked")
-    private <T, U extends T> U resolve(Class<T> type, boolean isImplementation) {
+    private <T, U extends T> U resolve(Class<T> type, int depth) {
+        if (depth >= MAX_DEPENDENCY_DEPTH) {
+            throw new MaxDependencyDepthReachedException(type, MAX_DEPENDENCY_DEPTH);
+        }
+
         try {
-            Class<U> implementation = isImplementation ? (Class<U>) type : store.getImplementationClass(type);
-            U result = callConstructor(injectableFinder.findInjectableConstructor(implementation));
-            injectFields(injectableFinder.findInjectableFields(result), result);
-            injectSetters(injectableFinder.findInjectableSetters(result), result);
+            Class<U> implementation = depth == 0 ? (Class<U>) type : store.getImplementationClass(type);
+            U result = callConstructor(injectableFinder.findInjectableConstructor(implementation), depth);
+            injectFields(injectableFinder.findInjectableFields(result), result, depth);
+            injectSetters(injectableFinder.findInjectableSetters(result), result, depth);
             return result;
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (InvocationTargetException | NoSuchMethodException | IllegalAccessException | InstantiationException e) {
             throw new DependencyInjectionException(type);
         }
     }
 
-    private <T> T callConstructor(Constructor<T> constructor) throws Exception {
+    private <T> T callConstructor(Constructor<T> constructor, int depth) throws InvocationTargetException, InstantiationException, IllegalAccessException {
         List<Object> parameters = new ArrayList<>();
         for (Class<?> type : constructor.getParameterTypes()) {
-            parameters.add(type.cast(resolve(type, false)));
+            parameters.add(type.cast(resolve(type, depth + 1)));
         }
         return constructor.newInstance(parameters.toArray());
     }
 
-    private <T> void injectFields(List<Field> fields, T client) throws IllegalAccessException {
+    private <T> void injectFields(List<Field> fields, T client, int depth) throws IllegalAccessException {
         for (Field field : fields) {
             if (field.isAnnotationPresent(Injectable.class)) {
                 Class<?> type = field.getType();
-                field.set(client, type.cast(resolve(type, false)));
+                field.set(client, type.cast(resolve(type, depth + 1)));
             }
         }
     }
 
-    private <T> void injectSetters(List<Method> setters, T client) throws InvocationTargetException, IllegalAccessException {
+    private <T> void injectSetters(List<Method> setters, T client, int depth) throws InvocationTargetException, IllegalAccessException {
         for (Method setter : setters) {
             List<Object> parameters = new ArrayList<>();
             for (Class<?> type : setter.getParameterTypes()) {
-                parameters.add(type.cast(resolve(type, false)));
+                parameters.add(type.cast(resolve(type, depth + 1)));
             }
             setter.invoke(client, parameters.toArray());
         }
