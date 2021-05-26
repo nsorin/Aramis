@@ -1,2 +1,2 @@
-# TextN
-Simple Text Editor using JavaFX
+# Aramis Text Editor
+Simple desktop text editor using JavaFX.
