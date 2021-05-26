@@ -12,7 +12,7 @@ class DependencyInjectorTest {
         DependencyInjector injector = new DependencyInjector(new ClassStore());
         injector.getStore().register(TestService.class, TestServiceImpl.class);
 
-        AllInjectionClient client = injector.createWithDependencies(AllInjectionClient.class);
+        AllInjectionClient client = injector.resolve(AllInjectionClient.class);
 
         assertNotNull(client.getSetterService());
         assertTrue(client.getSetterService() instanceof TestServiceImpl);
@@ -31,7 +31,7 @@ class DependencyInjectorTest {
 
         DependencyInjectionException exception = assertThrows(
                 DependencyInjectionException.class,
-                () -> injector.createWithDependencies(MissingConstructorAnnotationClient.class)
+                () -> injector.resolve(MissingConstructorAnnotationClient.class)
         );
         assertEquals(
                 "Cannot resolve dependencies for " + MissingConstructorAnnotationClient.class,
@@ -46,11 +46,25 @@ class DependencyInjectorTest {
 
         DependencyInjectionException exception = assertThrows(
                 DependencyInjectionException.class,
-                () -> injector.createWithDependencies(InvalidTypeClient.class)
+                () -> injector.resolve(InvalidTypeClient.class)
         );
         assertEquals(
                 "Cannot resolve dependencies for " + InvalidTypeClient.class,
                 exception.getMessage()
         );
+    }
+
+    @Test
+    void injectAllDependenciesTwoLevels() {
+        DependencyInjector injector = new DependencyInjector(new ClassStore());
+        injector.getStore().register(TestService.class, TestServiceImpl.class);
+        injector.getStore().register(NestedService.class, NestedServiceImpl.class);
+
+        NestedServiceClient client = injector.resolve(NestedServiceClient.class);
+
+        assertNotNull(client.getNestedService());
+        assertNotNull(client.getNestedService().getTestServiceConstructor());
+        assertNotNull(client.getNestedService().getTestServicePrivateField());
+        assertNotNull(client.getNestedService().getTestServiceSetter());
     }
 }

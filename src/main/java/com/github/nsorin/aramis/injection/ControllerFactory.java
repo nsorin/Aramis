@@ -12,6 +12,6 @@ public class ControllerFactory implements Callback<Class<?>, Object> {
 
     @Override
     public Object call(Class<?> aClass) {
-        return dependencyInjector.createWithDependencies(aClass);
+        return dependencyInjector.resolve(aClass);
     }
 }

@@ -43,6 +43,13 @@ class ClassStoreTest {
     }
 
     @Test
+    void getImplementationClass() {
+        store.register(TestService.class, TestServiceImpl.class);
+
+        assertEquals(TestServiceImpl.class, store.getImplementationClass(TestService.class));
+    }
+
+    @Test
     void throwExceptionIfInterfaceHasNoRegisteredImplementation() {
         assertThrows(
                 InterfaceNotRegisteredException.class,

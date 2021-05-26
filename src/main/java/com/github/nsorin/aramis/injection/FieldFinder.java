@@ -2,13 +2,23 @@ package com.github.nsorin.aramis.injection;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
-class FieldInjector {
+class FieldFinder {
 
     private final ClassStore store;
 
-    FieldInjector(ClassStore store) {
+    FieldFinder(ClassStore store) {
         this.store = store;
+    }
+
+    <T> List<Field> findInjectableFields(T client) {
+        return Arrays.stream(client.getClass().getDeclaredFields())
+                .filter(field -> field.isAnnotationPresent(Injected.class))
+                .peek(field -> field.setAccessible(true))
+                .collect(Collectors.toList());
     }
 
     void inject(Object client) throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {

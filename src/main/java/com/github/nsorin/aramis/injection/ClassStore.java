@@ -27,4 +27,9 @@ class ClassStore {
         }
         throw new InterfaceNotRegisteredException();
     }
+
+    @SuppressWarnings("unchecked")
+    <T, U extends T> Class<U> getImplementationClass(Class<T> type) {
+        return (Class<U>) classes.get(type);
+    }
 }
