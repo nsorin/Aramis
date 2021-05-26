@@ -34,7 +34,7 @@ class TextEditorApplicationTest extends ApplicationTest {
         TextEditor.provideDependencies();
         provideDependencyStubs();
         FxToolkit.registerPrimaryStage();
-        FxToolkit.setupApplication(TextnApplication::new);
+        FxToolkit.setupApplication(TextEditorApplication::new);
         FxToolkit.showStage();
         WaitForAsyncUtils.waitForFxEvents(100);
     }
@@ -50,19 +50,12 @@ class TextEditorApplicationTest extends ApplicationTest {
     }
 
     @Test
-    void hasToolBarAndTextArea() {
+    void startsCorrectly() {
         verifyThat(".tool-bar", isVisible());
         verifyThat("#inputArea", isVisible());
-    }
-
-    @Test
-    void startsWithEmptyText() {
         verifyThat("#inputArea", hasText(""));
-    }
-
-    @Test
-    void focusesTextAreaOnStart() {
         verifyThat("#inputArea", isFocused());
+
     }
 
     @Test

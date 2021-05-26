@@ -9,9 +9,9 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.Objects;
 
-public class TextnApplication extends Application {
+public class TextEditorApplication extends Application {
 
-    private static final String STAGE_TITLE = "Textn Text Editor";
+    private static final String STAGE_TITLE = "Aramis Text Editor";
     private static final String LAYOUT_FXML_PATH = "layout.fxml";
 
     public static final int SCENE_WIDTH = 300;
