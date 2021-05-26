@@ -12,6 +12,9 @@ class ClassStore {
 
     @SuppressWarnings("unchecked")
     <T, U extends T> Class<U> getImplementationClass(Class<T> type) {
-        return (Class<U>) classes.get(type);
+        if (classes.containsKey(type)) {
+            return (Class<U>) classes.get(type);
+        }
+        throw new TypeNotRegisteredException(type);
     }
 }
