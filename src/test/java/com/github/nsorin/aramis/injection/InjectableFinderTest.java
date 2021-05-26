@@ -1,6 +1,10 @@
 package com.github.nsorin.aramis.injection;
 
-import com.github.nsorin.aramis.injection.utils.*;
+import com.github.nsorin.aramis.injection.utils.client.ConstructorInjectionClient;
+import com.github.nsorin.aramis.injection.utils.client.FieldInjectionClient;
+import com.github.nsorin.aramis.injection.utils.client.SetterInjectionClient;
+import com.github.nsorin.aramis.injection.utils.service.TestService;
+import com.github.nsorin.aramis.injection.utils.service.TestServiceImpl;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Constructor;

@@ -1,7 +1,7 @@
 package com.github.nsorin.aramis.injection;
 
-import com.github.nsorin.aramis.injection.utils.TestService;
-import com.github.nsorin.aramis.injection.utils.TestServiceImpl;
+import com.github.nsorin.aramis.injection.utils.service.TestService;
+import com.github.nsorin.aramis.injection.utils.service.TestServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

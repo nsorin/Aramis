@@ -1,4 +1,4 @@
-package com.github.nsorin.aramis.injection.utils;
+package com.github.nsorin.aramis.injection.utils.service;
 
 import com.github.nsorin.aramis.injection.Injectable;
 

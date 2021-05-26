@@ -1,6 +1,13 @@
 package com.github.nsorin.aramis.injection;
 
-import com.github.nsorin.aramis.injection.utils.*;
+import com.github.nsorin.aramis.injection.utils.client.AllInjectionClient;
+import com.github.nsorin.aramis.injection.utils.client.InvalidTypeClient;
+import com.github.nsorin.aramis.injection.utils.client.MissingConstructorAnnotationClient;
+import com.github.nsorin.aramis.injection.utils.client.NestedServiceImpl;
+import com.github.nsorin.aramis.injection.utils.service.NestedService;
+import com.github.nsorin.aramis.injection.utils.service.NestedServiceClient;
+import com.github.nsorin.aramis.injection.utils.service.TestService;
+import com.github.nsorin.aramis.injection.utils.service.TestServiceImpl;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
