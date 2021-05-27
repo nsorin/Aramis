@@ -8,9 +8,6 @@ import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.TextArea;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyCodeCombination;
-import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
 
 import java.io.File;
@@ -32,20 +29,15 @@ public class LayoutController {
     @Injectable
     private FileSelector fileSelector;
 
-    private static final KeyCodeCombination newShortcut = new KeyCodeCombination(KeyCode.N, KeyCombination.CONTROL_ANY);
-    private static final KeyCodeCombination openShortcut = new KeyCodeCombination(KeyCode.O, KeyCombination.CONTROL_ANY);
-    private static final KeyCodeCombination saveShortcut = new KeyCodeCombination(KeyCode.S, KeyCombination.CONTROL_ANY);
-    private static final KeyCodeCombination saveAsShortcut = new KeyCodeCombination(KeyCode.S, KeyCombination.SHIFT_ANY, KeyCombination.CONTROL_ANY);
-
     @FXML
     void onKeyCombination(KeyEvent event) {
-        if (newShortcut.match(event)) {
+        if (KeyboardShortcuts.NEW.match(event)) {
             onNewButtonClick(event);
-        } else if (openShortcut.match(event)) {
+        } else if (KeyboardShortcuts.OPEN.match(event)) {
             onOpenButtonClick(event);
-        } else if (saveShortcut.match(event)) {
+        } else if (KeyboardShortcuts.SAVE.match(event)) {
             onSaveButtonClick(event);
-        } else if (saveAsShortcut.match(event)) {
+        } else if (KeyboardShortcuts.SAVE_AS.match(event)) {
             onSaveAsButtonClick(event);
         }
     }
