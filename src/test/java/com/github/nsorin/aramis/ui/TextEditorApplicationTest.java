@@ -122,6 +122,54 @@ class TextEditorApplicationTest extends ApplicationTest {
         assertEquals("hello", Files.readString(Path.of(TestFileUtils.NON_EXISTING_FILE_PATH)));
     }
 
+    @Test
+    void canOpenAndSaveFileWithShortcuts() throws IOException {
+        String expectedText = "oh " + SkipChooserFileSelector.TEMP_FILE_CONTENT;
+
+        useShortcut(KeyCode.CONTROL, KeyCode.O);
+        verifyThat("#inputArea", hasText(SkipChooserFileSelector.TEMP_FILE_CONTENT));
+
+        type(KeyCode.O, KeyCode.H, KeyCode.SPACE);
+        verifyThat("#inputArea", hasText(expectedText));
+
+        useShortcut(KeyCode.CONTROL, KeyCode.S);
+        assertEquals(expectedText, Files.readString(Path.of(TestFileUtils.EXISTING_FILE_PATH)));
+    }
+
+    @Test
+    void canOpenAndSaveFileAsWithShortcuts() throws IOException {
+        String expectedText = "oh " + SkipChooserFileSelector.TEMP_FILE_CONTENT;
+
+        useShortcut(KeyCode.CONTROL, KeyCode.O);
+        verifyThat("#inputArea", hasText(SkipChooserFileSelector.TEMP_FILE_CONTENT));
+
+        type(KeyCode.O, KeyCode.H, KeyCode.SPACE);
+        verifyThat("#inputArea", hasText(expectedText));
+
+        useShortcut(KeyCode.CONTROL, KeyCode.SHIFT, KeyCode.S);
+        assertEquals(SkipChooserFileSelector.TEMP_FILE_CONTENT, Files.readString(Path.of(TestFileUtils.EXISTING_FILE_PATH)));
+        assertEquals(expectedText, Files.readString(Path.of(TestFileUtils.NON_EXISTING_FILE_PATH)));
+    }
+
+    @Test
+    void canSaveNewFileWithShortcuts() throws IOException {
+        useShortcut(KeyCode.CONTROL, KeyCode.O);
+        verifyThat("#inputArea", hasText(SkipChooserFileSelector.TEMP_FILE_CONTENT));
+
+        useShortcut(KeyCode.CONTROL, KeyCode.N);
+        type(KeyCode.H, KeyCode.E, KeyCode.L, KeyCode.L, KeyCode.O);
+        verifyThat("#inputArea", hasText("hello"));
+
+        useShortcut(KeyCode.CONTROL, KeyCode.S);
+        assertEquals(SkipChooserFileSelector.TEMP_FILE_CONTENT, Files.readString(Path.of(TestFileUtils.EXISTING_FILE_PATH)));
+        assertEquals("hello", Files.readString(Path.of(TestFileUtils.NON_EXISTING_FILE_PATH)));
+    }
+
+    private void useShortcut(KeyCode... keys) {
+        press(keys);
+        release(keys);
+    }
+
     private void provideDependencyStubs() {
         DependencyProvider.getProvider().provide(FileSelector.class, SkipChooserFileSelector.class);
     }
