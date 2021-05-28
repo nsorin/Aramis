@@ -92,11 +92,14 @@ class TextEditorApplicationTest extends ApplicationTest {
         clickOn("#openButton");
         verifyThat("#inputArea", hasText(SkipChooserFileSelector.TEMP_FILE_CONTENT));
         verifyThat("#fileNameHolder", TextMatchers.hasText(TestFileUtils.EXISTING_FILE_NAME));
+        verifyThat("#saveStatusHolder", TextMatchers.hasText("saved"));
 
         type(KeyCode.O, KeyCode.H, KeyCode.SPACE);
         verifyThat("#inputArea", hasText(expectedText));
+        verifyThat("#saveStatusHolder", TextMatchers.hasText("unsaved"));
 
         clickOn("#saveButton");
+        verifyThat("#saveStatusHolder", TextMatchers.hasText("saved"));
         assertEquals(expectedText, Files.readString(Path.of(TestFileUtils.EXISTING_FILE_PATH)));
     }
 
@@ -107,12 +110,15 @@ class TextEditorApplicationTest extends ApplicationTest {
         clickOn("#openButton");
         verifyThat("#inputArea", hasText(SkipChooserFileSelector.TEMP_FILE_CONTENT));
         verifyThat("#fileNameHolder", TextMatchers.hasText(TestFileUtils.EXISTING_FILE_NAME));
+        verifyThat("#saveStatusHolder", TextMatchers.hasText("saved"));
 
         type(KeyCode.O, KeyCode.H, KeyCode.SPACE);
         verifyThat("#inputArea", hasText(expectedText));
+        verifyThat("#saveStatusHolder", TextMatchers.hasText("unsaved"));
 
         clickOn("#saveAsButton");
         verifyThat("#fileNameHolder", TextMatchers.hasText(TestFileUtils.NON_EXISTING_FILE_NAME));
+        verifyThat("#saveStatusHolder", TextMatchers.hasText("saved"));
         assertEquals(SkipChooserFileSelector.TEMP_FILE_CONTENT, Files.readString(Path.of(TestFileUtils.EXISTING_FILE_PATH)));
         assertEquals(expectedText, Files.readString(Path.of(TestFileUtils.NON_EXISTING_FILE_PATH)));
     }
@@ -122,13 +128,16 @@ class TextEditorApplicationTest extends ApplicationTest {
         clickOn("#openButton");
         verifyThat("#inputArea", hasText(SkipChooserFileSelector.TEMP_FILE_CONTENT));
         verifyThat("#fileNameHolder", TextMatchers.hasText(TestFileUtils.EXISTING_FILE_NAME));
+        verifyThat("#saveStatusHolder", TextMatchers.hasText("saved"));
 
         clickOn("#newButton");
         verifyThat("#fileNameHolder", TextMatchers.hasText(""));
         type(KeyCode.H, KeyCode.E, KeyCode.L, KeyCode.L, KeyCode.O);
+        verifyThat("#saveStatusHolder", TextMatchers.hasText("unsaved"));
 
         clickOn("#saveButton");
         verifyThat("#fileNameHolder", TextMatchers.hasText(TestFileUtils.NON_EXISTING_FILE_NAME));
+        verifyThat("#saveStatusHolder", TextMatchers.hasText("saved"));
         assertEquals(SkipChooserFileSelector.TEMP_FILE_CONTENT, Files.readString(Path.of(TestFileUtils.EXISTING_FILE_PATH)));
         assertEquals("hello", Files.readString(Path.of(TestFileUtils.NON_EXISTING_FILE_PATH)));
     }

@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 <VBox xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
-      onKeyPressed="#onKeyCombination"
+      onKeyPressed="#onKeyPressed"
       fx:controller="com.github.nsorin.aramis.ui.controller.LayoutController" fx:id="rootNode">
     <ToolBar fx:id="menu">
         <Button mnemonicParsing="false" text="New" onAction="#onNewButtonClick" fx:id="newButton"/>
@@ -14,8 +14,11 @@
         <Button mnemonicParsing="false" text="Save" onAction="#onSaveButtonClick" fx:id="saveButton"/>
         <Button mnemonicParsing="false" text="Save as..." onAction="#onSaveAsButtonClick" fx:id="saveAsButton"/>
     </ToolBar>
-    <TextArea stylesheets="@style/textarea.css" wrapText="true" VBox.vgrow="ALWAYS" fx:id="inputArea"/>
+    <TextArea stylesheets="@style/textarea.css" wrapText="true" VBox.vgrow="ALWAYS" fx:id="inputArea"
+              onKeyTyped="#onKeyTyped"/>
     <ToolBar fx:id="footer">
         <Text fx:id="fileNameHolder"/>
+        <Separator/>
+        <Text fx:id="saveStatusHolder" text="unsaved" style="-fx-font-style: italic;"/>
     </ToolBar>
 </VBox>

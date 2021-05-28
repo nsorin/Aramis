@@ -24,6 +24,9 @@ public class LayoutController {
     @FXML
     javafx.scene.text.Text fileNameHolder;
 
+    @FXML
+    javafx.scene.text.Text saveStatusHolder;
+
     private Text text = Text.makeNew();
 
     @Injectable
@@ -32,9 +35,8 @@ public class LayoutController {
     @Injectable
     private FileSelector fileSelector;
 
-
     @FXML
-    void onKeyCombination(KeyEvent event) {
+    void onKeyPressed(KeyEvent event) {
         if (KeyboardShortcuts.NEW.match(event)) {
             onNewButtonClick(event);
         } else if (KeyboardShortcuts.OPEN.match(event)) {
@@ -44,6 +46,11 @@ public class LayoutController {
         } else if (KeyboardShortcuts.SAVE_AS.match(event)) {
             onSaveAsButtonClick(event);
         }
+    }
+
+    @FXML
+    public void onKeyTyped(KeyEvent keyEvent) {
+        updateSaveStatus();
     }
 
     @FXML
@@ -80,6 +87,7 @@ public class LayoutController {
             setInputAreaToTextContent();
             fileNameHolder.setText(text.getFileName());
             inputArea.requestFocus();
+            updateSaveStatus();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -93,6 +101,7 @@ public class LayoutController {
             e.printStackTrace();
         }
         inputArea.requestFocus();
+        updateSaveStatus();
     }
 
     private void saveFileAs() {
@@ -106,6 +115,19 @@ public class LayoutController {
                 e.printStackTrace();
             }
             inputArea.requestFocus();
+            updateSaveStatus();
+        }
+    }
+
+    private void updateSaveStatus() {
+        if (text.getContent().equals(inputArea.getText())) {
+            fileNameHolder.setStyle("-fx-font-style: normal;");
+            saveStatusHolder.setStyle("-fx-font-style: normal;");
+            saveStatusHolder.setText("saved");
+        } else {
+            fileNameHolder.setStyle("-fx-font-style: italic;");
+            saveStatusHolder.setStyle("-fx-font-style: italic;");
+            saveStatusHolder.setText("unsaved");
         }
     }
 
