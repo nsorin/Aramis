@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.testfx.api.FxToolkit;
 import org.testfx.framework.junit5.ApplicationTest;
+import org.testfx.matcher.control.TextMatchers;
 import org.testfx.util.WaitForAsyncUtils;
 
 import java.io.IOException;
@@ -28,6 +29,8 @@ import static org.testfx.matcher.control.TextInputControlMatchers.hasText;
 
 @Tag("UITest")
 class TextEditorApplicationTest extends ApplicationTest {
+
+    Stage stage;
 
     @BeforeEach
     public void runAppToTests() throws Exception {
@@ -51,11 +54,13 @@ class TextEditorApplicationTest extends ApplicationTest {
 
     @Test
     void startsCorrectly() {
-        verifyThat(".tool-bar", isVisible());
+        verifyThat("#menu", isVisible());
         verifyThat("#inputArea", isVisible());
         verifyThat("#inputArea", hasText(""));
         verifyThat("#inputArea", isFocused());
-
+        verifyThat("#footer", isVisible());
+        verifyThat("#fileNameHolder", isVisible());
+        verifyThat("#fileNameHolder", TextMatchers.hasText(""));
     }
 
     @Test
@@ -86,6 +91,7 @@ class TextEditorApplicationTest extends ApplicationTest {
 
         clickOn("#openButton");
         verifyThat("#inputArea", hasText(SkipChooserFileSelector.TEMP_FILE_CONTENT));
+        verifyThat("#fileNameHolder", TextMatchers.hasText(TestFileUtils.EXISTING_FILE_NAME));
 
         type(KeyCode.O, KeyCode.H, KeyCode.SPACE);
         verifyThat("#inputArea", hasText(expectedText));
@@ -100,11 +106,13 @@ class TextEditorApplicationTest extends ApplicationTest {
 
         clickOn("#openButton");
         verifyThat("#inputArea", hasText(SkipChooserFileSelector.TEMP_FILE_CONTENT));
+        verifyThat("#fileNameHolder", TextMatchers.hasText(TestFileUtils.EXISTING_FILE_NAME));
 
         type(KeyCode.O, KeyCode.H, KeyCode.SPACE);
         verifyThat("#inputArea", hasText(expectedText));
 
         clickOn("#saveAsButton");
+        verifyThat("#fileNameHolder", TextMatchers.hasText(TestFileUtils.NON_EXISTING_FILE_NAME));
         assertEquals(SkipChooserFileSelector.TEMP_FILE_CONTENT, Files.readString(Path.of(TestFileUtils.EXISTING_FILE_PATH)));
         assertEquals(expectedText, Files.readString(Path.of(TestFileUtils.NON_EXISTING_FILE_PATH)));
     }
@@ -113,11 +121,14 @@ class TextEditorApplicationTest extends ApplicationTest {
     void canSaveNewFile() throws IOException {
         clickOn("#openButton");
         verifyThat("#inputArea", hasText(SkipChooserFileSelector.TEMP_FILE_CONTENT));
+        verifyThat("#fileNameHolder", TextMatchers.hasText(TestFileUtils.EXISTING_FILE_NAME));
 
         clickOn("#newButton");
+        verifyThat("#fileNameHolder", TextMatchers.hasText(""));
         type(KeyCode.H, KeyCode.E, KeyCode.L, KeyCode.L, KeyCode.O);
 
         clickOn("#saveButton");
+        verifyThat("#fileNameHolder", TextMatchers.hasText(TestFileUtils.NON_EXISTING_FILE_NAME));
         assertEquals(SkipChooserFileSelector.TEMP_FILE_CONTENT, Files.readString(Path.of(TestFileUtils.EXISTING_FILE_PATH)));
         assertEquals("hello", Files.readString(Path.of(TestFileUtils.NON_EXISTING_FILE_PATH)));
     }

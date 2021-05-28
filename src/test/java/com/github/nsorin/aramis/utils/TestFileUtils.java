@@ -7,8 +7,10 @@ import java.nio.file.Path;
 
 public class TestFileUtils {
 
-    public static final String EXISTING_FILE_PATH = "/tmp/test-exists.txt";
-    public static final String NON_EXISTING_FILE_PATH = "/tmp/test.txt";
+    public static final String EXISTING_FILE_NAME = "test-exists.txt";
+    public static final String NON_EXISTING_FILE_NAME = "test.txt";
+    public static final String EXISTING_FILE_PATH = "/tmp/" + EXISTING_FILE_NAME;
+    public static final String NON_EXISTING_FILE_PATH = "/tmp/" + NON_EXISTING_FILE_NAME;
 
     public static File createExistingTempFile(String content) throws IOException {
         File file = new File(EXISTING_FILE_PATH);

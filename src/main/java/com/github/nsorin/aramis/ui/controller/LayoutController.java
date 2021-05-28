@@ -21,6 +21,9 @@ public class LayoutController {
     @FXML
     private TextArea inputArea;
 
+    @FXML
+    javafx.scene.text.Text fileNameHolder;
+
     private Text text = Text.makeNew();
 
     @Injectable
@@ -28,6 +31,7 @@ public class LayoutController {
 
     @Injectable
     private FileSelector fileSelector;
+
 
     @FXML
     void onKeyCombination(KeyEvent event) {
@@ -46,6 +50,7 @@ public class LayoutController {
     void onNewButtonClick(Event e) {
         text = Text.makeNew();
         setInputAreaToTextContent();
+        fileNameHolder.setText("");
         inputArea.requestFocus();
     }
 
@@ -73,6 +78,7 @@ public class LayoutController {
         try {
             text = fileManager.loadFile(file);
             setInputAreaToTextContent();
+            fileNameHolder.setText(text.getFileName());
             inputArea.requestFocus();
         } catch (IOException e) {
             e.printStackTrace();
@@ -95,6 +101,7 @@ public class LayoutController {
             setTextContentToInputArea();
             try {
                 text = fileManager.saveToFile(text, file);
+                fileNameHolder.setText(text.getFileName());
             } catch (IOException e) {
                 e.printStackTrace();
             }

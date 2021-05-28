@@ -4,14 +4,18 @@
 <!--suppress JavaFxUnresolvedFxIdReference -->
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
 <VBox xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
       onKeyPressed="#onKeyCombination"
       fx:controller="com.github.nsorin.aramis.ui.controller.LayoutController" fx:id="rootNode">
-    <ToolBar>
+    <ToolBar fx:id="menu">
         <Button mnemonicParsing="false" text="New" onAction="#onNewButtonClick" fx:id="newButton"/>
         <Button mnemonicParsing="false" text="Open" onAction="#onOpenButtonClick" fx:id="openButton"/>
         <Button mnemonicParsing="false" text="Save" onAction="#onSaveButtonClick" fx:id="saveButton"/>
         <Button mnemonicParsing="false" text="Save as..." onAction="#onSaveAsButtonClick" fx:id="saveAsButton"/>
     </ToolBar>
     <TextArea stylesheets="@style/textarea.css" wrapText="true" VBox.vgrow="ALWAYS" fx:id="inputArea"/>
+    <ToolBar fx:id="footer">
+        <Text fx:id="fileNameHolder"/>
+    </ToolBar>
 </VBox>
