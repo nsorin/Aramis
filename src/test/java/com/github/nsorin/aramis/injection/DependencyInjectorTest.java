@@ -13,8 +13,8 @@ class DependencyInjectorTest {
 
     @Test
     void resolve() {
-        DependencyInjector injector = new DependencyInjector(new ClassStore());
-        injector.getStore().register(TestService.class, TestServiceImpl.class);
+        DependencyInjector injector = new DependencyInjector(new ClassStore(), new InstanceStore());
+        injector.register(TestService.class, TestServiceImpl.class);
 
         AllInjectionClient client = injector.resolve(AllInjectionClient.class);
 
@@ -26,12 +26,37 @@ class DependencyInjectorTest {
         assertTrue(client.getPrivateFieldService() instanceof TestServiceImpl);
         assertNotNull(client.publicFieldService);
         assertTrue(client.publicFieldService instanceof TestServiceImpl);
+
+        assertNotSame(client.getSetterService(), client.getConstructorService());
+        assertNotSame(client.getSetterService(), client.getPrivateFieldService());
+        assertNotSame(client.getSetterService(), client.publicFieldService);
+    }
+
+    @Test
+    void resolveSingleton() {
+        DependencyInjector injector = new DependencyInjector(new ClassStore(), new InstanceStore());
+        injector.registerSingleton(TestService.class, TestServiceImpl.class);
+
+        AllInjectionClient client = injector.resolve(AllInjectionClient.class);
+
+        assertNotNull(client.getSetterService());
+        assertTrue(client.getSetterService() instanceof TestServiceImpl);
+        assertNotNull(client.getConstructorService());
+        assertTrue(client.getConstructorService() instanceof TestServiceImpl);
+        assertNotNull(client.getPrivateFieldService());
+        assertTrue(client.getPrivateFieldService() instanceof TestServiceImpl);
+        assertNotNull(client.publicFieldService);
+        assertTrue(client.publicFieldService instanceof TestServiceImpl);
+
+        assertSame(client.getSetterService(), client.getConstructorService());
+        assertSame(client.getSetterService(), client.getPrivateFieldService());
+        assertSame(client.getSetterService(), client.publicFieldService);
     }
 
     @Test
     void resolve_throwExceptionIfConstructorNotAnnotated() {
-        DependencyInjector injector = new DependencyInjector(new ClassStore());
-        injector.getStore().register(TestService.class, TestServiceImpl.class);
+        DependencyInjector injector = new DependencyInjector(new ClassStore(), new InstanceStore());
+        injector.register(TestService.class, TestServiceImpl.class);
 
         DependencyInjectionException exception = assertThrows(
                 DependencyInjectionException.class,
@@ -45,8 +70,8 @@ class DependencyInjectorTest {
 
     @Test
     void resolve_throwExceptionIfInvalidDependencyType() {
-        DependencyInjector injector = new DependencyInjector(new ClassStore());
-        injector.getStore().register(TestService.class, TestServiceImpl.class);
+        DependencyInjector injector = new DependencyInjector(new ClassStore(), new InstanceStore());
+        injector.register(TestService.class, TestServiceImpl.class);
 
         TypeNotRegisteredException exception = assertThrows(
                 TypeNotRegisteredException.class,
@@ -60,9 +85,9 @@ class DependencyInjectorTest {
 
     @Test
     void resolveTwoLevels() {
-        DependencyInjector injector = new DependencyInjector(new ClassStore());
-        injector.getStore().register(TestService.class, TestServiceImpl.class);
-        injector.getStore().register(NestedService.class, NestedServiceImpl.class);
+        DependencyInjector injector = new DependencyInjector(new ClassStore(), new InstanceStore());
+        injector.register(TestService.class, TestServiceImpl.class);
+        injector.register(NestedService.class, NestedServiceImpl.class);
 
         NestedServiceClient client = injector.resolve(NestedServiceClient.class);
 
@@ -74,8 +99,8 @@ class DependencyInjectorTest {
 
     @Test
     void resolve_throwsExceptionForCircularDependency() {
-        DependencyInjector injector = new DependencyInjector(new ClassStore());
-        injector.getStore().register(CircularDependencyService.class, CircularDependencyService.class);
+        DependencyInjector injector = new DependencyInjector(new ClassStore(), new InstanceStore());
+        injector.register(CircularDependencyService.class, CircularDependencyService.class);
 
         MaxDependencyDepthReachedException exception = assertThrows(
                 MaxDependencyDepthReachedException.class,

@@ -11,16 +11,24 @@ class DependencyInjector {
 
     private final static int MAX_DEPENDENCY_DEPTH = 10;
 
-    private final ClassStore store;
+    private final ClassStore classStore;
+
+    private final InstanceStore instanceStore;
 
     private final InjectableFinder injectableFinder = new InjectableFinder();
 
-    DependencyInjector(ClassStore store) {
-        this.store = store;
+    DependencyInjector(ClassStore classStore, InstanceStore instanceStore) {
+        this.classStore = classStore;
+        this.instanceStore = instanceStore;
     }
 
-    ClassStore getStore() {
-        return store;
+    <T, U extends T> void register(Class<T> serviceInterface, Class<U> serviceImplementation) {
+        classStore.register(serviceInterface, serviceImplementation);
+    }
+
+    <T, U extends T> void registerSingleton(Class<T> serviceInterface, Class<U> serviceImplementation) {
+        classStore.register(serviceInterface, serviceImplementation);
+        instanceStore.register(serviceInterface, null);
     }
 
     <T> T resolve(Class<T> type) {
@@ -33,11 +41,18 @@ class DependencyInjector {
             throw new MaxDependencyDepthReachedException(type, MAX_DEPENDENCY_DEPTH);
         }
 
+        if (instanceStore.isInitialized(type)) {
+            return instanceStore.getImplementationInstance(type);
+        }
+
         try {
-            Class<U> implementation = depth == 0 ? (Class<U>) type : store.getImplementationClass(type);
+            Class<U> implementation = depth == 0 ? (Class<U>) type : classStore.getImplementationClass(type);
             U result = callConstructor(injectableFinder.findInjectableConstructor(implementation), depth);
             injectFields(injectableFinder.findInjectableFields(result), result, depth);
             injectSetters(injectableFinder.findInjectableSetters(result), result, depth);
+            if (instanceStore.isRegistered(type)) {
+                instanceStore.register(type, result);
+            }
             return result;
         } catch (InvocationTargetException | NoSuchMethodException | IllegalAccessException | InstantiationException e) {
             throw new DependencyInjectionException(type);

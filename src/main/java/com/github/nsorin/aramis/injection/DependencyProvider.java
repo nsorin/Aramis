@@ -9,7 +9,7 @@ public class DependencyProvider {
 
     public static DependencyProvider getProvider() {
         if (provider == null) {
-            provider = new DependencyProvider(new DependencyInjector(new ClassStore()));
+            provider = new DependencyProvider(new DependencyInjector(new ClassStore(), new InstanceStore()));
         }
         return provider;
     }
@@ -20,7 +20,11 @@ public class DependencyProvider {
     }
 
     public <T, U extends T> void provide(Class<T> serviceInterface, Class<U> serviceImplementation) {
-        this.dependencyInjector.getStore().register(serviceInterface, serviceImplementation);
+        this.dependencyInjector.register(serviceInterface, serviceImplementation);
+    }
+
+    public <T, U extends T> void provideSingleton(Class<T> serviceInterface, Class<U> serviceImplementation) {
+        this.dependencyInjector.registerSingleton(serviceInterface, serviceImplementation);
     }
 
     public ControllerFactory getControllerFactory() {

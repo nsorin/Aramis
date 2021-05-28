@@ -14,7 +14,7 @@ class ControllerFactoryTest {
     void returnsControllerWithInjectedDependencies() {
         ClassStore store = new ClassStore();
         store.register(TestService.class, TestServiceImpl.class);
-        ControllerFactory controllerFactory = new ControllerFactory(new DependencyInjector(store));
+        ControllerFactory controllerFactory = new ControllerFactory(new DependencyInjector(store, new InstanceStore()));
         AllInjectionClient client = (AllInjectionClient) controllerFactory.call(AllInjectionClient.class);
 
         assertNotNull(client.getSetterService());

@@ -5,8 +5,7 @@ import com.github.nsorin.aramis.injection.utils.service.TestService;
 import com.github.nsorin.aramis.injection.utils.service.TestServiceImpl;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 class DependencyProviderTest {
 
@@ -26,5 +25,22 @@ class DependencyProviderTest {
         assertTrue(client.getSetterService() instanceof TestServiceImpl);
         assertNotNull(client.publicFieldService);
         assertTrue(client.publicFieldService instanceof TestServiceImpl);
+
+        assertNotSame(client.getSetterService(), client.publicFieldService);
+    }
+
+    @Test
+    void provideAndInjectSingleServiceImplementation() {
+        DependencyProvider.getProvider().provideSingleton(TestService.class, TestServiceImpl.class);
+
+        ControllerFactory controllerFactory = DependencyProvider.getProvider().getControllerFactory();
+        AllInjectionClient client = (AllInjectionClient) controllerFactory.call(AllInjectionClient.class);
+
+        assertNotNull(client.getSetterService());
+        assertTrue(client.getSetterService() instanceof TestServiceImpl);
+        assertNotNull(client.publicFieldService);
+        assertTrue(client.publicFieldService instanceof TestServiceImpl);
+
+        assertSame(client.getSetterService(), client.publicFieldService);
     }
 }
