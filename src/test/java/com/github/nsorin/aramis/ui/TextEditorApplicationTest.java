@@ -1,7 +1,7 @@
 package com.github.nsorin.aramis.ui;
 
 import com.github.nsorin.aramis.TextEditor;
-import com.github.nsorin.aramis.injection.DependencyProvider;
+import com.github.nsorin.aramis.injector.DependencyProvider;
 import com.github.nsorin.aramis.ui.service.FileSelector;
 import com.github.nsorin.aramis.ui.utils.SkipChooserFileSelector;
 import com.github.nsorin.aramis.utils.TestFileUtils;

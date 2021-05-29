@@ -1,6 +1,6 @@
 package com.github.nsorin.aramis.ui.controller;
 
-import com.github.nsorin.aramis.injection.Injectable;
+import com.github.nsorin.aramis.injector.Injectable;
 import com.github.nsorin.aramis.model.ApplicationState;
 import com.github.nsorin.aramis.model.TextContent;
 import com.github.nsorin.aramis.service.FileManager;

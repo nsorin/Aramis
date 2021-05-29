@@ -1,6 +1,6 @@
 package com.github.nsorin.aramis;
 
-import com.github.nsorin.aramis.injection.DependencyProvider;
+import com.github.nsorin.aramis.injector.DependencyProvider;
 import com.github.nsorin.aramis.model.ApplicationState;
 import com.github.nsorin.aramis.service.FileManager;
 import com.github.nsorin.aramis.service.FileManagerFilesystem;

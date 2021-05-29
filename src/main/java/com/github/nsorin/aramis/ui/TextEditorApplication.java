@@ -1,6 +1,6 @@
 package com.github.nsorin.aramis.ui;
 
-import com.github.nsorin.aramis.injection.DependencyProvider;
+import com.github.nsorin.aramis.injector.DependencyProvider;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
