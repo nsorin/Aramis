@@ -5,8 +5,7 @@ public class FileProperties {
     private final String name;
 
     public FileProperties() {
-        location = null;
-        name = null;
+        this(null, null);
     }
 
     public FileProperties(String location, String name) {

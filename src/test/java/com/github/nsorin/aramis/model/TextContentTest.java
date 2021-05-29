@@ -21,7 +21,7 @@ public class TextContentTest {
 
     @Test
     void isNewReturnsTrueIfNoLocation() {
-        assertTrue(TextContent.makeNew().isNew());
+        assertTrue(new TextContent().isNew());
     }
 
     @Test

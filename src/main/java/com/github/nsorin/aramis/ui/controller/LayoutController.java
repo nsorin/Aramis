@@ -28,7 +28,7 @@ public class LayoutController {
     @FXML
     Text saveStatusHolder;
 
-    private TextContent textContent = TextContent.makeNew();
+    private TextContent textContent = new TextContent();
 
     @Injectable
     private FileManager fileManager;
@@ -56,7 +56,7 @@ public class LayoutController {
 
     @FXML
     void onNewButtonClick(Event e) {
-        textContent = TextContent.makeNew();
+        textContent = new TextContent();
         setInputAreaToTextContent();
         fileNameHolder.setText("");
         inputArea.requestFocus();

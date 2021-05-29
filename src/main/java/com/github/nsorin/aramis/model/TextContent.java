@@ -5,8 +5,8 @@ public class TextContent {
     private final String fileName;
     private String content;
 
-    public static TextContent makeNew() {
-        return new TextContent(null, null, "");
+    public TextContent() {
+        this(null, null, "");
     }
 
     public TextContent(String fileLocation, String fileName, String content) {
