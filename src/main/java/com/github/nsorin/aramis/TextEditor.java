@@ -1,6 +1,7 @@
 package com.github.nsorin.aramis;
 
 import com.github.nsorin.aramis.injection.DependencyProvider;
+import com.github.nsorin.aramis.model.ApplicationState;
 import com.github.nsorin.aramis.service.FileManager;
 import com.github.nsorin.aramis.service.FileManagerFilesystem;
 import com.github.nsorin.aramis.ui.TextEditorApplication;
@@ -17,5 +18,6 @@ public class TextEditor {
     public static void provideDependencies() {
         DependencyProvider.getProvider().provide(FileManager.class, FileManagerFilesystem.class);
         DependencyProvider.getProvider().provide(FileSelector.class, FileChooserSelector.class);
+        DependencyProvider.getProvider().provideSingleton(ApplicationState.class);
     }
 }
