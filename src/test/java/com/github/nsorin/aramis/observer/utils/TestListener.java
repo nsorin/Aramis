@@ -1,13 +1,13 @@
 package com.github.nsorin.aramis.observer.utils;
 
-import com.github.nsorin.aramis.observer.ListensTo;
+import com.github.nsorin.aramis.observer.OnEvent;
 
-public class TestListener implements ListensTo<TestEvent> {
+public class TestListener {
 
     public String message;
 
-    @Override
-    public void on(TestEvent event) {
+    @OnEvent
+    public void onEvent(TestEvent event) {
         message = event.message();
     }
 }

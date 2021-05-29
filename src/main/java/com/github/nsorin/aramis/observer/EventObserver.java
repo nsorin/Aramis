@@ -1,5 +1,6 @@
 package com.github.nsorin.aramis.observer;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -7,25 +8,31 @@ import java.util.Map;
 
 public class EventObserver {
 
-    private final Map<Class<?>, List<ListensTo<?>>> listeners = new HashMap<>();
+    private final Map<Class<?>, List<EventListener>> eventListeners = new HashMap<>();
 
-    public <T> void subscribe(ListensTo<T> listener, Class<T> eventClass) {
-        if (!listeners.containsKey(eventClass)) {
-            listeners.put(eventClass, new ArrayList<>());
+    <T> void subscribe(Class<?> eventClass, T object, Method method) {
+        if (!eventListeners.containsKey(eventClass)) {
+            eventListeners.put(eventClass, new ArrayList<>());
         }
-        listeners.get(eventClass).add(listener);
+        eventListeners.get(eventClass).add(new EventListener(object, method));
     }
 
-    public <T> void unsubscribe(ListensTo<T> listener, Class<T> eventClass) {
-        if (listeners.containsKey(eventClass)) {
-            listeners.get(eventClass).remove(listener);
+    <T> void unsubscribe(Class<?> eventClass, T object, Method method) {
+        if (eventListeners.containsKey(eventClass)) {
+            eventListeners.get(eventClass).remove(new EventListener(object, method));
         }
     }
 
-    @SuppressWarnings("unchecked")
     public <T> void emit(T hello) {
-        for (ListensTo<?> listener : listeners.get(hello.getClass())) {
-            ((ListensTo<T>) listener).on(hello);
+        Class<?> eventClass = hello.getClass();
+        if (eventListeners.containsKey(eventClass)) {
+            for (EventListener eventListener : eventListeners.get(eventClass)) {
+                try {
+                    eventListener.call(hello);
+                } catch (Exception e) {
+                    throw new ListenerNotCallableException(eventClass, eventListener);
+                }
+            }
         }
     }
 }
