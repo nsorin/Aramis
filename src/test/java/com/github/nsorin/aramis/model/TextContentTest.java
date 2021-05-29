@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class TextTest {
+public class TextContentTest {
 
     @Test
     void constructTextFileWithPathNameAndContent() {
@@ -12,20 +12,20 @@ public class TextTest {
         String fileName = "test.txt";
         String fileContent = "lorem ipsum";
 
-        Text text = new Text(fileLocation, fileName, fileContent);
+        TextContent textContent = new TextContent(fileLocation, fileName, fileContent);
 
-        assertEquals(fileLocation, text.getFileLocation());
-        assertEquals(fileName, text.getFileName());
-        assertEquals(fileContent, text.getContent());
+        assertEquals(fileLocation, textContent.getFileLocation());
+        assertEquals(fileName, textContent.getFileName());
+        assertEquals(fileContent, textContent.getContent());
     }
 
     @Test
     void isNewReturnsTrueIfNoLocation() {
-        assertTrue(Text.makeNew().isNew());
+        assertTrue(TextContent.makeNew().isNew());
     }
 
     @Test
     void isNewReturnsFalseIfHasLocation() {
-        assertFalse(new Text("somepath", "somename", "content").isNew());
+        assertFalse(new TextContent("somepath", "somename", "content").isNew());
     }
 }

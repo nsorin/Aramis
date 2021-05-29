@@ -1,14 +1,14 @@
 package com.github.nsorin.aramis.service;
 
-import com.github.nsorin.aramis.model.Text;
+import com.github.nsorin.aramis.model.TextContent;
 
 import java.io.File;
 import java.io.IOException;
 
 public interface FileManager {
-    Text loadFile(File file) throws IOException;
+    TextContent loadFile(File file) throws IOException;
 
-    void saveFile(Text fileToSave) throws IOException;
+    void saveFile(TextContent fileToSave) throws IOException;
 
-    Text saveToFile(Text fileToSave, File file) throws IOException;
+    TextContent saveToFile(TextContent fileToSave, File file) throws IOException;
 }

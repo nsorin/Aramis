@@ -1,7 +1,7 @@
 package com.github.nsorin.aramis.ui.controller;
 
 import com.github.nsorin.aramis.injection.Injectable;
-import com.github.nsorin.aramis.model.Text;
+import com.github.nsorin.aramis.model.TextContent;
 import com.github.nsorin.aramis.service.FileManager;
 import com.github.nsorin.aramis.ui.service.FileSelector;
 import javafx.event.Event;
@@ -9,6 +9,7 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.TextArea;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.text.Text;
 
 import java.io.File;
 import java.io.IOException;
@@ -22,12 +23,12 @@ public class LayoutController {
     private TextArea inputArea;
 
     @FXML
-    javafx.scene.text.Text fileNameHolder;
+    Text fileNameHolder;
 
     @FXML
-    javafx.scene.text.Text saveStatusHolder;
+    Text saveStatusHolder;
 
-    private Text text = Text.makeNew();
+    private TextContent textContent = TextContent.makeNew();
 
     @Injectable
     private FileManager fileManager;
@@ -55,7 +56,7 @@ public class LayoutController {
 
     @FXML
     void onNewButtonClick(Event e) {
-        text = Text.makeNew();
+        textContent = TextContent.makeNew();
         setInputAreaToTextContent();
         fileNameHolder.setText("");
         inputArea.requestFocus();
@@ -69,7 +70,7 @@ public class LayoutController {
 
     @FXML
     void onSaveButtonClick(Event e) {
-        if (text.isNew()) {
+        if (textContent.isNew()) {
             saveFileAs();
         } else {
             saveFile();
@@ -83,9 +84,9 @@ public class LayoutController {
 
     private void openFile(File file) {
         try {
-            text = fileManager.loadFile(file);
+            textContent = fileManager.loadFile(file);
             setInputAreaToTextContent();
-            fileNameHolder.setText(text.getFileName());
+            fileNameHolder.setText(textContent.getFileName());
             inputArea.requestFocus();
             updateSaveStatus();
         } catch (IOException e) {
@@ -96,7 +97,7 @@ public class LayoutController {
     private void saveFile() {
         setTextContentToInputArea();
         try {
-            fileManager.saveFile(text);
+            fileManager.saveFile(textContent);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -109,8 +110,8 @@ public class LayoutController {
         if (file != null) {
             setTextContentToInputArea();
             try {
-                text = fileManager.saveToFile(text, file);
-                fileNameHolder.setText(text.getFileName());
+                textContent = fileManager.saveToFile(textContent, file);
+                fileNameHolder.setText(textContent.getFileName());
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -120,7 +121,7 @@ public class LayoutController {
     }
 
     private void updateSaveStatus() {
-        if (text.getContent().equals(inputArea.getText())) {
+        if (textContent.getContent().equals(inputArea.getText())) {
             fileNameHolder.setStyle("-fx-font-style: normal;");
             saveStatusHolder.setStyle("-fx-font-style: normal;");
             saveStatusHolder.setText("saved");
@@ -132,10 +133,10 @@ public class LayoutController {
     }
 
     private void setTextContentToInputArea() {
-        text.setContent(inputArea.getText());
+        textContent.setContent(inputArea.getText());
     }
 
     private void setInputAreaToTextContent() {
-        inputArea.setText(text.getContent());
+        inputArea.setText(textContent.getContent());
     }
 }

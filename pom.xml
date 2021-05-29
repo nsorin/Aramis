@@ -6,7 +6,7 @@
     <artifactId>aramis</artifactId>
     <version>0.0.0</version>
     <name>aramis</name>
-    <description>Simple desktop text editor</description>
+    <description>Simple desktop textContent editor</description>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>16</java.version>

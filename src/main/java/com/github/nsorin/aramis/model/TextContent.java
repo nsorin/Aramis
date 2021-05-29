@@ -1,15 +1,15 @@
 package com.github.nsorin.aramis.model;
 
-public class Text {
+public class TextContent {
     private final String fileLocation;
     private final String fileName;
     private String content;
 
-    public static Text makeNew() {
-        return new Text(null, null, "");
+    public static TextContent makeNew() {
+        return new TextContent(null, null, "");
     }
 
-    public Text(String fileLocation, String fileName, String content) {
+    public TextContent(String fileLocation, String fileName, String content) {
         this.fileLocation = fileLocation;
         this.fileName = fileName;
         this.content = content;
