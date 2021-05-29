@@ -31,6 +31,12 @@ class DependencyInjector {
         instanceStore.register(serviceInterface, null);
     }
 
+    @SuppressWarnings("unchecked")
+    <T, U extends T> void registerInstance(Class<T> serviceInterface, U serviceInstance) {
+        classStore.register(serviceInterface, (Class<U>) serviceInstance.getClass());
+        instanceStore.register(serviceInterface, serviceInstance);
+    }
+
     <T> T resolve(Class<T> type) {
         return resolve(type, 0);
     }

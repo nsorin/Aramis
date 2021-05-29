@@ -7,6 +7,10 @@ public class DependencyProvider {
     private final DependencyInjector dependencyInjector;
     private final ControllerFactory controllerFactory;
 
+    public static void resetProvider() {
+        provider = null;
+    }
+
     public static DependencyProvider getProvider() {
         if (provider == null) {
             provider = new DependencyProvider(new DependencyInjector(new ClassStore(), new InstanceStore()));
@@ -25,6 +29,10 @@ public class DependencyProvider {
 
     public <T, U extends T> void provideSingleton(Class<T> serviceInterface, Class<U> serviceImplementation) {
         this.dependencyInjector.registerSingleton(serviceInterface, serviceImplementation);
+    }
+
+    public <T, U extends T> void provideInstance(Class<T> serviceInterface, U serviceInstance) {
+        this.dependencyInjector.registerInstance(serviceInterface, serviceInstance);
     }
 
     public ControllerFactory getControllerFactory() {

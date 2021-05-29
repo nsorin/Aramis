@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class DependencyInjectorTest {
 
     @Test
-    void resolve() {
+    void registerAndResolve() {
         DependencyInjector injector = new DependencyInjector(new ClassStore(), new InstanceStore());
         injector.register(TestService.class, TestServiceImpl.class);
 
@@ -33,7 +33,7 @@ class DependencyInjectorTest {
     }
 
     @Test
-    void resolveSingleton() {
+    void registerAndResolveSingleton() {
         DependencyInjector injector = new DependencyInjector(new ClassStore(), new InstanceStore());
         injector.registerSingleton(TestService.class, TestServiceImpl.class);
 
@@ -51,6 +51,29 @@ class DependencyInjectorTest {
         assertSame(client.getSetterService(), client.getConstructorService());
         assertSame(client.getSetterService(), client.getPrivateFieldService());
         assertSame(client.getSetterService(), client.publicFieldService);
+    }
+
+    @Test
+    void registerAndResolveInstance() {
+        DependencyInjector injector = new DependencyInjector(new ClassStore(), new InstanceStore());
+        TestServiceImpl instance = new TestServiceImpl();
+        injector.registerInstance(TestService.class, instance);
+
+        AllInjectionClient client = injector.resolve(AllInjectionClient.class);
+
+        assertNotNull(client.getSetterService());
+        assertTrue(client.getSetterService() instanceof TestServiceImpl);
+        assertNotNull(client.getConstructorService());
+        assertTrue(client.getConstructorService() instanceof TestServiceImpl);
+        assertNotNull(client.getPrivateFieldService());
+        assertTrue(client.getPrivateFieldService() instanceof TestServiceImpl);
+        assertNotNull(client.publicFieldService);
+        assertTrue(client.publicFieldService instanceof TestServiceImpl);
+
+        assertSame(instance, client.getSetterService());
+        assertSame(instance, client.getConstructorService());
+        assertSame(instance, client.getPrivateFieldService());
+        assertSame(instance, client.publicFieldService);
     }
 
     @Test
