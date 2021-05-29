@@ -8,7 +8,23 @@ import java.util.Map;
 
 public class EventObserver {
 
+    private static EventObserver observer;
+
     private final Map<Class<?>, List<EventListener>> eventListeners = new HashMap<>();
+
+    private EventObserver() {
+    }
+
+    public static EventObserver getObserver() {
+        if (observer == null) {
+            observer = new EventObserver();
+        }
+        return observer;
+    }
+
+    public static void resetObserver() {
+        observer = null;
+    }
 
     <T> void subscribe(Class<?> eventClass, T object, Method method) {
         if (!eventListeners.containsKey(eventClass)) {

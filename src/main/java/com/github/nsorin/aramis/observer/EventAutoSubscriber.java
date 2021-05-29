@@ -3,16 +3,18 @@ package com.github.nsorin.aramis.observer;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.UnaryOperator;
 import java.util.stream.Collectors;
 
-public class EventAutoSubscriber {
+public class EventAutoSubscriber implements UnaryOperator<Object> {
     private final EventObserver eventObserver;
 
     public EventAutoSubscriber(EventObserver eventObserver) {
         this.eventObserver = eventObserver;
     }
 
-    void autoSubscribe(Object object) {
+    @Override
+    public Object apply(Object object) {
         Class<?> type = object.getClass();
         List<Method> listenerMethods = Arrays.stream(type.getMethods())
                 .filter(method -> method.isAnnotationPresent(OnEvent.class))
@@ -25,5 +27,6 @@ public class EventAutoSubscriber {
                 throw new InvalidEventListenerException(type, method);
             }
         }
+        return object;
     }
 }

@@ -12,20 +12,19 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public class EventAutoSubscriberTest {
 
     private EventAutoSubscriber autoSubscriber;
-    private EventObserver eventObserver;
 
     @BeforeEach
     void setUp() {
-        eventObserver = new EventObserver();
-        autoSubscriber = new EventAutoSubscriber(eventObserver);
+        EventObserver.resetObserver();
+        autoSubscriber = new EventAutoSubscriber(EventObserver.getObserver());
     }
 
     @Test
     void autoSubscribe() {
         TestListener listener = new TestListener();
 
-        autoSubscriber.autoSubscribe(listener);
-        eventObserver.emit(new TestEvent("Hello"));
+        autoSubscriber.apply(listener);
+        EventObserver.getObserver().emit(new TestEvent("Hello"));
 
         assertEquals("Hello", listener.message);
     }
@@ -36,7 +35,7 @@ public class EventAutoSubscriberTest {
 
         InvalidEventListenerException exception = assertThrows(
                 InvalidEventListenerException.class,
-                () -> autoSubscriber.autoSubscribe(listener)
+                () -> autoSubscriber.apply(listener)
         );
 
         assertEquals(

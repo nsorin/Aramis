@@ -13,11 +13,9 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class EventObserverTest {
 
-    private EventObserver observer;
-
     @BeforeEach
     void setUp() {
-        observer = new EventObserver();
+        EventObserver.resetObserver();
     }
 
     @Test
@@ -25,8 +23,8 @@ public class EventObserverTest {
         TestListener listener = new TestListener();
 
         Method method = TestListener.class.getMethod("onEvent", TestEvent.class);
-        observer.subscribe(TestEvent.class, listener, method);
-        observer.emit(new TestEvent("Hello"));
+        EventObserver.getObserver().subscribe(TestEvent.class, listener, method);
+        EventObserver.getObserver().emit(new TestEvent("Hello"));
 
         assertEquals("Hello", listener.message);
     }
@@ -37,9 +35,9 @@ public class EventObserverTest {
         TestListener secondListener = new TestListener();
 
         Method method = TestListener.class.getMethod("onEvent", TestEvent.class);
-        observer.subscribe(TestEvent.class, firstListener, method);
-        observer.subscribe(TestEvent.class, secondListener, method);
-        observer.emit(new TestEvent("Hello"));
+        EventObserver.getObserver().subscribe(TestEvent.class, firstListener, method);
+        EventObserver.getObserver().subscribe(TestEvent.class, secondListener, method);
+        EventObserver.getObserver().emit(new TestEvent("Hello"));
 
         assertEquals("Hello", firstListener.message);
         assertEquals("Hello", secondListener.message);
@@ -50,10 +48,10 @@ public class EventObserverTest {
         TestListener listener = new TestListener();
 
         Method method = TestListener.class.getMethod("onEvent", TestEvent.class);
-        observer.subscribe(TestEvent.class, listener, method);
-        observer.emit(new TestEvent("Hello"));
-        observer.unsubscribe(TestEvent.class, listener, method);
-        observer.emit(new TestEvent("Hello World!"));
+        EventObserver.getObserver().subscribe(TestEvent.class, listener, method);
+        EventObserver.getObserver().emit(new TestEvent("Hello"));
+        EventObserver.getObserver().unsubscribe(TestEvent.class, listener, method);
+        EventObserver.getObserver().emit(new TestEvent("Hello World!"));
 
         assertEquals("Hello", listener.message);
     }
@@ -63,11 +61,11 @@ public class EventObserverTest {
         InvalidListenerNoParams invalidListener = new InvalidListenerNoParams();
 
         Method method = InvalidListenerNoParams.class.getMethod("someMethod");
-        observer.subscribe(TestEvent.class, invalidListener, method);
+        EventObserver.getObserver().subscribe(TestEvent.class, invalidListener, method);
 
         ListenerNotCallableException exception = assertThrows(
                 ListenerNotCallableException.class,
-                () -> observer.emit(new TestEvent("Hello"))
+                () -> EventObserver.getObserver().emit(new TestEvent("Hello"))
         );
 
         assertEquals(

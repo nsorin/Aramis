@@ -1,6 +1,8 @@
 package com.github.nsorin.aramis.ui;
 
 import com.github.nsorin.aramis.injector.DependencyProvider;
+import com.github.nsorin.aramis.observer.EventAutoSubscriber;
+import com.github.nsorin.aramis.observer.EventObserver;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -40,7 +42,11 @@ public class TextEditorApplication extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader();
 
         fxmlLoader.setLocation(Objects.requireNonNull(getClass().getClassLoader().getResource(LAYOUT_FXML_PATH)));
-        fxmlLoader.setControllerFactory(DependencyProvider.getProvider().getControllerFactory());
+        fxmlLoader.setControllerFactory(controllerClass ->
+                new EventAutoSubscriber(EventObserver.getObserver()).apply(
+                        DependencyProvider.getProvider().getControllerFactory().call(controllerClass)
+                )
+        );
         return fxmlLoader;
     }
 }
