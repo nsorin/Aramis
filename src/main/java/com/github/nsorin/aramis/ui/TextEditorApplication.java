@@ -14,7 +14,7 @@ import java.util.Objects;
 public class TextEditorApplication extends Application {
 
     private static final String STAGE_TITLE = "Aramis Text Editor";
-    private static final String LAYOUT_FXML_PATH = "layout.fxml";
+    private static final String LAYOUT_FXML_PATH = "main.fxml";
 
     public static final int SCENE_WIDTH = 300;
     public static final int SCENE_HEIGHT = 275;

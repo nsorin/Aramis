@@ -15,7 +15,7 @@ import javafx.scene.text.Text;
 import java.io.File;
 import java.io.IOException;
 
-public class LayoutController {
+public class MainController {
 
     @FXML
     private Node rootNode;

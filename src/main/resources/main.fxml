@@ -7,7 +7,7 @@
 <?import javafx.scene.text.Text?>
 <VBox xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
       onKeyPressed="#onKeyPressed"
-      fx:controller="com.github.nsorin.aramis.ui.controller.LayoutController" fx:id="rootNode">
+      fx:controller="com.github.nsorin.aramis.ui.controller.MainController" fx:id="rootNode">
     <ToolBar fx:id="menu">
         <Button mnemonicParsing="false" text="New" onAction="#onNewButtonClick" fx:id="newButton"/>
         <Button mnemonicParsing="false" text="Open" onAction="#onOpenButtonClick" fx:id="openButton"/>
