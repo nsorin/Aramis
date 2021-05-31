@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--suppress JavaFxUnresolvedFxIdReference -->
+<?import javafx.scene.control.*?>
+<ToolBar xmlns="http://javafx.com/javafx"
+         xmlns:fx="http://javafx.com/fxml"
+         fx:id="menu"
+         fx:controller="com.github.nsorin.aramis.ui.controller.MenuController">
+    <Button mnemonicParsing="false" text="New" onAction="#onNewButtonClick" fx:id="newButton"/>
+    <Button mnemonicParsing="false" text="Open" onAction="#onOpenButtonClick" fx:id="openButton"/>
+    <Button mnemonicParsing="false" text="Save" onAction="#onSaveButtonClick" fx:id="saveButton"/>
+    <Button mnemonicParsing="false" text="Save as..." onAction="#onSaveAsButtonClick" fx:id="saveAsButton"/>
+</ToolBar>
