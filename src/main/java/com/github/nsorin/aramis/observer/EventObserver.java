@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class EventObserver {
+public class EventObserver implements EventObserverInterface {
 
     private static EventObserver observer;
 
@@ -39,12 +39,12 @@ public class EventObserver {
         }
     }
 
-    public <T> void emit(T hello) {
-        Class<?> eventClass = hello.getClass();
+    public <T> void emit(T event) {
+        Class<?> eventClass = event.getClass();
         if (eventListeners.containsKey(eventClass)) {
             for (EventListener eventListener : eventListeners.get(eventClass)) {
                 try {
-                    eventListener.call(hello);
+                    eventListener.call(event);
                 } catch (Exception e) {
                     throw new ListenerNotCallableException(eventClass, eventListener);
                 }

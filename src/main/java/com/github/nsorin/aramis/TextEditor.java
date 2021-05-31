@@ -3,6 +3,7 @@ package com.github.nsorin.aramis;
 import com.github.nsorin.aramis.injector.DependencyProvider;
 import com.github.nsorin.aramis.model.ApplicationState;
 import com.github.nsorin.aramis.observer.EventObserver;
+import com.github.nsorin.aramis.observer.EventObserverInterface;
 import com.github.nsorin.aramis.service.FileManager;
 import com.github.nsorin.aramis.service.FileManagerFilesystem;
 import com.github.nsorin.aramis.ui.TextEditorApplication;
@@ -20,6 +21,6 @@ public class TextEditor {
         DependencyProvider.getProvider().provide(FileManager.class, FileManagerFilesystem.class);
         DependencyProvider.getProvider().provide(FileSelector.class, FileChooserSelector.class);
         DependencyProvider.getProvider().provideSingleton(ApplicationState.class);
-        DependencyProvider.getProvider().provideInstance(EventObserver.getObserver());
+        DependencyProvider.getProvider().provideInstance(EventObserverInterface.class, EventObserver.getObserver());
     }
 }
