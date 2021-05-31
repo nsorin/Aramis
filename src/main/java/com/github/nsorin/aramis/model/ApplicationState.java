@@ -1,7 +1,8 @@
 package com.github.nsorin.aramis.model;
 
-import com.github.nsorin.aramis.event.TextContentUpdated;
 import com.github.nsorin.aramis.injector.Injectable;
+import com.github.nsorin.aramis.model.event.FilePropertiesUpdated;
+import com.github.nsorin.aramis.model.event.TextContentUpdated;
 import com.github.nsorin.aramis.observer.EventObserverInterface;
 
 public class ApplicationState {
@@ -27,6 +28,7 @@ public class ApplicationState {
 
     public void setFileProperties(FileProperties fileProperties) {
         this.fileProperties = fileProperties;
+        this.eventObserver.emit(new FilePropertiesUpdated(fileProperties));
     }
 
     public FileProperties getFileProperties() {

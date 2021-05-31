@@ -1,6 +1,7 @@
 package com.github.nsorin.aramis.model;
 
-import com.github.nsorin.aramis.event.TextContentUpdated;
+import com.github.nsorin.aramis.model.event.FilePropertiesUpdated;
+import com.github.nsorin.aramis.model.event.TextContentUpdated;
 import com.github.nsorin.aramis.utils.MockEventObserver;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -50,7 +51,7 @@ public class ApplicationStateTest {
     }
 
     @Test
-    void setContentEmitsEvent() {
+    void setTextContentEmitsEvent() {
         TextContent content = new TextContent();
 
         applicationState.setTextContent(content);
@@ -58,6 +59,17 @@ public class ApplicationStateTest {
         assertNotNull(mockObserver.getEvent());
         assertTrue(mockObserver.getEvent() instanceof TextContentUpdated);
         assertSame(content, ((TextContentUpdated) mockObserver.getEvent()).textContent());
+    }
+
+    @Test
+    void setFilePropertiesEmitsEvent() {
+        FileProperties fileProperties = new FileProperties();
+
+        applicationState.setFileProperties(fileProperties);
+
+        assertNotNull(mockObserver.getEvent());
+        assertTrue(mockObserver.getEvent() instanceof FilePropertiesUpdated);
+        assertSame(fileProperties, ((FilePropertiesUpdated) mockObserver.getEvent()).fileProperties());
     }
 
 }

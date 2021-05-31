@@ -2,7 +2,11 @@ package com.github.nsorin.aramis.ui.controller;
 
 import com.github.nsorin.aramis.injector.Injectable;
 import com.github.nsorin.aramis.model.ApplicationState;
+import com.github.nsorin.aramis.model.FileProperties;
 import com.github.nsorin.aramis.model.TextContent;
+import com.github.nsorin.aramis.model.event.FilePropertiesUpdated;
+import com.github.nsorin.aramis.model.event.TextContentUpdated;
+import com.github.nsorin.aramis.observer.OnEvent;
 import com.github.nsorin.aramis.service.FileManager;
 import com.github.nsorin.aramis.ui.service.FileSelector;
 import javafx.event.Event;
@@ -59,9 +63,7 @@ public class MainController {
     @FXML
     void onNewButtonClick(Event e) {
         applicationState.setTextContent(new TextContent());
-        setInputAreaToTextContent();
-        fileNameHolder.setText("");
-        inputArea.requestFocus();
+        applicationState.setFileProperties(new FileProperties());
     }
 
     @FXML
@@ -87,9 +89,10 @@ public class MainController {
     private void openFile(File file) {
         try {
             applicationState.setTextContent(fileManager.loadFile(file));
-            setInputAreaToTextContent();
-            fileNameHolder.setText(applicationState.getTextContent().getFileName());
-            inputArea.requestFocus();
+            applicationState.setFileProperties(new FileProperties(
+                    applicationState.getTextContent().getFileLocation(),
+                    applicationState.getTextContent().getFileName()
+            ));
             updateSaveStatus();
         } catch (IOException e) {
             e.printStackTrace();
@@ -113,11 +116,13 @@ public class MainController {
             setTextContentToInputArea();
             try {
                 applicationState.setTextContent(fileManager.saveToFile(applicationState.getTextContent(), file));
-                fileNameHolder.setText(applicationState.getTextContent().getFileName());
+                applicationState.setFileProperties(new FileProperties(
+                        applicationState.getTextContent().getFileLocation(),
+                        applicationState.getTextContent().getFileName()
+                ));
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            inputArea.requestFocus();
             updateSaveStatus();
         }
     }
@@ -138,7 +143,14 @@ public class MainController {
         applicationState.getTextContent().setContent(inputArea.getText());
     }
 
-    private void setInputAreaToTextContent() {
-        inputArea.setText(applicationState.getTextContent().getContent());
+    @OnEvent
+    public void onTextContentUpdated(TextContentUpdated event) {
+        inputArea.setText(event.textContent().getContent());
+        inputArea.requestFocus();
+    }
+
+    @OnEvent
+    public void onFilePropertiesUpdated(FilePropertiesUpdated event) {
+        fileNameHolder.setText(event.fileProperties().getName());
     }
 }

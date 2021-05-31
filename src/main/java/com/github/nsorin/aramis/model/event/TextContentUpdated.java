@@ -1,4 +1,4 @@
-package com.github.nsorin.aramis.event;
+package com.github.nsorin.aramis.model.event;
 
 import com.github.nsorin.aramis.model.TextContent;
 
