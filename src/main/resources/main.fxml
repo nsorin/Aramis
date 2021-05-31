@@ -14,8 +14,7 @@
         <Button mnemonicParsing="false" text="Save" onAction="#onSaveButtonClick" fx:id="saveButton"/>
         <Button mnemonicParsing="false" text="Save as..." onAction="#onSaveAsButtonClick" fx:id="saveAsButton"/>
     </ToolBar>
-    <TextArea stylesheets="@style/textarea.css" wrapText="true" VBox.vgrow="ALWAYS" fx:id="inputArea"
-              onKeyTyped="#onKeyTyped"/>
+    <fx:include source="inputArea.fxml" fx:id="input"/>
     <ToolBar fx:id="footer">
         <Text fx:id="fileNameHolder"/>
         <Separator/>

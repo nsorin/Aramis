@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.VBox?>
+<TextArea xmlns="http://javafx.com/javafx"
+          xmlns:fx="http://javafx.com/fxml"
+          stylesheets="@style/textarea.css"
+          wrapText="true"
+          VBox.vgrow="ALWAYS"
+          fx:id="inputArea"
+          fx:controller="com.github.nsorin.aramis.ui.controller.InputAreaController"
+          onKeyTyped="#onKeyTyped"/>
