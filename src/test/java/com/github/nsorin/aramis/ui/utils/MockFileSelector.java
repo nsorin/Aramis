@@ -7,7 +7,7 @@ import javafx.stage.Window;
 import java.io.File;
 import java.io.IOException;
 
-public class SkipChooserFileSelector implements FileSelector {
+public class MockFileSelector implements FileSelector {
 
     public static final String TEMP_FILE_CONTENT = "Hello World!";
 

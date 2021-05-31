@@ -3,8 +3,8 @@ package com.github.nsorin.aramis.ui.controller;
 import com.github.nsorin.aramis.injector.Injectable;
 import com.github.nsorin.aramis.model.ApplicationState;
 import com.github.nsorin.aramis.model.FileProperties;
-import com.github.nsorin.aramis.model.TextContent;
 import com.github.nsorin.aramis.service.FileManager;
+import com.github.nsorin.aramis.ui.command.FileCommand;
 import com.github.nsorin.aramis.ui.service.FileSelector;
 import javafx.event.Event;
 import javafx.fxml.FXML;
@@ -21,6 +21,9 @@ public class MainController {
 
     @FXML
     private InputAreaController inputController;
+
+    @Injectable
+    FileCommand fileCommand;
 
     @Injectable
     private ApplicationState applicationState;
@@ -46,8 +49,7 @@ public class MainController {
 
     @FXML
     void onNewButtonClick(Event e) {
-        applicationState.setTextContent(new TextContent());
-        applicationState.setFileProperties(new FileProperties());
+        fileCommand.newFile();
     }
 
     @FXML

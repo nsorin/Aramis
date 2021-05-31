@@ -9,6 +9,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 
 public class FileManagerFilesystem implements FileManager {
+
     public TextContent loadFile(File file) throws IOException {
         String content = String.join("\n", Files.readAllLines(file.toPath()));
         String name = file.getName();
