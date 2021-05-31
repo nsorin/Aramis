@@ -2,6 +2,7 @@ package com.github.nsorin.aramis.model;
 
 import com.github.nsorin.aramis.injector.Injectable;
 import com.github.nsorin.aramis.model.event.FilePropertiesUpdated;
+import com.github.nsorin.aramis.model.event.SaveStatusUpdated;
 import com.github.nsorin.aramis.model.event.TextContentUpdated;
 import com.github.nsorin.aramis.observer.EventObserverInterface;
 
@@ -9,6 +10,7 @@ public class ApplicationState {
     private TextContent textContent;
     private FileProperties fileProperties;
     private final EventObserverInterface eventObserver;
+    private boolean saved;
 
     @Injectable
     public ApplicationState(EventObserverInterface eventObserver) {
@@ -33,5 +35,14 @@ public class ApplicationState {
 
     public FileProperties getFileProperties() {
         return fileProperties;
+    }
+
+    public void setSaved(boolean saved) {
+        this.saved = saved;
+        this.eventObserver.emit(new SaveStatusUpdated(saved));
+    }
+
+    public boolean isSaved() {
+        return saved;
     }
 }
