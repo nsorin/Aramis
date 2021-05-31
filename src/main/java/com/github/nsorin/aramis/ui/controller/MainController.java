@@ -54,8 +54,7 @@ public class MainController {
 
     @FXML
     void onOpenButtonClick(Event e) {
-        File file = fileSelector.selectFileToOpen(rootNode.getScene().getWindow());
-        openFile(file);
+        fileCommand.openFile(rootNode.getScene().getWindow());
     }
 
     @FXML
@@ -70,19 +69,6 @@ public class MainController {
     @FXML
     void onSaveAsButtonClick(Event e) {
         saveFileAs();
-    }
-
-    private void openFile(File file) {
-        try {
-            applicationState.setTextContent(fileManager.loadFile(file));
-            applicationState.setFileProperties(new FileProperties(
-                    applicationState.getTextContent().getFileLocation(),
-                    applicationState.getTextContent().getFileName()
-            ));
-            applicationState.setSaved(true);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     private void saveFile() {

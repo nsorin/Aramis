@@ -6,6 +6,7 @@ import com.github.nsorin.aramis.model.TextContent;
 import com.github.nsorin.aramis.service.FileManagerFilesystem;
 import com.github.nsorin.aramis.ui.utils.MockFileSelector;
 import com.github.nsorin.aramis.utils.MockEventObserver;
+import com.github.nsorin.aramis.utils.TestFileUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -37,5 +38,15 @@ public class FileCommandTest {
         assertNull(applicationState.getFileProperties().getName());
         assertEquals("", applicationState.getTextContent().getContent());
         assertFalse(applicationState.isSaved());
+    }
+
+    @Test
+    void openFile() {
+        command.openFile(null);
+
+        assertEquals(MockFileSelector.TEMP_FILE_CONTENT, applicationState.getTextContent().getContent());
+        assertEquals(TestFileUtils.EXISTING_FILE_PATH, applicationState.getFileProperties().getLocation());
+        assertEquals(TestFileUtils.EXISTING_FILE_NAME, applicationState.getFileProperties().getName());
+        assertTrue(applicationState.isSaved());
     }
 }
