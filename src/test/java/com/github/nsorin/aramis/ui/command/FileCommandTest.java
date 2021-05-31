@@ -10,6 +10,10 @@ import com.github.nsorin.aramis.utils.TestFileUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class FileCommandTest {
@@ -47,6 +51,23 @@ public class FileCommandTest {
         assertEquals(MockFileSelector.TEMP_FILE_CONTENT, applicationState.getTextContent().getContent());
         assertEquals(TestFileUtils.EXISTING_FILE_PATH, applicationState.getFileProperties().getLocation());
         assertEquals(TestFileUtils.EXISTING_FILE_NAME, applicationState.getFileProperties().getName());
+        assertTrue(applicationState.isSaved());
+    }
+
+    @Test
+    void saveFileAs() throws IOException {
+        TestFileUtils.createExistingTempFile("old content");
+
+        applicationState.setTextContent(new TextContent(TestFileUtils.EXISTING_FILE_PATH, TestFileUtils.EXISTING_FILE_NAME, "new content"));
+        applicationState.setFileProperties(new FileProperties(TestFileUtils.EXISTING_FILE_PATH, TestFileUtils.EXISTING_FILE_NAME));
+        applicationState.setSaved(false);
+
+        command.saveFileAs(null);
+
+        assertEquals("old content", Files.readString(Path.of(TestFileUtils.EXISTING_FILE_PATH)));
+        assertEquals("new content", Files.readString(Path.of(TestFileUtils.NON_EXISTING_FILE_PATH)));
+        assertEquals(TestFileUtils.NON_EXISTING_FILE_PATH, applicationState.getFileProperties().getLocation());
+        assertEquals(TestFileUtils.NON_EXISTING_FILE_NAME, applicationState.getFileProperties().getName());
         assertTrue(applicationState.isSaved());
     }
 }

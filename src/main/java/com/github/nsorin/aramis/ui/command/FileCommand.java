@@ -42,4 +42,20 @@ public class FileCommand {
             e.printStackTrace();
         }
     }
+
+    public void saveFileAs(Window window) {
+        File file = fileSelector.selectFileToSave(window);
+        if (file != null) {
+            try {
+                applicationState.setTextContent(fileManager.saveToFile(applicationState.getTextContent(), file));
+                applicationState.setFileProperties(new FileProperties(
+                        applicationState.getTextContent().getFileLocation(),
+                        applicationState.getTextContent().getFileName()
+                ));
+                applicationState.setSaved(true);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }

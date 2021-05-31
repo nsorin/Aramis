@@ -2,16 +2,13 @@ package com.github.nsorin.aramis.ui.controller;
 
 import com.github.nsorin.aramis.injector.Injectable;
 import com.github.nsorin.aramis.model.ApplicationState;
-import com.github.nsorin.aramis.model.FileProperties;
 import com.github.nsorin.aramis.service.FileManager;
 import com.github.nsorin.aramis.ui.command.FileCommand;
-import com.github.nsorin.aramis.ui.service.FileSelector;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.input.KeyEvent;
 
-import java.io.File;
 import java.io.IOException;
 
 public class MainController {
@@ -27,9 +24,6 @@ public class MainController {
 
     @Injectable
     private FileManager fileManager;
-
-    @Injectable
-    private FileSelector fileSelector;
 
     @FXML
     void onKeyPressed(KeyEvent event) {
@@ -57,7 +51,7 @@ public class MainController {
     @FXML
     void onSaveButtonClick(Event e) {
         if (applicationState.getTextContent().isNew()) {
-            saveFileAs();
+            fileCommand.saveFileAs(rootNode.getScene().getWindow());
         } else {
             saveFile();
         }
@@ -65,7 +59,7 @@ public class MainController {
 
     @FXML
     void onSaveAsButtonClick(Event e) {
-        saveFileAs();
+        fileCommand.saveFileAs(rootNode.getScene().getWindow());
     }
 
     private void saveFile() {
@@ -74,22 +68,6 @@ public class MainController {
             applicationState.setSaved(true);
         } catch (IOException e) {
             e.printStackTrace();
-        }
-    }
-
-    private void saveFileAs() {
-        File file = fileSelector.selectFileToSave(rootNode.getScene().getWindow());
-        if (file != null) {
-            try {
-                applicationState.setTextContent(fileManager.saveToFile(applicationState.getTextContent(), file));
-                applicationState.setFileProperties(new FileProperties(
-                        applicationState.getTextContent().getFileLocation(),
-                        applicationState.getTextContent().getFileName()
-                ));
-                applicationState.setSaved(true);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
         }
     }
 }
