@@ -4,7 +4,6 @@
 <!--suppress JavaFxUnresolvedFxIdReference -->
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Text?>
 <VBox xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
       onKeyPressed="#onKeyPressed"
       fx:controller="com.github.nsorin.aramis.ui.controller.MainController" fx:id="rootNode">
@@ -15,9 +14,5 @@
         <Button mnemonicParsing="false" text="Save as..." onAction="#onSaveAsButtonClick" fx:id="saveAsButton"/>
     </ToolBar>
     <fx:include source="inputArea.fxml" fx:id="input"/>
-    <ToolBar fx:id="footer">
-        <Text fx:id="fileNameHolder"/>
-        <Separator/>
-        <Text fx:id="saveStatusHolder" text="unsaved" style="-fx-font-style: italic;"/>
-    </ToolBar>
+    <fx:include source="statusBar.fxml"/>
 </VBox>

@@ -4,16 +4,12 @@ import com.github.nsorin.aramis.injector.Injectable;
 import com.github.nsorin.aramis.model.ApplicationState;
 import com.github.nsorin.aramis.model.FileProperties;
 import com.github.nsorin.aramis.model.TextContent;
-import com.github.nsorin.aramis.model.event.FilePropertiesUpdated;
-import com.github.nsorin.aramis.model.event.SaveStatusUpdated;
-import com.github.nsorin.aramis.observer.OnEvent;
 import com.github.nsorin.aramis.service.FileManager;
 import com.github.nsorin.aramis.ui.service.FileSelector;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.text.Text;
 
 import java.io.File;
 import java.io.IOException;
@@ -22,12 +18,6 @@ public class MainController {
 
     @FXML
     private Node rootNode;
-
-    @FXML
-    private Text fileNameHolder;
-
-    @FXML
-    private Text saveStatusHolder;
 
     @FXML
     private InputAreaController inputController;
@@ -122,23 +112,5 @@ public class MainController {
 
     private void setTextContentToInputArea() {
         applicationState.getTextContent().setContent(inputController.inputArea.getText());
-    }
-
-    @OnEvent
-    public void onFilePropertiesUpdated(FilePropertiesUpdated event) {
-        fileNameHolder.setText(event.fileProperties().getName());
-    }
-
-    @OnEvent
-    public void onSaveStatusUpdated(SaveStatusUpdated event) {
-        if (event.saved()) {
-            fileNameHolder.setStyle("-fx-font-style: normal;");
-            saveStatusHolder.setStyle("-fx-font-style: normal;");
-            saveStatusHolder.setText("saved");
-        } else {
-            fileNameHolder.setStyle("-fx-font-style: italic;");
-            saveStatusHolder.setStyle("-fx-font-style: italic;");
-            saveStatusHolder.setText("unsaved");
-        }
     }
 }

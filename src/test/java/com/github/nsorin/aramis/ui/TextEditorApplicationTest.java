@@ -58,7 +58,7 @@ class TextEditorApplicationTest extends ApplicationTest {
         verifyThat("#inputArea", isVisible());
         verifyThat("#inputArea", hasText(""));
         verifyThat("#inputArea", isFocused());
-        verifyThat("#footer", isVisible());
+        verifyThat("#statusBar", isVisible());
         verifyThat("#fileNameHolder", isVisible());
         verifyThat("#fileNameHolder", TextMatchers.hasText(""));
     }
