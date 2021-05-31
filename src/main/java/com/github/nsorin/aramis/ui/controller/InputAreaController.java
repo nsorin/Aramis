@@ -11,13 +11,15 @@ import javafx.scene.input.KeyEvent;
 public class InputAreaController {
 
     @FXML
-    public TextArea inputArea;
+    private TextArea inputArea;
 
     @Injectable
     private ApplicationState applicationState;
 
     public void onKeyTyped(KeyEvent keyEvent) {
-        applicationState.setSaved(applicationState.getTextContent().getContent().equals(inputArea.getText()));
+        String inputText = inputArea.getText();
+        applicationState.setSaved(applicationState.getTextContent().getContent().equals(inputText));
+        applicationState.getTextContent().setContent(inputText);
     }
 
     @OnEvent

@@ -13,6 +13,6 @@
         <Button mnemonicParsing="false" text="Save" onAction="#onSaveButtonClick" fx:id="saveButton"/>
         <Button mnemonicParsing="false" text="Save as..." onAction="#onSaveAsButtonClick" fx:id="saveAsButton"/>
     </ToolBar>
-    <fx:include source="inputArea.fxml" fx:id="input"/>
+    <fx:include source="inputArea.fxml"/>
     <fx:include source="statusBar.fxml"/>
 </VBox>

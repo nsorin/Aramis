@@ -83,7 +83,7 @@ public class ApplicationStateTest {
     }
 
     @Test
-    void setSaveEmitsEvent() {
+    void setSavedEmitsEvent() {
         applicationState.setSaved(true);
 
         assertNotNull(mockObserver.getEvent());

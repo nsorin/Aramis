@@ -19,9 +19,6 @@ public class MainController {
     @FXML
     private Node rootNode;
 
-    @FXML
-    private InputAreaController inputController;
-
     @Injectable
     FileCommand fileCommand;
 
@@ -72,7 +69,6 @@ public class MainController {
     }
 
     private void saveFile() {
-        setTextContentToInputArea();
         try {
             fileManager.saveFile(applicationState.getTextContent());
             applicationState.setSaved(true);
@@ -84,7 +80,6 @@ public class MainController {
     private void saveFileAs() {
         File file = fileSelector.selectFileToSave(rootNode.getScene().getWindow());
         if (file != null) {
-            setTextContentToInputArea();
             try {
                 applicationState.setTextContent(fileManager.saveToFile(applicationState.getTextContent(), file));
                 applicationState.setFileProperties(new FileProperties(
@@ -96,9 +91,5 @@ public class MainController {
                 e.printStackTrace();
             }
         }
-    }
-
-    private void setTextContentToInputArea() {
-        applicationState.getTextContent().setContent(inputController.inputArea.getText());
     }
 }
