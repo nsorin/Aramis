@@ -43,6 +43,14 @@ public class FileCommand {
         }
     }
 
+    public void saveFile(Window window) {
+        if (applicationState.getTextContent().isNew()) {
+            saveFileAs(window);
+        } else {
+            saveExistingFile();
+        }
+    }
+
     public void saveFileAs(Window window) {
         File file = fileSelector.selectFileToSave(window);
         if (file != null) {
@@ -56,6 +64,15 @@ public class FileCommand {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    private void saveExistingFile() {
+        try {
+            fileManager.saveFile(applicationState.getTextContent());
+            applicationState.setSaved(true);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

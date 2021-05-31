@@ -70,4 +70,34 @@ public class FileCommandTest {
         assertEquals(TestFileUtils.NON_EXISTING_FILE_NAME, applicationState.getFileProperties().getName());
         assertTrue(applicationState.isSaved());
     }
+
+    @Test
+    void saveFileExistingFile() throws IOException {
+        TestFileUtils.createExistingTempFile("old content");
+
+        applicationState.setTextContent(new TextContent(TestFileUtils.EXISTING_FILE_PATH, TestFileUtils.EXISTING_FILE_NAME, "new content"));
+        applicationState.setFileProperties(new FileProperties(TestFileUtils.EXISTING_FILE_PATH, TestFileUtils.EXISTING_FILE_NAME));
+        applicationState.setSaved(false);
+
+        command.saveFile(null);
+
+        assertEquals("new content", Files.readString(Path.of(TestFileUtils.EXISTING_FILE_PATH)));
+        assertEquals(TestFileUtils.EXISTING_FILE_PATH, applicationState.getFileProperties().getLocation());
+        assertEquals(TestFileUtils.EXISTING_FILE_NAME, applicationState.getFileProperties().getName());
+        assertTrue(applicationState.isSaved());
+    }
+
+    @Test
+    void saveFileNonExistingFile() throws IOException {
+        applicationState.setTextContent(new TextContent(null, null, "new content"));
+        applicationState.setFileProperties(new FileProperties());
+        applicationState.setSaved(false);
+
+        command.saveFile(null);
+
+        assertEquals("new content", Files.readString(Path.of(TestFileUtils.NON_EXISTING_FILE_PATH)));
+        assertEquals(TestFileUtils.NON_EXISTING_FILE_PATH, applicationState.getFileProperties().getLocation());
+        assertEquals(TestFileUtils.NON_EXISTING_FILE_NAME, applicationState.getFileProperties().getName());
+        assertTrue(applicationState.isSaved());
+    }
 }
