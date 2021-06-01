@@ -24,6 +24,8 @@ public class MainController {
             fileCommand.saveFile(rootNode.getScene().getWindow());
         } else if (KeyboardShortcuts.SAVE_AS.match(event)) {
             fileCommand.saveFileAs(rootNode.getScene().getWindow());
+        } else if (KeyboardShortcuts.RELOAD.match(event)) {
+            fileCommand.reloadFile();
         }
     }
 

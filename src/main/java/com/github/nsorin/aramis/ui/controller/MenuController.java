@@ -33,4 +33,9 @@ public class MenuController {
     void onSaveAsButtonClick(Event e) {
         fileCommand.saveFileAs(menu.getScene().getWindow());
     }
+
+    @FXML
+    void onReloadButtonClick(Event e) {
+        fileCommand.reloadFile();
+    }
 }

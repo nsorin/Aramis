@@ -144,6 +144,22 @@ class TextEditorApplicationTest extends ApplicationTest {
     }
 
     @Test
+    void canOpenAndReloadFile() {
+        clickOn("#openButton");
+        verifyThat("#inputArea", hasText(MockFileSelector.TEMP_FILE_CONTENT));
+        verifyThat("#fileNameHolder", TextMatchers.hasText(TestFileUtils.EXISTING_FILE_NAME));
+        verifyThat("#saveStatusHolder", TextMatchers.hasText("saved"));
+
+        type(KeyCode.O, KeyCode.H, KeyCode.SPACE);
+        verifyThat("#inputArea", hasText("oh " + MockFileSelector.TEMP_FILE_CONTENT));
+        verifyThat("#saveStatusHolder", TextMatchers.hasText("unsaved"));
+
+        clickOn("#reloadButton");
+        verifyThat("#saveStatusHolder", TextMatchers.hasText("saved"));
+        verifyThat("#inputArea", hasText(MockFileSelector.TEMP_FILE_CONTENT));
+    }
+
+    @Test
     void canOpenAndSaveFileWithShortcuts() throws IOException {
         String expectedText = "oh " + MockFileSelector.TEMP_FILE_CONTENT;
 
@@ -184,6 +200,22 @@ class TextEditorApplicationTest extends ApplicationTest {
         useShortcut(KeyCode.CONTROL, KeyCode.S);
         assertEquals(MockFileSelector.TEMP_FILE_CONTENT, Files.readString(Path.of(TestFileUtils.EXISTING_FILE_PATH)));
         assertEquals("hello", Files.readString(Path.of(TestFileUtils.NON_EXISTING_FILE_PATH)));
+    }
+
+    @Test
+    void canOpenAndReloadFileWithShortcuts() {
+        useShortcut(KeyCode.CONTROL, KeyCode.O);
+        verifyThat("#inputArea", hasText(MockFileSelector.TEMP_FILE_CONTENT));
+        verifyThat("#fileNameHolder", TextMatchers.hasText(TestFileUtils.EXISTING_FILE_NAME));
+        verifyThat("#saveStatusHolder", TextMatchers.hasText("saved"));
+
+        type(KeyCode.O, KeyCode.H, KeyCode.SPACE);
+        verifyThat("#inputArea", hasText("oh " + MockFileSelector.TEMP_FILE_CONTENT));
+        verifyThat("#saveStatusHolder", TextMatchers.hasText("unsaved"));
+
+        useShortcut(KeyCode.CONTROL, KeyCode.R);
+        verifyThat("#saveStatusHolder", TextMatchers.hasText("saved"));
+        verifyThat("#inputArea", hasText(MockFileSelector.TEMP_FILE_CONTENT));
     }
 
     private void useShortcut(KeyCode... keys) {

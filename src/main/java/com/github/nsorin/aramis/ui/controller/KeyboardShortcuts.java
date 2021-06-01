@@ -9,4 +9,5 @@ class KeyboardShortcuts {
     public static final KeyCodeCombination OPEN = new KeyCodeCombination(KeyCode.O, KeyCombination.CONTROL_ANY);
     public static final KeyCodeCombination SAVE = new KeyCodeCombination(KeyCode.S, KeyCombination.CONTROL_ANY);
     public static final KeyCodeCombination SAVE_AS = new KeyCodeCombination(KeyCode.S, KeyCombination.SHIFT_ANY, KeyCombination.CONTROL_ANY);
+    public static final KeyCodeCombination RELOAD = new KeyCodeCombination(KeyCode.R, KeyCombination.CONTROL_ANY);
 }

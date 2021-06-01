@@ -100,4 +100,20 @@ public class FileCommandTest {
         assertEquals(TestFileUtils.NON_EXISTING_FILE_NAME, applicationState.getFileProperties().getName());
         assertTrue(applicationState.isSaved());
     }
+
+    @Test
+    void reloadFile() throws IOException {
+        TestFileUtils.createExistingTempFile("old content");
+
+        applicationState.setTextContent(new TextContent("new content"));
+        applicationState.setFileProperties(new FileProperties(TestFileUtils.EXISTING_FILE_PATH, TestFileUtils.EXISTING_FILE_NAME));
+        applicationState.setSaved(false);
+
+        command.reloadFile();
+
+        assertEquals("old content", applicationState.getTextContent().getContent());
+        assertEquals(TestFileUtils.EXISTING_FILE_PATH, applicationState.getFileProperties().getLocation());
+        assertEquals(TestFileUtils.EXISTING_FILE_NAME, applicationState.getFileProperties().getName());
+        assertTrue(applicationState.isSaved());
+    }
 }

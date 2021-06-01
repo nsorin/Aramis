@@ -10,4 +10,5 @@
     <Button mnemonicParsing="false" text="Open" onAction="#onOpenButtonClick" fx:id="openButton"/>
     <Button mnemonicParsing="false" text="Save" onAction="#onSaveButtonClick" fx:id="saveButton"/>
     <Button mnemonicParsing="false" text="Save as..." onAction="#onSaveAsButtonClick" fx:id="saveAsButton"/>
+    <Button mnemonicParsing="false" text="Reload" onAction="#onReloadButtonClick" fx:id="reloadButton"/>
 </ToolBar>
