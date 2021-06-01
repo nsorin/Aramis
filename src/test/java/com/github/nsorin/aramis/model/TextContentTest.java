@@ -2,30 +2,16 @@ package com.github.nsorin.aramis.model;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class TextContentTest {
 
     @Test
-    void constructTextFileWithPathNameAndContent() {
-        String fileLocation = "./test.txt";
-        String fileName = "test.txt";
+    void constructTextFileWithContent() {
         String fileContent = "lorem ipsum";
 
-        TextContent textContent = new TextContent(fileLocation, fileName, fileContent);
+        TextContent textContent = new TextContent(fileContent);
 
-        assertEquals(fileLocation, textContent.getFileLocation());
-        assertEquals(fileName, textContent.getFileName());
         assertEquals(fileContent, textContent.getContent());
-    }
-
-    @Test
-    void isNewReturnsTrueIfNoLocation() {
-        assertTrue(new TextContent().isNew());
-    }
-
-    @Test
-    void isNewReturnsFalseIfHasLocation() {
-        assertFalse(new TextContent("somepath", "somename", "content").isNew());
     }
 }

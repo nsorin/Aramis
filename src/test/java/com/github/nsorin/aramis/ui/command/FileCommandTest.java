@@ -33,7 +33,7 @@ public class FileCommandTest {
 
     @Test
     void newFile() {
-        applicationState.setTextContent(new TextContent("location", "name", "content"));
+        applicationState.setTextContent(new TextContent("content"));
         applicationState.setFileProperties(new FileProperties("location", "name"));
 
         command.newFile();
@@ -58,7 +58,7 @@ public class FileCommandTest {
     void saveFileAs() throws IOException {
         TestFileUtils.createExistingTempFile("old content");
 
-        applicationState.setTextContent(new TextContent(TestFileUtils.EXISTING_FILE_PATH, TestFileUtils.EXISTING_FILE_NAME, "new content"));
+        applicationState.setTextContent(new TextContent("new content"));
         applicationState.setFileProperties(new FileProperties(TestFileUtils.EXISTING_FILE_PATH, TestFileUtils.EXISTING_FILE_NAME));
         applicationState.setSaved(false);
 
@@ -75,7 +75,7 @@ public class FileCommandTest {
     void saveFileExistingFile() throws IOException {
         TestFileUtils.createExistingTempFile("old content");
 
-        applicationState.setTextContent(new TextContent(TestFileUtils.EXISTING_FILE_PATH, TestFileUtils.EXISTING_FILE_NAME, "new content"));
+        applicationState.setTextContent(new TextContent("new content"));
         applicationState.setFileProperties(new FileProperties(TestFileUtils.EXISTING_FILE_PATH, TestFileUtils.EXISTING_FILE_NAME));
         applicationState.setSaved(false);
 
@@ -89,7 +89,7 @@ public class FileCommandTest {
 
     @Test
     void saveFileNonExistingFile() throws IOException {
-        applicationState.setTextContent(new TextContent(null, null, "new content"));
+        applicationState.setTextContent(new TextContent("new content"));
         applicationState.setFileProperties(new FileProperties());
         applicationState.setSaved(false);
 

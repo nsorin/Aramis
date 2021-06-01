@@ -1,5 +1,6 @@
 package com.github.nsorin.aramis.service;
 
+import com.github.nsorin.aramis.model.FileProperties;
 import com.github.nsorin.aramis.model.TextContent;
 import org.junit.jupiter.api.Test;
 
@@ -17,54 +18,56 @@ class FileManagerFileSystemTest {
         File fileToLoad = createExistingTempFile("Hello World!");
 
         FileManagerFilesystem fileManager = new FileManagerFilesystem();
-        TextContent textContent = fileManager.loadFile(fileToLoad);
+        FileManagerData fileManagerData = fileManager.loadFile(fileToLoad);
 
-        assertEquals("Hello World!", textContent.getContent());
-        assertEquals(fileToLoad.getName(), textContent.getFileName());
-        assertEquals(fileToLoad.getAbsolutePath(), textContent.getFileLocation());
+        assertEquals("Hello World!", fileManagerData.textContent().getContent());
+        assertEquals(fileToLoad.getName(), fileManagerData.fileProperties().getName());
+        assertEquals(fileToLoad.getAbsolutePath(), fileManagerData.fileProperties().getLocation());
     }
 
     @Test
     void saveFile() throws IOException {
         File fileToLoad = createExistingTempFile("Hello World!");
         FileManagerFilesystem fileManager = new FileManagerFilesystem();
-        TextContent textContentToSave = fileManager.loadFile(fileToLoad);
+        FileManagerData data = fileManager.loadFile(fileToLoad);
 
-        textContentToSave.setContent("Hello Universe!");
-        fileManager.saveFile(textContentToSave);
+        data.textContent().setContent("Hello Universe!");
+        fileManager.saveFile(data);
 
-        TextContent resultingFile = fileManager.loadFile(fileToLoad);
-        assertEquals(textContentToSave.getContent(), resultingFile.getContent());
+        FileManagerData resultingData = fileManager.loadFile(fileToLoad);
+        assertEquals(data.textContent().getContent(), resultingData.textContent().getContent());
     }
 
     @Test
     void saveToFileOverwrite() throws IOException {
         File targetFile = createExistingTempFile("Hello Universe!");
         FileManagerFilesystem fileManager = new FileManagerFilesystem();
-        TextContent textContentToSave = new TextContent(null, null, "Hello World!");
+        TextContent textContent = new TextContent("Hello World!");
+        FileProperties fileProperties = new FileProperties(null, null);
 
-        TextContent savedTextContent = fileManager.saveToFile(textContentToSave, targetFile);
-        TextContent reloadedFile = fileManager.loadFile(targetFile);
+        FileManagerData savedData = fileManager.saveToFile(new FileManagerData(textContent, fileProperties), targetFile);
+        FileManagerData reloadedData = fileManager.loadFile(targetFile);
 
-        assertEquals(textContentToSave.getContent(), reloadedFile.getContent());
-        assertEquals(textContentToSave.getContent(), savedTextContent.getContent());
-        assertEquals(targetFile.getAbsolutePath(), savedTextContent.getFileLocation());
-        assertEquals(targetFile.getName(), savedTextContent.getFileName());
+        assertEquals(textContent.getContent(), reloadedData.textContent().getContent());
+        assertEquals(textContent.getContent(), savedData.textContent().getContent());
+        assertEquals(targetFile.getAbsolutePath(), savedData.fileProperties().getLocation());
+        assertEquals(targetFile.getName(), savedData.fileProperties().getName());
     }
 
     @Test
     void saveToFileNew() throws IOException {
         File targetFile = createNonExistingTempFile();
         FileManagerFilesystem fileManager = new FileManagerFilesystem();
-        TextContent textContentToSave = new TextContent(null, null, "Hello World!");
+        TextContent textContent = new TextContent("Hello World!");
+        FileProperties fileProperties = new FileProperties(null, null);
 
-        TextContent savedTextContent = fileManager.saveToFile(textContentToSave, targetFile);
-        TextContent reloadedFile = fileManager.loadFile(targetFile);
+        FileManagerData savedData = fileManager.saveToFile(new FileManagerData(textContent, fileProperties), targetFile);
+        FileManagerData reloadedData = fileManager.loadFile(targetFile);
 
-        assertEquals(textContentToSave.getContent(), reloadedFile.getContent());
-        assertEquals(textContentToSave.getContent(), savedTextContent.getContent());
-        assertEquals(targetFile.getAbsolutePath(), savedTextContent.getFileLocation());
-        assertEquals(targetFile.getName(), savedTextContent.getFileName());
+        assertEquals(textContent.getContent(), reloadedData.textContent().getContent());
+        assertEquals(textContent.getContent(), savedData.textContent().getContent());
+        assertEquals(targetFile.getAbsolutePath(), savedData.fileProperties().getLocation());
+        assertEquals(targetFile.getName(), savedData.fileProperties().getName());
     }
 
 }

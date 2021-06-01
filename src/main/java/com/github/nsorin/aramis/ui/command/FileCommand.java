@@ -5,6 +5,7 @@ import com.github.nsorin.aramis.model.ApplicationState;
 import com.github.nsorin.aramis.model.FileProperties;
 import com.github.nsorin.aramis.model.TextContent;
 import com.github.nsorin.aramis.service.FileManager;
+import com.github.nsorin.aramis.service.FileManagerData;
 import com.github.nsorin.aramis.ui.service.FileSelector;
 import javafx.stage.Window;
 
@@ -32,11 +33,9 @@ public class FileCommand {
     public void openFile(Window window) {
         File file = fileSelector.selectFileToOpen(window);
         try {
-            applicationState.setTextContent(fileManager.loadFile(file));
-            applicationState.setFileProperties(new FileProperties(
-                    applicationState.getTextContent().getFileLocation(),
-                    applicationState.getTextContent().getFileName()
-            ));
+            FileManagerData loadedData = fileManager.loadFile(file);
+            applicationState.setTextContent(loadedData.textContent());
+            applicationState.setFileProperties(loadedData.fileProperties());
             applicationState.setSaved(true);
         } catch (IOException e) {
             e.printStackTrace();
@@ -44,7 +43,7 @@ public class FileCommand {
     }
 
     public void saveFile(Window window) {
-        if (applicationState.getTextContent().isNew()) {
+        if (applicationState.getFileProperties().isNew()) {
             saveFileAs(window);
         } else {
             saveExistingFile();
@@ -55,11 +54,12 @@ public class FileCommand {
         File file = fileSelector.selectFileToSave(window);
         if (file != null) {
             try {
-                applicationState.setTextContent(fileManager.saveToFile(applicationState.getTextContent(), file));
-                applicationState.setFileProperties(new FileProperties(
-                        applicationState.getTextContent().getFileLocation(),
-                        applicationState.getTextContent().getFileName()
-                ));
+                FileManagerData savedData = fileManager.saveToFile(
+                        new FileManagerData(applicationState.getTextContent(), applicationState.getFileProperties()),
+                        file
+                );
+                applicationState.setTextContent(savedData.textContent());
+                applicationState.setFileProperties(savedData.fileProperties());
                 applicationState.setSaved(true);
             } catch (IOException e) {
                 e.printStackTrace();
@@ -69,7 +69,9 @@ public class FileCommand {
 
     private void saveExistingFile() {
         try {
-            fileManager.saveFile(applicationState.getTextContent());
+            fileManager.saveFile(
+                    new FileManagerData(applicationState.getTextContent(), applicationState.getFileProperties())
+            );
             applicationState.setSaved(true);
         } catch (IOException e) {
             e.printStackTrace();
