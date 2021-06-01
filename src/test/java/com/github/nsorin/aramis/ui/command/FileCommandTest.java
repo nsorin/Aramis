@@ -4,6 +4,7 @@ import com.github.nsorin.aramis.model.ApplicationState;
 import com.github.nsorin.aramis.model.FileProperties;
 import com.github.nsorin.aramis.model.TextContent;
 import com.github.nsorin.aramis.service.FileManagerFilesystem;
+import com.github.nsorin.aramis.ui.service.AlertDispatcher;
 import com.github.nsorin.aramis.ui.utils.MockFileSelector;
 import com.github.nsorin.aramis.utils.MockEventObserver;
 import com.github.nsorin.aramis.utils.TestFileUtils;
@@ -27,7 +28,8 @@ public class FileCommandTest {
         command = new FileCommand(
                 applicationState,
                 new MockFileSelector(),
-                new FileManagerFilesystem()
+                new FileManagerFilesystem(),
+                new AlertDispatcher()
         );
     }
 

@@ -6,6 +6,7 @@ import com.github.nsorin.aramis.model.FileProperties;
 import com.github.nsorin.aramis.model.TextContent;
 import com.github.nsorin.aramis.service.FileManager;
 import com.github.nsorin.aramis.service.FileManagerData;
+import com.github.nsorin.aramis.ui.service.AlertService;
 import com.github.nsorin.aramis.ui.service.FileSelector;
 import javafx.stage.Window;
 
@@ -16,12 +17,17 @@ public class FileCommand {
     private final ApplicationState applicationState;
     private final FileSelector fileSelector;
     private final FileManager fileManager;
+    private final AlertService alertService;
 
     @Injectable
-    public FileCommand(ApplicationState applicationState, FileSelector fileSelector, FileManager fileManager) {
+    public FileCommand(ApplicationState applicationState,
+                       FileSelector fileSelector,
+                       FileManager fileManager,
+                       AlertService alertService) {
         this.applicationState = applicationState;
         this.fileSelector = fileSelector;
         this.fileManager = fileManager;
+        this.alertService = alertService;
     }
 
     public void newFile() {
@@ -57,7 +63,7 @@ public class FileCommand {
                 applicationState.setFileProperties(savedData.fileProperties());
                 applicationState.setSaved(true);
             } catch (IOException e) {
-                e.printStackTrace();
+                alertService.showError("Could not save file at location " + file.getAbsolutePath() + ".");
             }
         }
     }
@@ -69,7 +75,7 @@ public class FileCommand {
             );
             applicationState.setSaved(true);
         } catch (IOException e) {
-            e.printStackTrace();
+            alertService.showError("Could not save file at location " + applicationState.getFileProperties().getLocation() + ".");
         }
     }
 
@@ -85,7 +91,7 @@ public class FileCommand {
             applicationState.setFileProperties(loadedData.fileProperties());
             applicationState.setSaved(true);
         } catch (IOException e) {
-            e.printStackTrace();
+            alertService.showError("Could not load file at location " + file.getAbsolutePath() + ".");
         }
     }
 }

@@ -8,6 +8,8 @@ import com.github.nsorin.aramis.service.FileManager;
 import com.github.nsorin.aramis.service.FileManagerFilesystem;
 import com.github.nsorin.aramis.ui.TextEditorApplication;
 import com.github.nsorin.aramis.ui.command.FileCommand;
+import com.github.nsorin.aramis.ui.service.AlertDispatcher;
+import com.github.nsorin.aramis.ui.service.AlertService;
 import com.github.nsorin.aramis.ui.service.FileChooserSelector;
 import com.github.nsorin.aramis.ui.service.FileSelector;
 import javafx.application.Application;
@@ -22,6 +24,7 @@ public class TextEditor {
         DependencyProvider.getProvider().provide(FileCommand.class);
         DependencyProvider.getProvider().provide(FileManager.class, FileManagerFilesystem.class);
         DependencyProvider.getProvider().provide(FileSelector.class, FileChooserSelector.class);
+        DependencyProvider.getProvider().provide(AlertService.class, AlertDispatcher.class);
         DependencyProvider.getProvider().provideSingleton(ApplicationState.class);
         DependencyProvider.getProvider().provideInstance(EventObserverInterface.class, EventObserver.getObserver());
     }

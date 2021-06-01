@@ -14,7 +14,6 @@ public class TestFileUtils {
 
     public static File createExistingTempFile(String content) throws IOException {
         File file = new File(EXISTING_FILE_PATH);
-        //noinspection ResultOfMethodCallIgnored
         file.createNewFile();
         Files.writeString(Path.of(file.getAbsolutePath()), content);
         return file;

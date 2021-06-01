@@ -16,6 +16,7 @@ import org.testfx.framework.junit5.ApplicationTest;
 import org.testfx.matcher.control.TextMatchers;
 import org.testfx.util.WaitForAsyncUtils;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -216,6 +217,41 @@ class TextEditorApplicationTest extends ApplicationTest {
         useShortcut(KeyCode.CONTROL, KeyCode.R);
         verifyThat("#saveStatusHolder", TextMatchers.hasText("saved"));
         verifyThat("#inputArea", hasText(MockFileSelector.TEMP_FILE_CONTENT));
+    }
+
+    @Test
+    void showsAlertIfSavingFails() {
+        clickOn("#openButton");
+        File targetFile = new File(TestFileUtils.EXISTING_FILE_PATH);
+
+        targetFile.setWritable(false);
+        clickOn("#saveButton");
+        verifyThat(".dialog-pane", isVisible());
+
+        targetFile.setWritable(true);
+    }
+
+    @Test
+    void showsAlertIfSavingAsFails() throws IOException {
+        File targetFile = new File(TestFileUtils.NON_EXISTING_FILE_PATH);
+        targetFile.createNewFile();
+        targetFile.setWritable(false);
+
+        clickOn("#openButton");
+        clickOn("#saveAsButton");
+        verifyThat(".dialog-pane", isVisible());
+
+        targetFile.delete();
+    }
+
+    @Test
+    void showsAlertIfReloadFails() {
+        clickOn("#openButton");
+        File targetFile = new File(TestFileUtils.EXISTING_FILE_PATH);
+        targetFile.delete();
+
+        clickOn("#reloadButton");
+        verifyThat(".dialog-pane", isVisible());
     }
 
     private void useShortcut(KeyCode... keys) {
