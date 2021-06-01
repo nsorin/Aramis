@@ -32,10 +32,8 @@ public class FileCommand {
 
     public void openFile(Window window) {
         File file = fileSelector.selectFileToOpen(window);
-        try {
+        if (file != null) {
             loadFile(file);
-        } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 
@@ -77,17 +75,17 @@ public class FileCommand {
 
     public void reloadFile() {
         File file = new File(applicationState.getFileProperties().getLocation());
+        loadFile(file);
+    }
+
+    private void loadFile(File file) {
         try {
-            loadFile(file);
+            FileManagerData loadedData = fileManager.loadFile(file);
+            applicationState.setTextContent(loadedData.textContent());
+            applicationState.setFileProperties(loadedData.fileProperties());
+            applicationState.setSaved(true);
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    private void loadFile(File file) throws IOException {
-        FileManagerData loadedData = fileManager.loadFile(file);
-        applicationState.setTextContent(loadedData.textContent());
-        applicationState.setFileProperties(loadedData.fileProperties());
-        applicationState.setSaved(true);
     }
 }
