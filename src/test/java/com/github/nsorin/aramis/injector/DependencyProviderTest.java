@@ -25,8 +25,7 @@ class DependencyProviderTest {
     void provideAndInjectServiceImplementation() {
         DependencyProvider.getProvider().provide(TestService.class, TestServiceImpl.class);
 
-        ControllerFactory controllerFactory = DependencyProvider.getProvider().getControllerFactory();
-        AllInjectionClient client = (AllInjectionClient) controllerFactory.call(AllInjectionClient.class);
+        AllInjectionClient client = DependencyProvider.getProvider().resolve(AllInjectionClient.class);
 
         assertNotNull(client.getSetterService());
         assertTrue(client.getSetterService() instanceof TestServiceImpl);
@@ -40,8 +39,7 @@ class DependencyProviderTest {
     void provideAndInjectServiceImplementationWithoutInterface() {
         DependencyProvider.getProvider().provide(TestServiceImpl.class);
 
-        ControllerFactory controllerFactory = DependencyProvider.getProvider().getControllerFactory();
-        DirectImplementationClient client = (DirectImplementationClient) controllerFactory.call(DirectImplementationClient.class);
+        DirectImplementationClient client = DependencyProvider.getProvider().resolve(DirectImplementationClient.class);
 
         assertNotNull(client.publicFieldService);
         assertNotNull(client.getConstructorService());
@@ -52,8 +50,7 @@ class DependencyProviderTest {
     void provideAndInjectSingletonServiceImplementation() {
         DependencyProvider.getProvider().provideSingleton(TestService.class, TestServiceImpl.class);
 
-        ControllerFactory controllerFactory = DependencyProvider.getProvider().getControllerFactory();
-        AllInjectionClient client = (AllInjectionClient) controllerFactory.call(AllInjectionClient.class);
+        AllInjectionClient client = DependencyProvider.getProvider().resolve(AllInjectionClient.class);
 
         assertNotNull(client.getSetterService());
         assertTrue(client.getSetterService() instanceof TestServiceImpl);
@@ -67,8 +64,7 @@ class DependencyProviderTest {
     void provideAndInjectServiceSingletonImplementationWithoutInterface() {
         DependencyProvider.getProvider().provideSingleton(TestServiceImpl.class);
 
-        ControllerFactory controllerFactory = DependencyProvider.getProvider().getControllerFactory();
-        DirectImplementationClient client = (DirectImplementationClient) controllerFactory.call(DirectImplementationClient.class);
+        DirectImplementationClient client = DependencyProvider.getProvider().resolve(DirectImplementationClient.class);
 
         assertNotNull(client.publicFieldService);
         assertNotNull(client.getConstructorService());
@@ -80,8 +76,7 @@ class DependencyProviderTest {
         TestServiceImpl instance = new TestServiceImpl();
         DependencyProvider.getProvider().provideInstance(TestService.class, instance);
 
-        ControllerFactory controllerFactory = DependencyProvider.getProvider().getControllerFactory();
-        AllInjectionClient client = (AllInjectionClient) controllerFactory.call(AllInjectionClient.class);
+        AllInjectionClient client = DependencyProvider.getProvider().resolve(AllInjectionClient.class);
 
         assertNotNull(client.getSetterService());
         assertTrue(client.getSetterService() instanceof TestServiceImpl);
@@ -97,8 +92,7 @@ class DependencyProviderTest {
         TestServiceImpl instance = new TestServiceImpl();
         DependencyProvider.getProvider().provideInstance(instance);
 
-        ControllerFactory controllerFactory = DependencyProvider.getProvider().getControllerFactory();
-        DirectImplementationClient client = (DirectImplementationClient) controllerFactory.call(DirectImplementationClient.class);
+        DirectImplementationClient client = DependencyProvider.getProvider().resolve(DirectImplementationClient.class);
 
         assertNotNull(client.publicFieldService);
         assertNotNull(client.getConstructorService());

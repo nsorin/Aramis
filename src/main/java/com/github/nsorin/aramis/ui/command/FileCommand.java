@@ -36,7 +36,7 @@ public class FileCommand {
     }
 
     public void newFile(Window window) {
-        if (applicationState.isSaved() || applicationState.isNewAndEmpty()) {
+        if (applicationState.canCloseSafely()) {
             resetTextContent();
         } else {
             confirmService.confirm(
@@ -58,7 +58,7 @@ public class FileCommand {
     }
 
     public void openFile(Window window) {
-        if (applicationState.isSaved() || applicationState.isNewAndEmpty()) {
+        if (applicationState.canCloseSafely()) {
             browseAndLoadFile(window);
         } else {
             confirmService.confirm(

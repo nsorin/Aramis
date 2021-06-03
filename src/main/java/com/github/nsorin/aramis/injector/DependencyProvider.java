@@ -20,7 +20,7 @@ public class DependencyProvider {
 
     private DependencyProvider(DependencyInjector dependencyInjector) {
         this.dependencyInjector = dependencyInjector;
-        this.controllerFactory = new ControllerFactory(dependencyInjector);
+        controllerFactory = new ControllerFactory(dependencyInjector);
     }
 
     public <T> void provide(Class<T> serviceImplementation) {
@@ -28,7 +28,7 @@ public class DependencyProvider {
     }
 
     public <T, U extends T> void provide(Class<T> serviceInterface, Class<U> serviceImplementation) {
-        this.dependencyInjector.register(serviceInterface, serviceImplementation);
+        dependencyInjector.register(serviceInterface, serviceImplementation);
     }
 
     public <T> void provideSingleton(Class<T> serviceImplementation) {
@@ -36,7 +36,7 @@ public class DependencyProvider {
     }
 
     public <T, U extends T> void provideSingleton(Class<T> serviceInterface, Class<U> serviceImplementation) {
-        this.dependencyInjector.registerSingleton(serviceInterface, serviceImplementation);
+        dependencyInjector.registerSingleton(serviceInterface, serviceImplementation);
     }
 
     @SuppressWarnings("unchecked")
@@ -45,11 +45,15 @@ public class DependencyProvider {
     }
 
     public <T, U extends T> void provideInstance(Class<T> serviceInterface, U serviceInstance) {
-        this.dependencyInjector.registerInstance(serviceInterface, serviceInstance);
+        dependencyInjector.registerInstance(serviceInterface, serviceInstance);
     }
 
     public ControllerFactory getControllerFactory() {
         return controllerFactory;
+    }
+
+    public <T> T resolve(Class<T> type) {
+        return dependencyInjector.resolve(type);
     }
 
 }

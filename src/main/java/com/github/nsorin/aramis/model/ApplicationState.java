@@ -48,7 +48,11 @@ public class ApplicationState {
         return saved;
     }
 
-    public boolean isNewAndEmpty() {
+    public boolean canCloseSafely() {
+        return saved || isNewAndEmpty();
+    }
+
+    private boolean isNewAndEmpty() {
         return fileProperties.isNew() && textContent.getContent().equals("");
     }
 }

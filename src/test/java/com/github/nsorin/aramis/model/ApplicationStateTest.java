@@ -98,20 +98,27 @@ public class ApplicationStateTest {
     }
 
     @Test
-    void isNewAndEmpty() {
-        assertTrue(applicationState.isNewAndEmpty());
+    void canCloseSafely_trueIfNewAndEmpty() {
+        assertTrue(applicationState.canCloseSafely());
     }
 
     @Test
-    void isNewAndEmpty_falseIfNotNew() {
-        applicationState.setFileProperties(new FileProperties("", ""));
-        assertFalse(applicationState.isNewAndEmpty());
-    }
-
-    @Test
-    void isNewAndEmpty_falseIfNotEmpty() {
+    void canCloseSafely_trueSaved() {
         applicationState.setTextContent(new TextContent("Hello"));
-        assertFalse(applicationState.isNewAndEmpty());
+        applicationState.setSaved(true);
+        assertTrue(applicationState.canCloseSafely());
+    }
+
+    @Test
+    void isNewAndEmpty_falseIfNotNewAndUnsaved() {
+        applicationState.setFileProperties(new FileProperties("", ""));
+        assertFalse(applicationState.canCloseSafely());
+    }
+
+    @Test
+    void isNewAndEmpty_falseIfNotEmptyAndUnsaved() {
+        applicationState.setTextContent(new TextContent("Hello"));
+        assertFalse(applicationState.canCloseSafely());
     }
 
 }
