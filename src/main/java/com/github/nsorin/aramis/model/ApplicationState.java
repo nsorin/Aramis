@@ -47,4 +47,8 @@ public class ApplicationState {
     public boolean isSaved() {
         return saved;
     }
+
+    public boolean isNewAndEmpty() {
+        return fileProperties.isNew() && textContent.getContent().equals("");
+    }
 }

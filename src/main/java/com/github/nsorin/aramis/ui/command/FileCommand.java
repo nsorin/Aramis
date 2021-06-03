@@ -15,6 +15,8 @@ import java.io.File;
 import java.io.IOException;
 
 public class FileCommand {
+    public static final String UNSAVED_CONFIRM_TITLE = "Current file is not saved";
+    public static final String UNSAVED_CONFIRM_CONTENT = "Current file is not saved. Do you want so save it before proceeding?";
     private final ApplicationState applicationState;
     private final FileSelector fileSelector;
     private final FileManager fileManager;
@@ -34,28 +36,44 @@ public class FileCommand {
     }
 
     public void newFile(Window window) {
-        if (applicationState.isSaved()) {
-            resetFile();
+        if (applicationState.isSaved() || applicationState.isNewAndEmpty()) {
+            resetTextContent();
         } else {
             confirmService.confirm(
-                    "Current file is not saved",
-                    "Current file is not saved. Do you want so save it before proceeding?",
+                    UNSAVED_CONFIRM_TITLE,
+                    UNSAVED_CONFIRM_CONTENT,
                     () -> {
                         saveFile(window);
-                        resetFile();
+                        resetTextContent();
                     },
-                    this::resetFile
+                    this::resetTextContent
             );
         }
     }
 
-    private void resetFile() {
+    private void resetTextContent() {
         applicationState.setTextContent(new TextContent());
         applicationState.setFileProperties(new FileProperties());
         applicationState.setSaved(false);
     }
 
     public void openFile(Window window) {
+        if (applicationState.isSaved() || applicationState.isNewAndEmpty()) {
+            browseAndLoadFile(window);
+        } else {
+            confirmService.confirm(
+                    UNSAVED_CONFIRM_TITLE,
+                    UNSAVED_CONFIRM_CONTENT,
+                    () -> {
+                        saveFile(window);
+                        browseAndLoadFile(window);
+                    },
+                    () -> browseAndLoadFile(window)
+            );
+        }
+    }
+
+    private void browseAndLoadFile(Window window) {
         File file = fileSelector.selectFileToOpen(window);
         if (file != null) {
             loadFile(file);

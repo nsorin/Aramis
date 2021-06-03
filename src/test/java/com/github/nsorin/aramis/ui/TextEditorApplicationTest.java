@@ -25,6 +25,7 @@ import java.nio.file.Path;
 import java.util.concurrent.TimeoutException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.testfx.api.FxAssert.verifyThat;
 import static org.testfx.matcher.base.NodeMatchers.isFocused;
 import static org.testfx.matcher.base.NodeMatchers.isVisible;
@@ -33,10 +34,9 @@ import static org.testfx.matcher.control.TextInputControlMatchers.hasText;
 @Tag("UITest")
 class TextEditorApplicationTest extends ApplicationTest {
 
-    Stage stage;
-
     @BeforeEach
     public void runAppToTests() throws Exception {
+        Files.deleteIfExists(Path.of(TestFileUtils.NON_EXISTING_FILE_PATH));
         TextEditor.provideDependencies();
         provideDependencyStubs();
         FxToolkit.registerPrimaryStage();
@@ -311,6 +311,62 @@ class TextEditorApplicationTest extends ApplicationTest {
         verifyThat("#inputArea", isFocused());
         verifyThat("#inputArea", hasText("oh " + MockFileSelector.TEMP_FILE_CONTENT));
         verifyThat("#saveStatusHolder", TextMatchers.hasText("unsaved"));
+    }
+
+    @Test
+    void doesNotShowConfirmDialogIfNewAndEmptyAndUnsaved() {
+        clickOn("#newButton");
+        verifyThat("#inputArea", isFocused());
+        verifyThat("#inputArea", hasText(""));
+    }
+
+    @Test
+    void showsConfirmDialogIfOpenAndNotSaved_yes() throws IOException {
+        type(KeyCode.O, KeyCode.H);
+        clickOn("#openButton");
+        verifyThat(".dialog-pane", isVisible());
+        useShortcut(KeyCode.ENTER);
+
+        assertEquals(
+                "oh",
+                Files.readString(Path.of(TestFileUtils.NON_EXISTING_FILE_PATH))
+        );
+        verifyThat("#inputArea", isFocused());
+        verifyThat("#inputArea", hasText(MockFileSelector.TEMP_FILE_CONTENT));
+    }
+
+    @Test
+    void showsConfirmDialogIfOpenAndNotSaved_no() {
+        type(KeyCode.O, KeyCode.H);
+        clickOn("#openButton");
+        verifyThat(".dialog-pane", isVisible());
+        useShortcut(KeyCode.LEFT);
+        useShortcut(KeyCode.ENTER);
+
+        assertTrue(Files.notExists(Path.of(TestFileUtils.NON_EXISTING_FILE_PATH)));
+        verifyThat("#inputArea", isFocused());
+        verifyThat("#inputArea", hasText(MockFileSelector.TEMP_FILE_CONTENT));
+    }
+
+    @Test
+    void showsConfirmDialogIfOpenAndNotSaved_cancel() {
+        type(KeyCode.O, KeyCode.H);
+        clickOn("#openButton");
+        verifyThat(".dialog-pane", isVisible());
+        useShortcut(KeyCode.RIGHT);
+        useShortcut(KeyCode.ENTER);
+
+        assertTrue(Files.notExists(Path.of(TestFileUtils.NON_EXISTING_FILE_PATH)));
+        verifyThat("#inputArea", isFocused());
+        verifyThat("#inputArea", hasText("oh"));
+        verifyThat("#saveStatusHolder", TextMatchers.hasText("unsaved"));
+    }
+
+    @Test
+    void doesNotShowConfirmDialogIfOpenAndEmptyAndUnsaved() {
+        clickOn("#openButton");
+        verifyThat("#inputArea", isFocused());
+        verifyThat("#inputArea", hasText(MockFileSelector.TEMP_FILE_CONTENT));
     }
 
     private void useShortcut(KeyCode... keys) {

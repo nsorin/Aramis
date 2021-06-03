@@ -97,4 +97,21 @@ public class ApplicationStateTest {
         assertFalse(((SaveStatusUpdated) mockObserver.getLastEvent()).saved());
     }
 
+    @Test
+    void isNewAndEmpty() {
+        assertTrue(applicationState.isNewAndEmpty());
+    }
+
+    @Test
+    void isNewAndEmpty_falseIfNotNew() {
+        applicationState.setFileProperties(new FileProperties("", ""));
+        assertFalse(applicationState.isNewAndEmpty());
+    }
+
+    @Test
+    void isNewAndEmpty_falseIfNotEmpty() {
+        applicationState.setTextContent(new TextContent("Hello"));
+        assertFalse(applicationState.isNewAndEmpty());
+    }
+
 }
