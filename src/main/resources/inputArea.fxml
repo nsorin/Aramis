@@ -8,5 +8,4 @@
           wrapText="true"
           VBox.vgrow="ALWAYS"
           fx:id="inputArea"
-          fx:controller="com.github.nsorin.aramis.ui.controller.InputAreaController"
-          onKeyTyped="#onKeyTyped"/>
+          fx:controller="com.github.nsorin.aramis.ui.controller.InputAreaController"/>
