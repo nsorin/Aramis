@@ -3,6 +3,7 @@ package com.github.nsorin.aramis.model;
 import com.github.nsorin.aramis.model.event.FilePropertiesUpdated;
 import com.github.nsorin.aramis.model.event.SaveStatusUpdated;
 import com.github.nsorin.aramis.model.event.TextContentUpdated;
+import com.github.nsorin.aramis.ui.command.event.FocusInput;
 import com.github.nsorin.aramis.utils.MockEventObserver;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -66,9 +67,10 @@ public class ApplicationStateTest {
 
         applicationState.setTextContent(content);
 
-        assertNotNull(mockObserver.getEvent());
-        assertTrue(mockObserver.getEvent() instanceof TextContentUpdated);
-        assertSame(content, ((TextContentUpdated) mockObserver.getEvent()).textContent());
+        assertNotNull(mockObserver.getLastEvent());
+        assertTrue(mockObserver.getNthEvent(0) instanceof TextContentUpdated);
+        assertTrue(mockObserver.getNthEvent(1) instanceof FocusInput);
+        assertSame(content, ((TextContentUpdated) mockObserver.getNthEvent(0)).textContent());
     }
 
     @Test
@@ -77,22 +79,22 @@ public class ApplicationStateTest {
 
         applicationState.setFileProperties(fileProperties);
 
-        assertNotNull(mockObserver.getEvent());
-        assertTrue(mockObserver.getEvent() instanceof FilePropertiesUpdated);
-        assertSame(fileProperties, ((FilePropertiesUpdated) mockObserver.getEvent()).fileProperties());
+        assertNotNull(mockObserver.getLastEvent());
+        assertTrue(mockObserver.getLastEvent() instanceof FilePropertiesUpdated);
+        assertSame(fileProperties, ((FilePropertiesUpdated) mockObserver.getLastEvent()).fileProperties());
     }
 
     @Test
     void setSavedEmitsEvent() {
         applicationState.setSaved(true);
 
-        assertNotNull(mockObserver.getEvent());
-        assertTrue(mockObserver.getEvent() instanceof SaveStatusUpdated);
-        assertTrue(((SaveStatusUpdated) mockObserver.getEvent()).saved());
+        assertNotNull(mockObserver.getLastEvent());
+        assertTrue(mockObserver.getLastEvent() instanceof SaveStatusUpdated);
+        assertTrue(((SaveStatusUpdated) mockObserver.getLastEvent()).saved());
 
         applicationState.setSaved(false);
 
-        assertFalse(((SaveStatusUpdated) mockObserver.getEvent()).saved());
+        assertFalse(((SaveStatusUpdated) mockObserver.getLastEvent()).saved());
     }
 
 }

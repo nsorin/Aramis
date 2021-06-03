@@ -2,7 +2,9 @@ package com.github.nsorin.aramis.ui;
 
 import com.github.nsorin.aramis.TextEditor;
 import com.github.nsorin.aramis.injector.DependencyProvider;
+import com.github.nsorin.aramis.ui.service.ConfirmService;
 import com.github.nsorin.aramis.ui.service.FileSelector;
+import com.github.nsorin.aramis.ui.utils.MockConfirmService;
 import com.github.nsorin.aramis.ui.utils.MockFileSelector;
 import com.github.nsorin.aramis.utils.TestFileUtils;
 import javafx.scene.input.KeyCode;
@@ -78,12 +80,15 @@ class TextEditorApplicationTest extends ApplicationTest {
         type(KeyCode.H, KeyCode.E, KeyCode.L, KeyCode.L, KeyCode.O);
 
         clickOn("#newButton");
+        useShortcut(KeyCode.ENTER);
         verifyThat("#inputArea", hasText(""));
     }
 
     @Test
     void focusesTextAreaOnNew() {
+        DependencyProvider.getProvider().provide(ConfirmService.class, MockConfirmService.class);
         clickOn("#newButton");
+        useShortcut(KeyCode.ENTER);
         verifyThat("#inputArea", isFocused());
     }
 
@@ -252,6 +257,60 @@ class TextEditorApplicationTest extends ApplicationTest {
 
         clickOn("#reloadButton");
         verifyThat(".dialog-pane", isVisible());
+    }
+
+    @Test
+    void showsConfirmDialogIfNewAndNotSaved_yes() throws IOException {
+        clickOn("#openButton");
+        type(KeyCode.O, KeyCode.H, KeyCode.SPACE);
+        clickOn("#newButton");
+        verifyThat(".dialog-pane", isVisible());
+        useShortcut(KeyCode.ENTER);
+
+        assertEquals(
+                "oh " + MockFileSelector.TEMP_FILE_CONTENT,
+                Files.readString(Path.of(TestFileUtils.EXISTING_FILE_PATH))
+        );
+
+        verifyThat("#inputArea", isFocused());
+        verifyThat("#inputArea", hasText(""));
+    }
+
+    @Test
+    void showsConfirmDialogIfNewAndNotSaved_no() throws IOException {
+        clickOn("#openButton");
+        type(KeyCode.O, KeyCode.H, KeyCode.SPACE);
+        clickOn("#newButton");
+        verifyThat(".dialog-pane", isVisible());
+        useShortcut(KeyCode.LEFT);
+        useShortcut(KeyCode.ENTER);
+
+        assertEquals(
+                MockFileSelector.TEMP_FILE_CONTENT,
+                Files.readString(Path.of(TestFileUtils.EXISTING_FILE_PATH))
+        );
+
+        verifyThat("#inputArea", isFocused());
+        verifyThat("#inputArea", hasText(""));
+    }
+
+    @Test
+    void showsConfirmDialogIfNewAndNotSaved_cancel() throws IOException {
+        clickOn("#openButton");
+        type(KeyCode.O, KeyCode.H, KeyCode.SPACE);
+        clickOn("#newButton");
+        verifyThat(".dialog-pane", isVisible());
+        useShortcut(KeyCode.RIGHT);
+        useShortcut(KeyCode.ENTER);
+
+        assertEquals(
+                MockFileSelector.TEMP_FILE_CONTENT,
+                Files.readString(Path.of(TestFileUtils.EXISTING_FILE_PATH))
+        );
+
+        verifyThat("#inputArea", isFocused());
+        verifyThat("#inputArea", hasText("oh " + MockFileSelector.TEMP_FILE_CONTENT));
+        verifyThat("#saveStatusHolder", TextMatchers.hasText("unsaved"));
     }
 
     private void useShortcut(KeyCode... keys) {

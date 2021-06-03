@@ -7,6 +7,7 @@ import com.github.nsorin.aramis.model.TextContent;
 import com.github.nsorin.aramis.service.FileManager;
 import com.github.nsorin.aramis.service.FileManagerData;
 import com.github.nsorin.aramis.ui.service.AlertService;
+import com.github.nsorin.aramis.ui.service.ConfirmService;
 import com.github.nsorin.aramis.ui.service.FileSelector;
 import javafx.stage.Window;
 
@@ -18,22 +19,40 @@ public class FileCommand {
     private final FileSelector fileSelector;
     private final FileManager fileManager;
     private final AlertService alertService;
+    private final ConfirmService confirmService;
 
     @Injectable
     public FileCommand(ApplicationState applicationState,
                        FileSelector fileSelector,
                        FileManager fileManager,
-                       AlertService alertService) {
+                       AlertService alertService, ConfirmService confirmService) {
         this.applicationState = applicationState;
         this.fileSelector = fileSelector;
         this.fileManager = fileManager;
         this.alertService = alertService;
+        this.confirmService = confirmService;
     }
 
-    public void newFile() {
-        this.applicationState.setTextContent(new TextContent());
-        this.applicationState.setFileProperties(new FileProperties());
-        this.applicationState.setSaved(false);
+    public void newFile(Window window) {
+        if (applicationState.isSaved()) {
+            resetFile();
+        } else {
+            confirmService.confirm(
+                    "Current file is not saved",
+                    "Current file is not saved. Do you want so save it before proceeding?",
+                    () -> {
+                        saveFile(window);
+                        resetFile();
+                    },
+                    this::resetFile
+            );
+        }
+    }
+
+    private void resetFile() {
+        applicationState.setTextContent(new TextContent());
+        applicationState.setFileProperties(new FileProperties());
+        applicationState.setSaved(false);
     }
 
     public void openFile(Window window) {

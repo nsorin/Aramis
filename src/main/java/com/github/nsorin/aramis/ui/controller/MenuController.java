@@ -16,7 +16,7 @@ public class MenuController {
 
     @FXML
     void onNewButtonClick(Event e) {
-        fileCommand.newFile();
+        fileCommand.newFile(menu.getScene().getWindow());
     }
 
     @FXML

@@ -17,7 +17,7 @@ public class MainController {
     @FXML
     void onKeyPressed(KeyEvent event) {
         if (KeyboardShortcuts.NEW.match(event)) {
-            fileCommand.newFile();
+            fileCommand.newFile(rootNode.getScene().getWindow());
         } else if (KeyboardShortcuts.OPEN.match(event)) {
             fileCommand.openFile(rootNode.getScene().getWindow());
         } else if (KeyboardShortcuts.SAVE.match(event)) {

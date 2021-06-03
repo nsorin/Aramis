@@ -5,6 +5,7 @@ import com.github.nsorin.aramis.model.FileProperties;
 import com.github.nsorin.aramis.model.TextContent;
 import com.github.nsorin.aramis.service.FileManagerFilesystem;
 import com.github.nsorin.aramis.ui.service.AlertDispatcher;
+import com.github.nsorin.aramis.ui.utils.MockConfirmService;
 import com.github.nsorin.aramis.ui.utils.MockFileSelector;
 import com.github.nsorin.aramis.utils.MockEventObserver;
 import com.github.nsorin.aramis.utils.TestFileUtils;
@@ -29,7 +30,8 @@ public class FileCommandTest {
                 applicationState,
                 new MockFileSelector(),
                 new FileManagerFilesystem(),
-                new AlertDispatcher()
+                new AlertDispatcher(),
+                new MockConfirmService()
         );
     }
 
@@ -38,7 +40,7 @@ public class FileCommandTest {
         applicationState.setTextContent(new TextContent("content"));
         applicationState.setFileProperties(new FileProperties("location", "name"));
 
-        command.newFile();
+        command.newFile(null);
 
         assertNull(applicationState.getFileProperties().getLocation());
         assertNull(applicationState.getFileProperties().getName());

@@ -5,6 +5,7 @@ import com.github.nsorin.aramis.model.event.FilePropertiesUpdated;
 import com.github.nsorin.aramis.model.event.SaveStatusUpdated;
 import com.github.nsorin.aramis.model.event.TextContentUpdated;
 import com.github.nsorin.aramis.observer.EventObserverInterface;
+import com.github.nsorin.aramis.ui.command.event.FocusInput;
 
 public class ApplicationState {
     private TextContent textContent;
@@ -22,6 +23,7 @@ public class ApplicationState {
     public void setTextContent(TextContent textContent) {
         this.textContent = textContent;
         this.eventObserver.emit(new TextContentUpdated(textContent));
+        this.eventObserver.emit(new FocusInput());
     }
 
     public TextContent getTextContent() {
