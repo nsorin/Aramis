@@ -2,13 +2,65 @@
 
 <!--suppress JavaFxUnresolvedFxIdReference -->
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <ToolBar xmlns="http://javafx.com/javafx"
          xmlns:fx="http://javafx.com/fxml"
+         stylesheets="@style/menu.css"
          fx:id="menu"
          fx:controller="com.github.nsorin.aramis.ui.controller.MenuController">
-    <Button mnemonicParsing="false" text="New" onAction="#onNewButtonClick" fx:id="newButton"/>
-    <Button mnemonicParsing="false" text="Open" onAction="#onOpenButtonClick" fx:id="openButton"/>
-    <Button mnemonicParsing="false" text="Save" onAction="#onSaveButtonClick" fx:id="saveButton"/>
-    <Button mnemonicParsing="false" text="Save as..." onAction="#onSaveAsButtonClick" fx:id="saveAsButton"/>
-    <Button mnemonicParsing="false" text="Reload" onAction="#onReloadButtonClick" fx:id="reloadButton"/>
+    <Button minWidth="80" mnemonicParsing="false" text="New" contentDisplay="TOP" onAction="#onNewButtonClick"
+            fx:id="newButton">
+        <graphic>
+            <ImageView fitHeight="40" preserveRatio="true">
+                <Image url="@icons/icon_new.png"/>
+            </ImageView>
+        </graphic>
+        <tooltip>
+            <Tooltip text="New (Ctrl + N)"/>
+        </tooltip>
+    </Button>
+    <Button minWidth="80" mnemonicParsing="false" text="Open" contentDisplay="TOP" onAction="#onOpenButtonClick"
+            fx:id="openButton">
+        <graphic>
+            <ImageView fitHeight="40" preserveRatio="true">
+                <Image url="@icons/icon_open.png"/>
+            </ImageView>
+        </graphic>
+        <tooltip>
+            <Tooltip text="Open (Ctrl + O)"/>
+        </tooltip>
+    </Button>
+    <Button minWidth="80" mnemonicParsing="false" text="Save" contentDisplay="TOP" onAction="#onSaveButtonClick"
+            fx:id="saveButton">
+        <graphic>
+            <ImageView fitHeight="40" preserveRatio="true">
+                <Image url="@icons/icon_save.png"/>
+            </ImageView>
+        </graphic>
+        <tooltip>
+            <Tooltip text="Save (Ctrl + S)"/>
+        </tooltip>
+    </Button>
+    <Button minWidth="80" mnemonicParsing="false" text="Save as" contentDisplay="TOP" onAction="#onSaveAsButtonClick"
+            fx:id="saveAsButton">
+        <graphic>
+            <ImageView fitHeight="40" preserveRatio="true">
+                <Image url="@icons/icon_save_as.png"/>
+            </ImageView>
+        </graphic>
+        <tooltip>
+            <Tooltip text="Save As (Ctrl + Shift + S)"/>
+        </tooltip>
+    </Button>
+    <Button minWidth="80" mnemonicParsing="false" text="Reload" contentDisplay="TOP" onAction="#onReloadButtonClick"
+            fx:id="reloadButton">
+        <graphic>
+            <ImageView fitHeight="40" preserveRatio="true">
+                <Image url="@icons/icon_reload.png"/>
+            </ImageView>
+        </graphic>
+        <tooltip>
+            <Tooltip text="Reload (Ctrl + R)"/>
+        </tooltip>
+    </Button>
 </ToolBar>

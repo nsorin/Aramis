@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.VBox?>
 <TextArea xmlns="http://javafx.com/javafx"
           xmlns:fx="http://javafx.com/fxml"
-          stylesheets="@style/textarea.css"
+          stylesheets="@style/inputArea.css"
           wrapText="true"
           VBox.vgrow="ALWAYS"
           fx:id="inputArea"

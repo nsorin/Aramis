@@ -1,0 +1,14 @@
+.button {
+    -fx-background-color: e7e7e7;
+    -fx-padding: 10px 15px;
+}
+
+.button:hover {
+    -fx-background-color: d2d7d3;
+    -fx-cursor: pointer;
+}
+
+.tool-bar {
+    -fx-background-color: f7f7f7;
+    -fx-padding: 10px;
+}
