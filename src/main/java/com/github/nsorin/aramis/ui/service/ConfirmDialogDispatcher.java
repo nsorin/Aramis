@@ -12,6 +12,12 @@ public class ConfirmDialogDispatcher implements ConfirmService {
     EventObserverInterface eventObserver;
 
     public void confirm(String title, String content, Runnable yesAction, Runnable noAction) {
+        confirm(title, content, yesAction, noAction, () -> {
+        });
+    }
+
+    @Override
+    public void confirm(String title, String content, Runnable yesAction, Runnable noAction, Runnable cancelAction) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle(title);
         alert.setContentText(content);
@@ -22,10 +28,9 @@ public class ConfirmDialogDispatcher implements ConfirmService {
             } else if (type == ButtonType.NO) {
                 noAction.run();
             } else {
+                cancelAction.run();
                 eventObserver.emit(new FocusInput());
             }
         });
-
-
     }
 }

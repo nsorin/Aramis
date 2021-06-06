@@ -7,4 +7,9 @@ public class MockConfirmService implements ConfirmService {
     public void confirm(String title, String content, Runnable yesAction, Runnable noAction) {
         noAction.run();
     }
+
+    @Override
+    public void confirm(String title, String content, Runnable yesAction, Runnable noAction, Runnable cancelAction) {
+        noAction.run();
+    }
 }

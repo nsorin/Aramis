@@ -32,6 +32,7 @@ public class TextEditorApplication extends Application {
         }
         stage.show();
         stage.getScene().getRoot().lookup(FOCUSED_ELEMENT).requestFocus();
+        setCloseListener(stage);
     }
 
     private Scene buildScene() throws IOException {
@@ -48,5 +49,9 @@ public class TextEditorApplication extends Application {
                 )
         );
         return fxmlLoader;
+    }
+
+    private void setCloseListener(Stage stage) {
+        stage.setOnCloseRequest(DependencyProvider.getProvider().resolve(OnCloseRequest.class));
     }
 }

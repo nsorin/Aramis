@@ -369,6 +369,44 @@ class TextEditorApplicationTest extends ApplicationTest {
         verifyThat("#inputArea", hasText(MockFileSelector.TEMP_FILE_CONTENT));
     }
 
+    @Test
+    void showsConfirmDialogIfCloseAndNotSaved_cancel() {
+        type(KeyCode.O, KeyCode.H);
+        useShortcut(KeyCode.ALT, KeyCode.F4);
+        verifyThat(".dialog-pane", isVisible());
+        useShortcut(KeyCode.RIGHT);
+        useShortcut(KeyCode.ENTER);
+
+        assertTrue(Files.notExists(Path.of(TestFileUtils.NON_EXISTING_FILE_PATH)));
+        verifyThat("#inputArea", isFocused());
+        verifyThat("#inputArea", hasText("oh"));
+        verifyThat("#saveStatusHolder", TextMatchers.hasText("unsaved"));
+    }
+
+    @Test
+    void showsConfirmDialogIfCloseAndNotSaved_yes() throws IOException {
+        type(KeyCode.O, KeyCode.H);
+        useShortcut(KeyCode.ALT, KeyCode.F4);
+        verifyThat(".dialog-pane", isVisible());
+        useShortcut(KeyCode.ENTER);
+
+        assertEquals(
+                "oh",
+                Files.readString(Path.of(TestFileUtils.NON_EXISTING_FILE_PATH))
+        );
+    }
+
+    @Test
+    void showsConfirmDialogIfCloseAndNotSaved_no() {
+        type(KeyCode.O, KeyCode.H);
+        useShortcut(KeyCode.ALT, KeyCode.F4);
+        verifyThat(".dialog-pane", isVisible());
+        useShortcut(KeyCode.LEFT);
+        useShortcut(KeyCode.ENTER);
+
+        assertTrue(Files.notExists(Path.of(TestFileUtils.NON_EXISTING_FILE_PATH)));
+    }
+
     private void useShortcut(KeyCode... keys) {
         press(keys);
         release(keys);
