@@ -83,6 +83,37 @@
                     <launcher>Aramis</launcher>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>com.github.akman</groupId>
+                <artifactId>jpackage-maven-plugin</artifactId>
+                <version>0.1.2</version>
+                <executions>
+                    <execution>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>jpackage</goal>
+                        </goals>
+                        <configuration>
+                            <name>Aramis</name>
+                            <description>A simple desktop text editor</description>
+                            <appversion>1.0</appversion>
+                            <vendor>Nicolas Sorin</vendor>
+                            <icon>icon.png</icon>
+                            <dest>${project.build.directory}/jpackage</dest>
+                            <module>aramis/com.github.nsorin.aramis.TextEditor</module>
+                            <modulepath>
+                                <dependencysets>
+                                    <dependencyset>
+                                        <includeoutput>true</includeoutput>
+                                    </dependencyset>
+                                </dependencysets>
+                            </modulepath>
+                            <linuxshortcut>true</linuxshortcut>
+                            <addmodules>javafx.controls,javafx.fxml</addmodules>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
 </project>
