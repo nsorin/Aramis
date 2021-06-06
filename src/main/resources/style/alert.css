@@ -1,0 +1,9 @@
+.button {
+    -fx-background-color: e7e7e7;
+    -fx-padding: 10px 15px;
+}
+
+.button:hover, .button:focused {
+    -fx-background-color: d2d7d3;
+    -fx-cursor: pointer;
+}

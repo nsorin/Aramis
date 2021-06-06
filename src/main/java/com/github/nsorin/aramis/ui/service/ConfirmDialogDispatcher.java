@@ -22,6 +22,7 @@ public class ConfirmDialogDispatcher implements ConfirmService {
         alert.setTitle(title);
         alert.setContentText(content);
         alert.getButtonTypes().setAll(ButtonType.YES, ButtonType.NO, ButtonType.CANCEL);
+        alert.getDialogPane().getScene().getStylesheets().add("style/alert.css");
         alert.showAndWait().ifPresent(type -> {
             if (type == ButtonType.YES) {
                 yesAction.run();
