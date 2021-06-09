@@ -1,5 +1,6 @@
 package com.github.nsorin.aramis;
 
+import com.github.nsorin.aramis.axml.AXMLReader;
 import com.github.nsorin.aramis.injector.DependencyProvider;
 import com.github.nsorin.aramis.model.ApplicationState;
 import com.github.nsorin.aramis.observer.EventObserver;
@@ -21,9 +22,14 @@ public class TextEditor {
         DependencyProvider.getProvider().provide(FileCommand.class);
         DependencyProvider.getProvider().provide(FileManager.class, FileManagerFilesystem.class);
         DependencyProvider.getProvider().provide(FileSelector.class, FileChooserSelector.class);
+
         DependencyProvider.getProvider().provide(AlertService.class, AlertDispatcher.class);
         DependencyProvider.getProvider().provide(ConfirmService.class, ConfirmDialogDispatcher.class);
+
+        DependencyProvider.getProvider().provide(AXMLReader.class);
+
         DependencyProvider.getProvider().provideSingleton(ApplicationState.class);
+
         DependencyProvider.getProvider().provideInstance(EventObserverInterface.class, EventObserver.getObserver());
     }
 }

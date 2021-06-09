@@ -1,4 +1,4 @@
-<!ELEMENT axml (title,author?,(chapter+|text))>
+<!ELEMENT axml (title?,author?,(chapter+|text))>
         <!ELEMENT title (#PCDATA)>
         <!ELEMENT author (#PCDATA)>
         <!ELEMENT chapter (text)>
