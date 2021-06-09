@@ -1,6 +1,5 @@
 package com.github.nsorin.aramis.axml;
 
-import com.github.nsorin.aramis.model.TextContent;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
@@ -16,9 +15,9 @@ public class AXMLReaderTest {
         AXMLReader reader = new AXMLReader();
 
         String path = Objects.requireNonNull(getClass().getClassLoader().getResource("test_simple.axml")).getFile();
-        TextContent content = reader.readContent(new File(path));
+        AXMLContent content = reader.readContent(new File(path));
 
-        assertEquals("Some Text", content.getContent());
+        assertEquals("Some Text", content.text());
     }
 
     @Test
