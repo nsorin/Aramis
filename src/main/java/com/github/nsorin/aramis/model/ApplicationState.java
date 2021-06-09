@@ -53,6 +53,6 @@ public class ApplicationState {
     }
 
     private boolean isNewAndEmpty() {
-        return fileProperties.isNew() && textContent.getContent().equals("");
+        return fileProperties.isNew() && textContent.getText().equals("");
     }
 }

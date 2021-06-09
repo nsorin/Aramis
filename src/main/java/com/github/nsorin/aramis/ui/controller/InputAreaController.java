@@ -17,7 +17,7 @@ public class InputAreaController {
     public void initialize() {
         inputArea.textProperty().addListener((observableValue, oldValue, newValue) -> {
             applicationState.setSaved(false);
-            applicationState.getTextContent().setContent(newValue);
+            applicationState.getTextContent().setText(newValue);
             inputArea.requestFocus();
         });
     }
@@ -27,7 +27,7 @@ public class InputAreaController {
 
     @OnEvent
     public void onTextContentUpdated(TextContentUpdated event) {
-        inputArea.setText(event.textContent().getContent());
+        inputArea.setText(event.textContent().getText());
     }
 
     @OnEvent

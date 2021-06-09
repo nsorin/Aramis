@@ -1,5 +1,6 @@
 package com.github.nsorin.aramis.axml;
 
+import com.github.nsorin.aramis.utils.TestFileUtils;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
@@ -39,6 +40,16 @@ public class AXMLReaderTest {
         assertThrows(
                 InvalidAXMLException.class,
                 () -> reader.readContent(new File(path))
+        );
+    }
+
+    @Test
+    void readNonExistingFile_throwsException() {
+        AXMLReader reader = new AXMLReader();
+
+        assertThrows(
+                AXMLReaderException.class,
+                () -> reader.readContent(new File(TestFileUtils.NON_EXISTING_FILE_NAME))
         );
     }
 }

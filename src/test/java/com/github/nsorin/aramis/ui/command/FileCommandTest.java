@@ -1,5 +1,6 @@
 package com.github.nsorin.aramis.ui.command;
 
+import com.github.nsorin.aramis.axml.AXMLReader;
 import com.github.nsorin.aramis.model.ApplicationState;
 import com.github.nsorin.aramis.model.FileProperties;
 import com.github.nsorin.aramis.model.TextContent;
@@ -29,7 +30,7 @@ public class FileCommandTest {
         command = new FileCommand(
                 applicationState,
                 new MockFileSelector(),
-                new FileManagerFilesystem(),
+                new FileManagerFilesystem(new AXMLReader()),
                 new AlertDispatcher(),
                 new MockConfirmService()
         );
@@ -44,7 +45,7 @@ public class FileCommandTest {
 
         assertNull(applicationState.getFileProperties().getLocation());
         assertNull(applicationState.getFileProperties().getName());
-        assertEquals("", applicationState.getTextContent().getContent());
+        assertEquals("", applicationState.getTextContent().getText());
         assertFalse(applicationState.isSaved());
     }
 
@@ -52,7 +53,7 @@ public class FileCommandTest {
     void openFile() {
         command.openFile(null);
 
-        assertEquals(MockFileSelector.TEMP_FILE_CONTENT, applicationState.getTextContent().getContent());
+        assertEquals(MockFileSelector.TEMP_FILE_CONTENT, applicationState.getTextContent().getText());
         assertEquals(TestFileUtils.EXISTING_FILE_PATH, applicationState.getFileProperties().getLocation());
         assertEquals(TestFileUtils.EXISTING_FILE_NAME, applicationState.getFileProperties().getName());
         assertTrue(applicationState.isSaved());
@@ -115,7 +116,7 @@ public class FileCommandTest {
 
         command.reloadFile();
 
-        assertEquals("old content", applicationState.getTextContent().getContent());
+        assertEquals("old content", applicationState.getTextContent().getText());
         assertEquals(TestFileUtils.EXISTING_FILE_PATH, applicationState.getFileProperties().getLocation());
         assertEquals(TestFileUtils.EXISTING_FILE_NAME, applicationState.getFileProperties().getName());
         assertTrue(applicationState.isSaved());

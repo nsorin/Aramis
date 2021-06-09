@@ -1,21 +1,21 @@
 package com.github.nsorin.aramis.model;
 
 public class TextContent {
-    private String content;
+    private String text;
 
     public TextContent() {
         this("");
     }
 
-    public TextContent(String content) {
-        this.content = content;
+    public TextContent(String text) {
+        this.text = text;
     }
 
-    public String getContent() {
-        return content;
+    public String getText() {
+        return text;
     }
 
-    public void setContent(String content) {
-        this.content = content;
+    public void setText(String text) {
+        this.text = text;
     }
 }

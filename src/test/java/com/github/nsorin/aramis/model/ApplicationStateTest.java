@@ -24,7 +24,7 @@ public class ApplicationStateTest {
     @Test
     void constructsWithEmptyTextContent() {
         assertNotNull(applicationState.getTextContent());
-        assertEquals("", applicationState.getTextContent().getContent());
+        assertEquals("", applicationState.getTextContent().getText());
     }
 
     @Test

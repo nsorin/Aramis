@@ -12,6 +12,6 @@ public class TextContentTest {
 
         TextContent textContent = new TextContent(fileContent);
 
-        assertEquals(fileContent, textContent.getContent());
+        assertEquals(fileContent, textContent.getText());
     }
 }
