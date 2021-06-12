@@ -1,7 +1,6 @@
 package com.github.nsorin.aramis.service;
 
 import com.github.nsorin.aramis.axml.AXMLReader;
-import com.github.nsorin.aramis.axml.AXMLReaderException;
 import com.github.nsorin.aramis.axml.InvalidAXMLException;
 import com.github.nsorin.aramis.injector.Injectable;
 import com.github.nsorin.aramis.model.FileProperties;
@@ -35,8 +34,6 @@ public class FileManagerFilesystem implements FileManager {
             isAXML = true;
         } catch (InvalidAXMLException e) {
             content = loadPlainText(file);
-        } catch (AXMLReaderException e) {
-            throw new IOException();
         }
 
         return new FileManagerData(

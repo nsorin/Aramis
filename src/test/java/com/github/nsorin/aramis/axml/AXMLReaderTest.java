@@ -48,7 +48,7 @@ public class AXMLReaderTest {
         AXMLReader reader = new AXMLReader();
 
         assertThrows(
-                AXMLReaderException.class,
+                InvalidAXMLException.class,
                 () -> reader.readContent(new File(TestFileUtils.NON_EXISTING_FILE_NAME))
         );
     }

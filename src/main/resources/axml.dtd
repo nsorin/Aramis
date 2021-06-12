@@ -1,6 +1,0 @@
-<!ELEMENT axml (title?,author?,(chapter+|text))>
-        <!ELEMENT title (#PCDATA)>
-        <!ELEMENT author (#PCDATA)>
-        <!ELEMENT chapter (text)>
-        <!ATTLIST chapter title CDATA #IMPLIED>
-        <!ELEMENT text (#PCDATA)>
