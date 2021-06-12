@@ -62,6 +62,8 @@ class TextEditorApplicationTest extends ApplicationTest {
         verifyThat("#inputArea", hasText(""));
         verifyThat("#inputArea", isFocused());
         verifyThat("#statusBar", isVisible());
+        verifyThat("#fileTypeHolder", isVisible());
+        verifyThat("#fileTypeHolder", TextMatchers.hasText("AXML"));
         verifyThat("#fileNameHolder", isVisible());
         verifyThat("#fileNameHolder", TextMatchers.hasText(""));
         verifyThat("#saveStatusHolder", TextMatchers.hasText("unsaved"));
@@ -99,6 +101,7 @@ class TextEditorApplicationTest extends ApplicationTest {
         clickOn("#openButton");
         verifyThat("#inputArea", hasText(MockFileSelector.TEMP_FILE_CONTENT));
         verifyThat("#fileNameHolder", TextMatchers.hasText(TestFileUtils.EXISTING_FILE_NAME));
+        verifyThat("#fileTypeHolder", TextMatchers.hasText("Plain Text"));
         verifyThat("#saveStatusHolder", TextMatchers.hasText("saved"));
 
         type(KeyCode.O, KeyCode.H, KeyCode.SPACE);

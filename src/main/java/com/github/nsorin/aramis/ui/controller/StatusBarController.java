@@ -11,11 +11,15 @@ public class StatusBarController {
     private Text fileNameHolder;
 
     @FXML
+    private Text fileTypeHolder;
+
+    @FXML
     private Text saveStatusHolder;
 
     @OnEvent
     public void onFilePropertiesUpdated(FilePropertiesUpdated event) {
         fileNameHolder.setText(event.fileProperties().getName());
+        fileTypeHolder.setText(event.fileProperties().isAXML() ? "AXML" : "Plain Text");
     }
 
     @OnEvent

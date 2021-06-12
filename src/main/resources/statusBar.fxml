@@ -8,6 +8,8 @@
          xmlns:fx="http://javafx.com/fxml"
          fx:id="statusBar"
          fx:controller="com.github.nsorin.aramis.ui.controller.StatusBarController">
+    <Text fx:id="fileTypeHolder" text="AXML"/>
+    <Separator/>
     <Text fx:id="fileNameHolder"/>
     <Separator/>
     <Text fx:id="saveStatusHolder" text="unsaved" style="-fx-font-style: italic;"/>
