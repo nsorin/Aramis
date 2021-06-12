@@ -88,13 +88,15 @@ public class ApplicationStateTest {
     void setSavedEmitsEvent() {
         applicationState.setSaved(true);
 
-        assertNotNull(mockObserver.getLastEvent());
-        assertTrue(mockObserver.getLastEvent() instanceof SaveStatusUpdated);
-        assertTrue(((SaveStatusUpdated) mockObserver.getLastEvent()).saved());
+        assertNotNull(mockObserver.getNthEvent(0));
+        assertTrue(mockObserver.getNthEvent(0) instanceof SaveStatusUpdated);
+        assertNotNull(mockObserver.getNthEvent(1));
+        assertTrue(mockObserver.getNthEvent(1) instanceof FocusInput);
+        assertTrue(((SaveStatusUpdated) mockObserver.getNthEvent(0)).saved());
 
         applicationState.setSaved(false);
 
-        assertFalse(((SaveStatusUpdated) mockObserver.getLastEvent()).saved());
+        assertFalse(((SaveStatusUpdated) mockObserver.getNthEvent(2)).saved());
     }
 
     @Test
