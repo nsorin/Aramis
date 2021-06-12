@@ -1,6 +1,7 @@
 package com.github.nsorin.aramis.ui.command;
 
 import com.github.nsorin.aramis.axml.AXMLReader;
+import com.github.nsorin.aramis.axml.AXMLWriter;
 import com.github.nsorin.aramis.model.ApplicationState;
 import com.github.nsorin.aramis.model.FileProperties;
 import com.github.nsorin.aramis.model.TextContent;
@@ -30,7 +31,7 @@ public class FileCommandTest {
         command = new FileCommand(
                 applicationState,
                 new MockFileSelector(),
-                new FileManagerFilesystem(new AXMLReader()),
+                new FileManagerFilesystem(new AXMLReader(), new AXMLWriter()),
                 new AlertDispatcher(),
                 new MockConfirmService()
         );

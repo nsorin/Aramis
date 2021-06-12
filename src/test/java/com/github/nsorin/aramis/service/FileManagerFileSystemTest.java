@@ -1,6 +1,7 @@
 package com.github.nsorin.aramis.service;
 
 import com.github.nsorin.aramis.axml.AXMLReader;
+import com.github.nsorin.aramis.axml.AXMLWriter;
 import com.github.nsorin.aramis.model.FileProperties;
 import com.github.nsorin.aramis.model.TextContent;
 import org.junit.jupiter.api.BeforeEach;
@@ -20,7 +21,7 @@ class FileManagerFileSystemTest {
 
     @BeforeEach
     void setUp() {
-        fileManager = new FileManagerFilesystem(new AXMLReader());
+        fileManager = new FileManagerFilesystem(new AXMLReader(), new AXMLWriter());
     }
 
     @Test
@@ -88,4 +89,33 @@ class FileManagerFileSystemTest {
         assertEquals(fileToLoad.getName(), fileManagerData.fileProperties().getName());
         assertEquals(fileToLoad.getAbsolutePath(), fileManagerData.fileProperties().getLocation());
     }
+
+    @Test
+    void saveNewAXMLFile() throws IOException {
+        File targetFile = createNonExistingTempFile();
+        TextContent textContent = new TextContent("Hello World!");
+        FileProperties fileProperties = new FileProperties(null, null, true);
+
+        FileManagerData savedData = fileManager.saveToFile(new FileManagerData(textContent, fileProperties), targetFile);
+        FileManagerData reloadedData = fileManager.loadFile(targetFile);
+
+        assertEquals(textContent.getText(), reloadedData.textContent().getText());
+        assertEquals(textContent.getText(), savedData.textContent().getText());
+        assertTrue(savedData.fileProperties().isAXML());
+        assertEquals(targetFile.getAbsolutePath(), savedData.fileProperties().getLocation());
+        assertEquals(targetFile.getName(), savedData.fileProperties().getName());
+    }
+
+    @Test
+    void saveExistingAXMLFile() throws IOException {
+        File fileToLoad = createExistingTempFile("<axml><text>Hello World!</text></axml>");
+        FileManagerData data = fileManager.loadFile(fileToLoad);
+
+        data.textContent().setText("Hello Universe!");
+        fileManager.saveFile(data);
+
+        FileManagerData resultingData = fileManager.loadFile(fileToLoad);
+        assertEquals(data.textContent().getText(), resultingData.textContent().getText());
+    }
+
 }

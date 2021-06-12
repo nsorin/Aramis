@@ -1,6 +1,7 @@
 package com.github.nsorin.aramis;
 
 import com.github.nsorin.aramis.axml.AXMLReader;
+import com.github.nsorin.aramis.axml.AXMLWriter;
 import com.github.nsorin.aramis.injector.DependencyProvider;
 import com.github.nsorin.aramis.model.ApplicationState;
 import com.github.nsorin.aramis.observer.EventObserver;
@@ -27,6 +28,7 @@ public class TextEditor {
         DependencyProvider.getProvider().provide(ConfirmService.class, ConfirmDialogDispatcher.class);
 
         DependencyProvider.getProvider().provide(AXMLReader.class);
+        DependencyProvider.getProvider().provide(AXMLWriter.class);
 
         DependencyProvider.getProvider().provideSingleton(ApplicationState.class);
 

@@ -14,8 +14,9 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.PrintWriter;
 
 public class AXMLWriter {
 
@@ -44,13 +45,13 @@ public class AXMLWriter {
         return documentBuilder.newDocument();
     }
 
-    private void writeDocumentToFile(File file, Document document) throws IOException, TransformerException {
+    private static void writeDocumentToFile(File file, Document document) throws FileNotFoundException, TransformerException {
         TransformerFactory transformerFactory = TransformerFactory.newInstance();
         Transformer transformer = transformerFactory.newTransformer();
         transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
+        StreamResult result = new StreamResult(new PrintWriter(
+                new FileOutputStream(file, false)));
         DOMSource source = new DOMSource(document);
-        FileWriter writer = new FileWriter(file);
-        StreamResult result = new StreamResult(writer);
         transformer.transform(source, result);
     }
 }
