@@ -49,7 +49,7 @@ public class AXMLReaderTest {
 
         assertThrows(
                 InvalidAXMLException.class,
-                () -> reader.readContent(new File(TestFileUtils.NON_EXISTING_FILE_NAME))
+                () -> reader.readContent(TestFileUtils.createNonExistingTempFile())
         );
     }
 }
