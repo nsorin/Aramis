@@ -11,7 +11,7 @@ public class FilePropertiesTest {
         String location = "./test.txt";
         String name = "test.txt";
 
-        FileProperties fileProperties = new FileProperties(location, name);
+        FileProperties fileProperties = new FileProperties(location, name, false);
 
         assertEquals(location, fileProperties.getLocation());
         assertEquals(name, fileProperties.getName());
@@ -23,6 +23,7 @@ public class FilePropertiesTest {
 
         assertNull(fileProperties.getLocation());
         assertNull(fileProperties.getName());
+        assertTrue(fileProperties.isAXML());
     }
 
     @Test
@@ -32,6 +33,6 @@ public class FilePropertiesTest {
 
     @Test
     void isNewReturnsFalseIfHasLocation() {
-        assertFalse(new FileProperties("somepath", "somename").isNew());
+        assertFalse(new FileProperties("somepath", "somename", false).isNew());
     }
 }

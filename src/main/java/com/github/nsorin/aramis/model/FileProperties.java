@@ -6,11 +6,7 @@ public class FileProperties {
     private final boolean axml;
 
     public FileProperties() {
-        this(null, null);
-    }
-
-    public FileProperties(String location, String name) {
-        this(location, name, false);
+        this(null, null, true);
     }
 
     public FileProperties(String location, String name, boolean axml) {

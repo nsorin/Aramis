@@ -52,7 +52,7 @@ class FileManagerFileSystemTest {
     void saveToFileOverwrite() throws IOException {
         File targetFile = createExistingTempFile("Hello Universe!");
         TextContent textContent = new TextContent("Hello World!");
-        FileProperties fileProperties = new FileProperties(null, null);
+        FileProperties fileProperties = new FileProperties(null, null, false);
 
         FileManagerData savedData = fileManager.saveToFile(new FileManagerData(textContent, fileProperties), targetFile);
         FileManagerData reloadedData = fileManager.loadFile(targetFile);
@@ -67,7 +67,7 @@ class FileManagerFileSystemTest {
     void saveToFileNew() throws IOException {
         File targetFile = createNonExistingTempFile();
         TextContent textContent = new TextContent("Hello World!");
-        FileProperties fileProperties = new FileProperties(null, null);
+        FileProperties fileProperties = new FileProperties(null, null, false);
 
         FileManagerData savedData = fileManager.saveToFile(new FileManagerData(textContent, fileProperties), targetFile);
         FileManagerData reloadedData = fileManager.loadFile(targetFile);

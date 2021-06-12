@@ -148,7 +148,7 @@ class TextEditorApplicationTest extends ApplicationTest {
         verifyThat("#fileNameHolder", TextMatchers.hasText(TestFileUtils.NON_EXISTING_FILE_NAME));
         verifyThat("#saveStatusHolder", TextMatchers.hasText("saved"));
         assertEquals(MockFileSelector.TEMP_FILE_CONTENT, Files.readString(Path.of(TestFileUtils.EXISTING_FILE_PATH)));
-        assertEquals("hello", Files.readString(Path.of(TestFileUtils.NON_EXISTING_FILE_PATH)));
+        assertEquals("<axml><text>hello</text></axml>", Files.readString(Path.of(TestFileUtils.NON_EXISTING_FILE_PATH)));
     }
 
     @Test
@@ -207,7 +207,7 @@ class TextEditorApplicationTest extends ApplicationTest {
 
         useShortcut(KeyCode.CONTROL, KeyCode.S);
         assertEquals(MockFileSelector.TEMP_FILE_CONTENT, Files.readString(Path.of(TestFileUtils.EXISTING_FILE_PATH)));
-        assertEquals("hello", Files.readString(Path.of(TestFileUtils.NON_EXISTING_FILE_PATH)));
+        assertEquals("<axml><text>hello</text></axml>", Files.readString(Path.of(TestFileUtils.NON_EXISTING_FILE_PATH)));
     }
 
     @Test
@@ -330,7 +330,7 @@ class TextEditorApplicationTest extends ApplicationTest {
         useShortcut(KeyCode.ENTER);
 
         assertEquals(
-                "oh",
+                "<axml><text>oh</text></axml>",
                 Files.readString(Path.of(TestFileUtils.NON_EXISTING_FILE_PATH))
         );
         verifyThat("#inputArea", isFocused());
@@ -393,7 +393,7 @@ class TextEditorApplicationTest extends ApplicationTest {
         useShortcut(KeyCode.ENTER);
 
         assertEquals(
-                "oh",
+                "<axml><text>oh</text></axml>",
                 Files.readString(Path.of(TestFileUtils.NON_EXISTING_FILE_PATH))
         );
     }

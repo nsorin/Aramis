@@ -113,7 +113,7 @@ public class ApplicationStateTest {
 
     @Test
     void isNewAndEmpty_falseIfNotNewAndUnsaved() {
-        applicationState.setFileProperties(new FileProperties("", ""));
+        applicationState.setFileProperties(new FileProperties("", "", false));
         assertFalse(applicationState.canCloseSafely());
     }
 

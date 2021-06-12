@@ -40,7 +40,7 @@ public class FileCommandTest {
     @Test
     void newFile() {
         applicationState.setTextContent(new TextContent("content"));
-        applicationState.setFileProperties(new FileProperties("location", "name"));
+        applicationState.setFileProperties(new FileProperties("location", "name", false));
 
         command.newFile(null);
 
@@ -65,7 +65,7 @@ public class FileCommandTest {
         TestFileUtils.createExistingTempFile("old content");
 
         applicationState.setTextContent(new TextContent("new content"));
-        applicationState.setFileProperties(new FileProperties(TestFileUtils.EXISTING_FILE_PATH, TestFileUtils.EXISTING_FILE_NAME));
+        applicationState.setFileProperties(new FileProperties(TestFileUtils.EXISTING_FILE_PATH, TestFileUtils.EXISTING_FILE_NAME, false));
         applicationState.setSaved(false);
 
         command.saveFileAs(null);
@@ -82,7 +82,7 @@ public class FileCommandTest {
         TestFileUtils.createExistingTempFile("old content");
 
         applicationState.setTextContent(new TextContent("new content"));
-        applicationState.setFileProperties(new FileProperties(TestFileUtils.EXISTING_FILE_PATH, TestFileUtils.EXISTING_FILE_NAME));
+        applicationState.setFileProperties(new FileProperties(TestFileUtils.EXISTING_FILE_PATH, TestFileUtils.EXISTING_FILE_NAME, false));
         applicationState.setSaved(false);
 
         command.saveFile(null);
@@ -101,7 +101,7 @@ public class FileCommandTest {
 
         command.saveFile(null);
 
-        assertEquals("new content", Files.readString(Path.of(TestFileUtils.NON_EXISTING_FILE_PATH)));
+        assertEquals("<axml><text>new content</text></axml>", Files.readString(Path.of(TestFileUtils.NON_EXISTING_FILE_PATH)));
         assertEquals(TestFileUtils.NON_EXISTING_FILE_PATH, applicationState.getFileProperties().getLocation());
         assertEquals(TestFileUtils.NON_EXISTING_FILE_NAME, applicationState.getFileProperties().getName());
         assertTrue(applicationState.isSaved());
@@ -112,7 +112,7 @@ public class FileCommandTest {
         TestFileUtils.createExistingTempFile("old content");
 
         applicationState.setTextContent(new TextContent("new content"));
-        applicationState.setFileProperties(new FileProperties(TestFileUtils.EXISTING_FILE_PATH, TestFileUtils.EXISTING_FILE_NAME));
+        applicationState.setFileProperties(new FileProperties(TestFileUtils.EXISTING_FILE_PATH, TestFileUtils.EXISTING_FILE_NAME, false));
         applicationState.setSaved(false);
 
         command.reloadFile();
