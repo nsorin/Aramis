@@ -42,6 +42,7 @@ public class ApplicationState {
     public void setSaved(boolean saved) {
         this.saved = saved;
         this.eventObserver.emit(new SaveStatusUpdated(saved));
+        this.eventObserver.emit(new FocusInput());
     }
 
     public boolean isSaved() {

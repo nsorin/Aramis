@@ -117,8 +117,10 @@ public class FileCommand {
     }
 
     public void reloadFile() {
-        File file = new File(applicationState.getFileProperties().getLocation());
-        loadFile(file);
+        if (applicationState.getFileProperties().getLocation() != null) {
+            File file = new File(applicationState.getFileProperties().getLocation());
+            loadFile(file);
+        }
     }
 
     private void loadFile(File file) {

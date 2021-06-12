@@ -108,6 +108,7 @@ class TextEditorApplicationTest extends ApplicationTest {
         clickOn("#saveButton");
         verifyThat("#saveStatusHolder", TextMatchers.hasText("saved"));
         assertEquals(expectedText, Files.readString(Path.of(TestFileUtils.EXISTING_FILE_PATH)));
+        verifyThat("#inputArea", isFocused());
     }
 
     @Test
@@ -128,6 +129,7 @@ class TextEditorApplicationTest extends ApplicationTest {
         verifyThat("#saveStatusHolder", TextMatchers.hasText("saved"));
         assertEquals(MockFileSelector.TEMP_FILE_CONTENT, Files.readString(Path.of(TestFileUtils.EXISTING_FILE_PATH)));
         assertEquals(expectedText, Files.readString(Path.of(TestFileUtils.NON_EXISTING_FILE_PATH)));
+        verifyThat("#inputArea", isFocused());
     }
 
     @Test
