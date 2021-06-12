@@ -7,12 +7,13 @@ import java.io.File;
 
 public class FileChooserSelector implements FileSelector {
 
-    public static final String OPEN_FILE_HEADER = "Open File";
-    public static final String SAVE_FILE_HEADER = "Save File";
-    public static final String AXML_FILTER_NAME = "AXML Files";
-    public static final String AXML_FILTER_MATCHER = "*.axml";
-    public static final String ALL_FILTER_NAME = "All Files";
-    public static final String ALL_FILTER_MATCHER = "*";
+    private static final String OPEN_FILE_HEADER = "Open File";
+    private static final String SAVE_FILE_HEADER = "Save File";
+    private static final String AXML_FILTER_NAME = "AXML Files";
+    private static final String AXML_EXTENSION = ".axml";
+    private static final String AXML_FILTER_MATCHER = "*" + AXML_EXTENSION;
+    private static final String ALL_FILTER_NAME = "All Files";
+    private static final String ALL_FILTER_MATCHER = "*";
 
     @Override
     public File selectFileToOpen(Window window) {
@@ -20,8 +21,9 @@ public class FileChooserSelector implements FileSelector {
     }
 
     @Override
-    public File selectFileToSave(Window window) {
-        return getFileChooser(SAVE_FILE_HEADER).showSaveDialog(window);
+    public File selectFileToSave(Window window, boolean axml) {
+        File file = getFileChooser(SAVE_FILE_HEADER).showSaveDialog(window);
+        return getFinalSavedFile(axml, file);
     }
 
     private FileChooser getFileChooser(String header) {
@@ -32,5 +34,12 @@ public class FileChooserSelector implements FileSelector {
         fileChooser.getExtensionFilters().add(axmlFilter);
         fileChooser.getExtensionFilters().add(allFilter);
         return fileChooser;
+    }
+
+    private File getFinalSavedFile(boolean axml, File file) {
+        if (axml && !file.getName().endsWith(AXML_EXTENSION)) {
+            return new File(file.getAbsolutePath() + AXML_EXTENSION);
+        }
+        return file;
     }
 }

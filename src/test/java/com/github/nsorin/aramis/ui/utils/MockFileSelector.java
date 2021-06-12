@@ -21,7 +21,7 @@ public class MockFileSelector implements FileSelector {
     }
 
     @Override
-    public File selectFileToSave(Window window) {
+    public File selectFileToSave(Window window, boolean axml) {
         return TestFileUtils.createNonExistingTempFile();
     }
 }

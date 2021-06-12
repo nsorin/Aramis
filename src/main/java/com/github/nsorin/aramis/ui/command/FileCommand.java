@@ -89,7 +89,7 @@ public class FileCommand {
     }
 
     public void saveFileAs(Window window) {
-        File file = fileSelector.selectFileToSave(window);
+        File file = fileSelector.selectFileToSave(window, applicationState.getFileProperties().isAXML());
         if (file != null) {
             try {
                 FileManagerData savedData = fileManager.saveToFile(
