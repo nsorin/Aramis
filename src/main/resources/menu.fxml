@@ -66,6 +66,18 @@
         </tooltip>
     </Button>
     <Pane HBox.hgrow="ALWAYS"/>
+    <Button minWidth="80" mnemonicParsing="false" text="Color Mode" contentDisplay="TOP"
+            onAction="#onColorModeButtonClick"
+            fx:id="darkLightButton">
+        <graphic>
+            <ImageView fitHeight="40" preserveRatio="true">
+                <Image url="@icons/icon_dark_light.png"/>
+            </ImageView>
+        </graphic>
+        <tooltip>
+            <Tooltip text="Toggle Dark/Light Mode (Ctrl + L)"/>
+        </tooltip>
+    </Button>
     <Button minWidth="80" mnemonicParsing="false" text="Zoom +" contentDisplay="TOP" onAction="#onZoomInButtonClick"
             fx:id="zoomInButton">
         <graphic>

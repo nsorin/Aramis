@@ -55,4 +55,9 @@ public class MenuController {
     void onZoomOutButtonClick(Event e) {
 
     }
+
+    @FXML
+    void onColorModeButtonClick(Event e) {
+
+    }
 }
