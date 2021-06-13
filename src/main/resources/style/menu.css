@@ -1,6 +1,6 @@
 .button {
     -fx-background-color: e7e7e7;
-    -fx-padding: 10px 15px;
+    -fx-padding: 10px 10px;
 }
 
 .button:hover {

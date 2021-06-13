@@ -3,6 +3,8 @@
 <!--suppress JavaFxUnresolvedFxIdReference -->
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
 <ToolBar xmlns="http://javafx.com/javafx"
          xmlns:fx="http://javafx.com/fxml"
          stylesheets="@style/menu.css"
@@ -61,6 +63,41 @@
         </graphic>
         <tooltip>
             <Tooltip text="Reload (Ctrl + R)"/>
+        </tooltip>
+    </Button>
+    <Pane HBox.hgrow="ALWAYS"/>
+    <Button minWidth="80" mnemonicParsing="false" text="Zoom +" contentDisplay="TOP" onAction="#onZoomInButtonClick"
+            fx:id="zoomInButton">
+        <graphic>
+            <ImageView fitHeight="40" preserveRatio="true">
+                <Image url="@icons/icon_zoom_in.png"/>
+            </ImageView>
+        </graphic>
+        <tooltip>
+            <Tooltip text="Zoom In (Ctrl + +)"/>
+        </tooltip>
+    </Button>
+    <Button minWidth="80" mnemonicParsing="false" text="Zoom -" contentDisplay="TOP" onAction="#onZoomOutButtonClick"
+            fx:id="zoomOutButton">
+        <graphic>
+            <ImageView fitHeight="40" preserveRatio="true">
+                <Image url="@icons/icon_zoom_out.png"/>
+            </ImageView>
+        </graphic>
+        <tooltip>
+            <Tooltip text="Zoom Out (Ctrl + -)"/>
+        </tooltip>
+    </Button>
+    <Button minWidth="80" mnemonicParsing="false" text="Full Screen" contentDisplay="TOP"
+            onAction="#onFullScreenButtonClick"
+            fx:id="fullScreenButton">
+        <graphic>
+            <ImageView fitHeight="40" preserveRatio="true">
+                <Image url="@icons/icon_fullscreen.png"/>
+            </ImageView>
+        </graphic>
+        <tooltip>
+            <Tooltip text="Full Screen (F11)"/>
         </tooltip>
     </Button>
 </ToolBar>

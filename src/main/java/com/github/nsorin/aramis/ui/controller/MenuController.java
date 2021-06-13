@@ -5,6 +5,7 @@ import com.github.nsorin.aramis.ui.command.FileCommand;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.ToolBar;
+import javafx.stage.Stage;
 
 public class MenuController {
 
@@ -37,5 +38,21 @@ public class MenuController {
     @FXML
     void onReloadButtonClick(Event e) {
         fileCommand.reloadFile();
+    }
+
+    @FXML
+    void onFullScreenButtonClick(Event e) {
+        Stage stage = (Stage) menu.getScene().getWindow();
+        stage.setFullScreen(!stage.isFullScreen());
+    }
+
+    @FXML
+    void onZoomInButtonClick(Event e) {
+
+    }
+
+    @FXML
+    void onZoomOutButtonClick(Event e) {
+
     }
 }
