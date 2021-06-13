@@ -1,6 +1,7 @@
 package com.github.nsorin.aramis.model;
 
 import com.github.nsorin.aramis.injector.Injectable;
+import com.github.nsorin.aramis.model.event.DisplayConfigurationUpdated;
 import com.github.nsorin.aramis.model.event.FilePropertiesUpdated;
 import com.github.nsorin.aramis.model.event.SaveStatusUpdated;
 import com.github.nsorin.aramis.model.event.TextContentUpdated;
@@ -10,6 +11,7 @@ import com.github.nsorin.aramis.ui.command.event.FocusInput;
 public class ApplicationState {
     private TextContent textContent;
     private FileProperties fileProperties;
+    private DisplayConfiguration displayConfiguration;
     private final EventObserverInterface eventObserver;
     private boolean saved;
 
@@ -18,6 +20,7 @@ public class ApplicationState {
         this.eventObserver = eventObserver;
         textContent = new TextContent();
         fileProperties = new FileProperties();
+        displayConfiguration = new DisplayConfiguration();
     }
 
     public void setTextContent(TextContent textContent) {
@@ -41,8 +44,8 @@ public class ApplicationState {
 
     public void setSaved(boolean saved) {
         this.saved = saved;
-        this.eventObserver.emit(new SaveStatusUpdated(saved));
-        this.eventObserver.emit(new FocusInput());
+        eventObserver.emit(new SaveStatusUpdated(saved));
+        eventObserver.emit(new FocusInput());
     }
 
     public boolean isSaved() {
@@ -55,5 +58,15 @@ public class ApplicationState {
 
     private boolean isNewAndEmpty() {
         return fileProperties.isNew() && textContent.getText().equals("");
+    }
+
+    public DisplayConfiguration getDisplayConfiguration() {
+        return displayConfiguration;
+    }
+
+    public void setDisplayConfiguration(DisplayConfiguration displayConfiguration) {
+        this.displayConfiguration = displayConfiguration;
+        eventObserver.emit(new DisplayConfigurationUpdated(displayConfiguration));
+        eventObserver.emit(new FocusInput());
     }
 }

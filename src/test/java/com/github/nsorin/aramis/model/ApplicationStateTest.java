@@ -1,5 +1,6 @@
 package com.github.nsorin.aramis.model;
 
+import com.github.nsorin.aramis.model.event.DisplayConfigurationUpdated;
 import com.github.nsorin.aramis.model.event.FilePropertiesUpdated;
 import com.github.nsorin.aramis.model.event.SaveStatusUpdated;
 import com.github.nsorin.aramis.model.event.TextContentUpdated;
@@ -32,6 +33,14 @@ public class ApplicationStateTest {
         assertNotNull(applicationState.getFileProperties());
         assertNull(applicationState.getFileProperties().getLocation());
         assertNull(applicationState.getFileProperties().getName());
+    }
+
+    @Test
+    void constructsWithDefaultDisplayConfiguration() {
+        assertNotNull(applicationState.getDisplayConfiguration());
+        assertFalse(applicationState.getDisplayConfiguration().isFullScreen());
+        assertEquals(100.0, applicationState.getDisplayConfiguration().getZoomLevel());
+        assertFalse(applicationState.getDisplayConfiguration().isDarkMode());
     }
 
     @Test
@@ -123,4 +132,29 @@ public class ApplicationStateTest {
         assertFalse(applicationState.canCloseSafely());
     }
 
+    @Test
+    void getAndSetDisplayConfiguration() {
+        DisplayConfiguration displayConfiguration = new DisplayConfiguration();
+
+        applicationState.setDisplayConfiguration(displayConfiguration);
+
+        assertSame(displayConfiguration, applicationState.getDisplayConfiguration());
+    }
+
+    @Test
+    void setDisplayConfigurationEmitsEvents() {
+        DisplayConfiguration displayConfiguration = new DisplayConfiguration();
+        displayConfiguration.setFullScreen(true);
+        displayConfiguration.setZoomLevel(90.0);
+        displayConfiguration.setDarkMode(true);
+
+        applicationState.setDisplayConfiguration(displayConfiguration);
+
+        assertNotNull(mockObserver.getNthEvent(0));
+        assertTrue(mockObserver.getNthEvent(0) instanceof DisplayConfigurationUpdated);
+        assertSame(displayConfiguration, ((DisplayConfigurationUpdated) mockObserver.getNthEvent(0)).displayConfiguration());
+
+        assertNotNull(mockObserver.getNthEvent(1));
+        assertTrue(mockObserver.getNthEvent(1) instanceof FocusInput);
+    }
 }
