@@ -1,10 +1,14 @@
 package com.github.nsorin.aramis.ui.controller;
 
 import com.github.nsorin.aramis.injector.Injectable;
+import com.github.nsorin.aramis.model.event.DisplayConfigurationUpdated;
+import com.github.nsorin.aramis.observer.OnEvent;
+import com.github.nsorin.aramis.ui.command.DisplayCommand;
 import com.github.nsorin.aramis.ui.command.FileCommand;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.input.KeyEvent;
+import javafx.stage.Stage;
 
 public class MainController {
 
@@ -12,7 +16,10 @@ public class MainController {
     private Node rootNode;
 
     @Injectable
-    FileCommand fileCommand;
+    private FileCommand fileCommand;
+
+    @Injectable
+    private DisplayCommand displayCommand;
 
     @FXML
     void onKeyPressed(KeyEvent event) {
@@ -26,7 +33,18 @@ public class MainController {
             fileCommand.saveFileAs(rootNode.getScene().getWindow());
         } else if (KeyboardShortcuts.RELOAD.match(event)) {
             fileCommand.reloadFile();
+        } else if (KeyboardShortcuts.FULL_SCREEN.match(event)) {
+            displayCommand.toggleFullScreen();
         }
+    }
+
+    @OnEvent
+    public void onDisplayConfigurationUpdated(DisplayConfigurationUpdated event) {
+        getStage().setFullScreen(event.displayConfiguration().isFullScreen());
+    }
+
+    private Stage getStage() {
+        return (Stage) rootNode.getScene().getWindow();
     }
 
 }

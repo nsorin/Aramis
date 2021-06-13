@@ -1,11 +1,11 @@
 package com.github.nsorin.aramis.ui.controller;
 
 import com.github.nsorin.aramis.injector.Injectable;
+import com.github.nsorin.aramis.ui.command.DisplayCommand;
 import com.github.nsorin.aramis.ui.command.FileCommand;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.ToolBar;
-import javafx.stage.Stage;
 
 public class MenuController {
 
@@ -13,7 +13,10 @@ public class MenuController {
     private ToolBar menu;
 
     @Injectable
-    FileCommand fileCommand;
+    private FileCommand fileCommand;
+
+    @Injectable
+    private DisplayCommand displayCommand;
 
     @FXML
     void onNewButtonClick(Event e) {
@@ -42,8 +45,7 @@ public class MenuController {
 
     @FXML
     void onFullScreenButtonClick(Event e) {
-        Stage stage = (Stage) menu.getScene().getWindow();
-        stage.setFullScreen(!stage.isFullScreen());
+        displayCommand.toggleFullScreen();
     }
 
     @FXML
