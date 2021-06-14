@@ -2,6 +2,7 @@ package com.github.nsorin.aramis.ui.controller;
 
 import com.github.nsorin.aramis.injector.Injectable;
 import com.github.nsorin.aramis.model.ApplicationState;
+import com.github.nsorin.aramis.model.event.DisplayConfigurationUpdated;
 import com.github.nsorin.aramis.model.event.TextContentUpdated;
 import com.github.nsorin.aramis.observer.OnEvent;
 import com.github.nsorin.aramis.ui.command.event.FocusInput;
@@ -33,5 +34,11 @@ public class InputAreaController {
     @OnEvent
     public void onFocusInput(FocusInput event) {
         inputArea.requestFocus();
+    }
+
+    @OnEvent
+    public void onDisplayConfigurationUpdated(DisplayConfigurationUpdated event) {
+        double fontSizeInEm = event.displayConfiguration().getZoomLevel() / 100;
+        inputArea.setStyle("-fx-font-size: " + fontSizeInEm + "em;");
     }
 }

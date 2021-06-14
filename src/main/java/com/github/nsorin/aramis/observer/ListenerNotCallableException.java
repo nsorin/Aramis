@@ -5,7 +5,6 @@ public class ListenerNotCallableException extends RuntimeException {
     private final EventListener eventListener;
 
     public ListenerNotCallableException(Class<?> eventClass, EventListener eventListener) {
-
         this.eventClass = eventClass;
         this.eventListener = eventListener;
     }

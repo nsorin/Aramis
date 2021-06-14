@@ -36,12 +36,36 @@ public class DisplayCommandTest {
     }
 
     @Test
+    void zoomInDoesNotGoAbove300() {
+        zoomInNTimes(21);
+        assertEquals(300.0, applicationState.getDisplayConfiguration().getZoomLevel());
+    }
+
+    private void zoomInNTimes(int n) {
+        for (int i = 0; i < n; i++) {
+            command.zoomIn();
+        }
+    }
+
+    @Test
     void zoomOut() {
         command.zoomOut();
-        assertEquals(90, applicationState.getDisplayConfiguration().getZoomLevel());
+        assertEquals(90.0, applicationState.getDisplayConfiguration().getZoomLevel());
 
         command.zoomOut();
-        assertEquals(80, applicationState.getDisplayConfiguration().getZoomLevel());
+        assertEquals(80.0, applicationState.getDisplayConfiguration().getZoomLevel());
+    }
+
+    @Test
+    void zoomOutDoesNotGoBelow50() {
+        zoomOutNTimes(6);
+        assertEquals(50.0, applicationState.getDisplayConfiguration().getZoomLevel());
+    }
+
+    private void zoomOutNTimes(int n) {
+        for (int i = 0; i < n; i++) {
+            command.zoomOut();
+        }
     }
 
     @Test

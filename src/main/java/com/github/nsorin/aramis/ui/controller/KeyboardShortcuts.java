@@ -12,4 +12,8 @@ class KeyboardShortcuts {
     public static final KeyCodeCombination RELOAD = new KeyCodeCombination(KeyCode.R, KeyCombination.CONTROL_ANY);
 
     public static final KeyCodeCombination FULL_SCREEN = new KeyCodeCombination(KeyCode.F11);
+    public static final KeyCodeCombination ZOOM_IN = new KeyCodeCombination(KeyCode.PLUS, KeyCombination.CONTROL_ANY);
+    public static final KeyCodeCombination ZOOM_OUT = new KeyCodeCombination(KeyCode.MINUS, KeyCombination.CONTROL_ANY);
+    public static final KeyCodeCombination ZOOM_IN_NUMPAD = new KeyCodeCombination(KeyCode.ADD, KeyCombination.CONTROL_ANY);
+    public static final KeyCodeCombination ZOOM_OUT_NUMPAD = new KeyCodeCombination(KeyCode.SUBTRACT, KeyCombination.CONTROL_ANY);
 }

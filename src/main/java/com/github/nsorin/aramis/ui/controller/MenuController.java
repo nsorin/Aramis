@@ -50,16 +50,16 @@ public class MenuController {
 
     @FXML
     void onZoomInButtonClick(Event e) {
-
+        displayCommand.zoomIn();
     }
 
     @FXML
     void onZoomOutButtonClick(Event e) {
-
+        displayCommand.zoomOut();
     }
 
     @FXML
     void onColorModeButtonClick(Event e) {
-
+        displayCommand.toggleDarkMode();
     }
 }

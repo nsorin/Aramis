@@ -7,6 +7,7 @@ import com.github.nsorin.aramis.ui.service.FileSelector;
 import com.github.nsorin.aramis.ui.utils.MockConfirmService;
 import com.github.nsorin.aramis.ui.utils.MockFileSelector;
 import com.github.nsorin.aramis.utils.TestFileUtils;
+import javafx.css.Styleable;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 import org.junit.jupiter.api.AfterEach;
@@ -29,6 +30,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.testfx.api.FxAssert.verifyThat;
 import static org.testfx.matcher.base.NodeMatchers.isFocused;
 import static org.testfx.matcher.base.NodeMatchers.isVisible;
+import static org.testfx.matcher.base.StyleableMatchers.hasStyle;
 import static org.testfx.matcher.control.TextInputControlMatchers.hasText;
 
 @Tag("UITest")
@@ -410,6 +412,24 @@ class TextEditorApplicationTest extends ApplicationTest {
         useShortcut(KeyCode.ENTER);
 
         assertTrue(Files.notExists(Path.of(TestFileUtils.NON_EXISTING_FILE_PATH)));
+    }
+
+    @Test
+    void zoomInAndOut() {
+        type(KeyCode.O, KeyCode.H);
+
+        clickOn("#zoomInButton");
+        verifyThat((Styleable) lookup("#inputArea").tryQuery().orElseThrow(), hasStyle("-fx-font-size: 1.1em;"));
+
+        clickOn("#zoomOutButton");
+        clickOn("#zoomOutButton");
+        verifyThat((Styleable) lookup("#inputArea").tryQuery().orElseThrow(), hasStyle("-fx-font-size: 0.9em;"));
+
+        useShortcut(KeyCode.CONTROL, KeyCode.ADD);
+        verifyThat((Styleable) lookup("#inputArea").tryQuery().orElseThrow(), hasStyle("-fx-font-size: 1.0em;"));
+
+        useShortcut(KeyCode.CONTROL, KeyCode.SUBTRACT);
+        verifyThat((Styleable) lookup("#inputArea").tryQuery().orElseThrow(), hasStyle("-fx-font-size: 0.9em;"));
     }
 
     private void useShortcut(KeyCode... keys) {

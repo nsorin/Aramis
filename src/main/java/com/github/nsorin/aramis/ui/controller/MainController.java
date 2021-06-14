@@ -35,6 +35,10 @@ public class MainController {
             fileCommand.reloadFile();
         } else if (KeyboardShortcuts.FULL_SCREEN.match(event)) {
             displayCommand.toggleFullScreen();
+        } else if (KeyboardShortcuts.ZOOM_IN.match(event) || KeyboardShortcuts.ZOOM_IN_NUMPAD.match(event)) {
+            displayCommand.zoomIn();
+        } else if (KeyboardShortcuts.ZOOM_OUT.match(event) || KeyboardShortcuts.ZOOM_OUT_NUMPAD.match(event)) {
+            displayCommand.zoomOut();
         }
     }
 

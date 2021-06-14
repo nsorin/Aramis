@@ -6,6 +6,8 @@ import com.github.nsorin.aramis.model.DisplayConfiguration;
 
 public class DisplayCommand {
     private static final double ZOOM_STEP = 10.0;
+    private static final double MIN_ZOOM_LEVEL = 50.0;
+    private static final double MAX_ZOOM_LEVEL = 300.0;
 
     private final ApplicationState applicationState;
 
@@ -22,13 +24,15 @@ public class DisplayCommand {
 
     public void zoomIn() {
         DisplayConfiguration configuration = getConfigurationCopy();
-        configuration.setZoomLevel(configuration.getZoomLevel() + ZOOM_STEP);
+        double desiredZoomLevel = configuration.getZoomLevel() + ZOOM_STEP;
+        configuration.setZoomLevel(Math.min(desiredZoomLevel, MAX_ZOOM_LEVEL));
         applicationState.setDisplayConfiguration(configuration);
     }
 
     public void zoomOut() {
         DisplayConfiguration configuration = getConfigurationCopy();
-        configuration.setZoomLevel(configuration.getZoomLevel() - ZOOM_STEP);
+        double desiredZoomLevel = configuration.getZoomLevel() - ZOOM_STEP;
+        configuration.setZoomLevel(Math.max(desiredZoomLevel, MIN_ZOOM_LEVEL));
         applicationState.setDisplayConfiguration(configuration);
     }
 
