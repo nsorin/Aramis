@@ -22,6 +22,26 @@ public class AXMLReaderTest {
     }
 
     @Test
+    void readValidAXMLWithTitle() {
+        AXMLReader reader = new AXMLReader();
+
+        String path = Objects.requireNonNull(getClass().getClassLoader().getResource("test_title_author.axml")).getFile();
+        AXMLContent content = reader.readContent(new File(path));
+
+        assertEquals("Some Title", content.title());
+    }
+
+    @Test
+    void readValidAXMLWithAuthor() {
+        AXMLReader reader = new AXMLReader();
+
+        String path = Objects.requireNonNull(getClass().getClassLoader().getResource("test_title_author.axml")).getFile();
+        AXMLContent content = reader.readContent(new File(path));
+
+        assertEquals("Some Author", content.author());
+    }
+
+    @Test
     void readInvalidAXML_throwsException() {
         AXMLReader reader = new AXMLReader();
 

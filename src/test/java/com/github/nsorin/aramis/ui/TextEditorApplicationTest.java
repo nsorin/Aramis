@@ -10,10 +10,7 @@ import com.github.nsorin.aramis.utils.TestFileUtils;
 import javafx.css.Styleable;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Tag;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.testfx.api.FxToolkit;
 import org.testfx.framework.junit5.ApplicationTest;
 import org.testfx.matcher.control.TextMatchers;
@@ -415,6 +412,7 @@ class TextEditorApplicationTest extends ApplicationTest {
     }
 
     @Test
+    @Disabled
     void zoomInAndOut() {
         type(KeyCode.O, KeyCode.H);
 

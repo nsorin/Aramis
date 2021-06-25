@@ -59,7 +59,7 @@ public class FileManagerFilesystem implements FileManager {
         if (data.fileProperties().isAXML()) {
             axmlWriter.writeContent(
                     new File(data.fileProperties().getLocation()),
-                    new AXMLContent(data.textContent().getText())
+                    new AXMLContent(data.textContent().getText(), null, null)
             );
         } else {
             Files.writeString(Paths.get(data.fileProperties().getLocation()), data.textContent().getText(), StandardOpenOption.WRITE);
@@ -69,7 +69,7 @@ public class FileManagerFilesystem implements FileManager {
     @Override
     public FileManagerData saveToFile(FileManagerData data, File file) throws IOException {
         if (data.fileProperties().isAXML()) {
-            axmlWriter.writeContent(file, new AXMLContent(data.textContent().getText()));
+            axmlWriter.writeContent(file, new AXMLContent(data.textContent().getText(), null, null));
         } else {
             Files.writeString(file.toPath(), data.textContent().getText(), StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
         }

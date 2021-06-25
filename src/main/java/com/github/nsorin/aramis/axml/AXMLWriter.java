@@ -22,20 +22,32 @@ public class AXMLWriter {
 
     public static final String TAG_AXML = "axml";
     public static final String TAG_TEXT = "text";
+    public static final String TAG_TITLE = "title";
+    public static final String TAG_AUTHOR = "author";
 
     public void writeContent(File file, AXMLContent axmlContent) {
         try {
             Document document = createEmptyDocument();
 
             Element rootElement = document.createElement(TAG_AXML);
-            Element textElement = document.createElement(TAG_TEXT);
-            textElement.setTextContent(axmlContent.text());
-            rootElement.appendChild(textElement);
+
+            addElementWithText(document, rootElement, TAG_TITLE, axmlContent.title());
+            addElementWithText(document, rootElement, TAG_AUTHOR, axmlContent.author());
+            addElementWithText(document, rootElement, TAG_TEXT, axmlContent.text());
+
             document.appendChild(rootElement);
 
             writeDocumentToFile(file, document);
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    private void addElementWithText(Document document, Element rootElement, String tag, String text) {
+        if (text != null) {
+            Element textElement = document.createElement(tag);
+            textElement.setTextContent(text);
+            rootElement.appendChild(textElement);
         }
     }
 
