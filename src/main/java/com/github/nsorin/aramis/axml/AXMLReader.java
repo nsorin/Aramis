@@ -20,12 +20,20 @@ public class AXMLReader {
             DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
             documentBuilder.setErrorHandler(new AXMLErrorHandler());
             Document document = documentBuilder.parse(file);
-            return new AXMLContent(
+            AXMLContent axmlContent = new AXMLContent(
                     readElement(document, TAG_TEXT),
                     readElement(document, TAG_TITLE),
                     readElement(document, TAG_AUTHOR)
             );
+            validateContent(axmlContent);
+            return axmlContent;
         } catch (Exception exception) {
+            throw new InvalidAXMLException();
+        }
+    }
+
+    private void validateContent(AXMLContent axmlContent) {
+        if (axmlContent.text() == null) {
             throw new InvalidAXMLException();
         }
     }

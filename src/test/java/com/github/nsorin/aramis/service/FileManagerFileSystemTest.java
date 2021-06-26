@@ -91,6 +91,20 @@ class FileManagerFileSystemTest {
     }
 
     @Test
+    void loadAXMLFileWithTitleAndAuthor() throws IOException {
+        File fileToLoad = new File(Objects.requireNonNull(getClass().getClassLoader().getResource("test_title_author.axml")).getFile());
+
+        FileManagerData fileManagerData = fileManager.loadFile(fileToLoad);
+
+        assertTrue(fileManagerData.fileProperties().isAXML());
+        assertEquals("Some Text", fileManagerData.textContent().getText());
+        assertEquals("Some Title", fileManagerData.textContent().getTitle());
+        assertEquals("Some Author", fileManagerData.textContent().getAuthor());
+        assertEquals(fileToLoad.getName(), fileManagerData.fileProperties().getName());
+        assertEquals(fileToLoad.getAbsolutePath(), fileManagerData.fileProperties().getLocation());
+    }
+
+    @Test
     void saveNewAXMLFile() throws IOException {
         File targetFile = createNonExistingTempFile();
         TextContent textContent = new TextContent("Hello World!");
@@ -116,6 +130,44 @@ class FileManagerFileSystemTest {
 
         FileManagerData resultingData = fileManager.loadFile(fileToLoad);
         assertEquals(data.textContent().getText(), resultingData.textContent().getText());
+    }
+
+    @Test
+    void saveNewAXMLFileWithTitleAndAuthor() throws IOException {
+        File targetFile = createNonExistingTempFile();
+        TextContent textContent = new TextContent("Hello World!");
+        textContent.setTitle("Title");
+        textContent.setAuthor("Author");
+        FileProperties fileProperties = new FileProperties(null, null, true);
+
+        FileManagerData savedData = fileManager.saveToFile(new FileManagerData(textContent, fileProperties), targetFile);
+        FileManagerData reloadedData = fileManager.loadFile(targetFile);
+
+        assertEquals(textContent.getText(), reloadedData.textContent().getText());
+        assertEquals(textContent.getText(), savedData.textContent().getText());
+        assertEquals(textContent.getTitle(), reloadedData.textContent().getTitle());
+        assertEquals(textContent.getTitle(), savedData.textContent().getTitle());
+        assertEquals(textContent.getAuthor(), reloadedData.textContent().getAuthor());
+        assertEquals(textContent.getAuthor(), savedData.textContent().getAuthor());
+        assertTrue(savedData.fileProperties().isAXML());
+        assertEquals(targetFile.getAbsolutePath(), savedData.fileProperties().getLocation());
+        assertEquals(targetFile.getName(), savedData.fileProperties().getName());
+    }
+
+    @Test
+    void saveExistingAXMLFileWithTitleAndAUthor() throws IOException {
+        File fileToLoad = createExistingTempFile("<axml><text>Hello World!</text></axml>");
+        FileManagerData data = fileManager.loadFile(fileToLoad);
+
+        data.textContent().setText("Hello Universe!");
+        data.textContent().setTitle("Title!");
+        data.textContent().setAuthor("Author!");
+        fileManager.saveFile(data);
+
+        FileManagerData resultingData = fileManager.loadFile(fileToLoad);
+        assertEquals(data.textContent().getText(), resultingData.textContent().getText());
+        assertEquals(data.textContent().getTitle(), resultingData.textContent().getTitle());
+        assertEquals(data.textContent().getAuthor(), resultingData.textContent().getAuthor());
     }
 
 }

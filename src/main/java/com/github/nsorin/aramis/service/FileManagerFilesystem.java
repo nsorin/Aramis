@@ -30,7 +30,7 @@ public class FileManagerFilesystem implements FileManager {
         String name = file.getName();
         String location = file.getAbsolutePath();
 
-        String content;
+        TextContent content;
         boolean isAXML = false;
 
         try {
@@ -41,17 +41,21 @@ public class FileManagerFilesystem implements FileManager {
         }
 
         return new FileManagerData(
-                new TextContent(content),
+                content,
                 new FileProperties(location, name, isAXML)
         );
     }
 
-    private String loadAXML(File file) {
-        return axmlReader.readContent(file).text();
+    private TextContent loadAXML(File file) {
+        AXMLContent axmlContent = axmlReader.readContent(file);
+        TextContent textContent = new TextContent(axmlContent.text());
+        textContent.setTitle(axmlContent.title());
+        textContent.setAuthor(axmlContent.author());
+        return textContent;
     }
 
-    private String loadPlainText(File file) throws IOException {
-        return String.join("\n", Files.readAllLines(file.toPath()));
+    private TextContent loadPlainText(File file) throws IOException {
+        return new TextContent(String.join("\n", Files.readAllLines(file.toPath())));
     }
 
     @Override
@@ -59,7 +63,11 @@ public class FileManagerFilesystem implements FileManager {
         if (data.fileProperties().isAXML()) {
             axmlWriter.writeContent(
                     new File(data.fileProperties().getLocation()),
-                    new AXMLContent(data.textContent().getText(), null, null)
+                    new AXMLContent(
+                            data.textContent().getText(),
+                            data.textContent().getTitle(),
+                            data.textContent().getAuthor()
+                    )
             );
         } else {
             Files.writeString(Paths.get(data.fileProperties().getLocation()), data.textContent().getText(), StandardOpenOption.WRITE);
@@ -69,12 +77,16 @@ public class FileManagerFilesystem implements FileManager {
     @Override
     public FileManagerData saveToFile(FileManagerData data, File file) throws IOException {
         if (data.fileProperties().isAXML()) {
-            axmlWriter.writeContent(file, new AXMLContent(data.textContent().getText(), null, null));
+            axmlWriter.writeContent(file, new AXMLContent(
+                    data.textContent().getText(),
+                    data.textContent().getTitle(),
+                    data.textContent().getAuthor()
+            ));
         } else {
             Files.writeString(file.toPath(), data.textContent().getText(), StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
         }
         return new FileManagerData(
-                new TextContent(data.textContent().getText()),
+                data.textContent(),
                 new FileProperties(file.getAbsolutePath(), file.getName(), data.fileProperties().isAXML())
         );
     }
