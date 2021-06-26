@@ -3,7 +3,9 @@
 <!--suppress JavaFxUnresolvedFxIdReference -->
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.ToolBar?>
-<?import javafx.scene.text.Text?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.*?>
 <ToolBar xmlns="http://javafx.com/javafx"
          xmlns:fx="http://javafx.com/fxml"
          fx:id="statusBar"
@@ -13,4 +15,8 @@
     <Text fx:id="fileNameHolder"/>
     <Separator/>
     <Text fx:id="saveStatusHolder" text="unsaved" style="-fx-font-style: italic;"/>
+    <Pane HBox.hgrow="ALWAYS"/>
+    <Text fx:id="titleHolder"/>
+    <Separator/>
+    <Text fx:id="authorHolder"/>
 </ToolBar>
